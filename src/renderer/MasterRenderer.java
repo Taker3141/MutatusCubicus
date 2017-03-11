@@ -45,8 +45,8 @@ public class MasterRenderer
 	
 	public static void enableBackfaceCulling()
 	{
-		//GL11.glEnable(GL11.GL_CULL_FACE);
-		//GL11.glCullFace(GL11.GL_BACK);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
 	}
 	
 	public static void disableBackfaceCulling()
@@ -57,12 +57,6 @@ public class MasterRenderer
 	public void render(List<Light> lights, Camera camera)
 	{
 		prepare();
-		shader.start();
-		shader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
-		shader.loadLight(lights);
-		shader.loadViewMatrix(camera);
-		renderer.render(entities);
-		shader.stop();
 		terrainShader.start();
 		terrainShader.loadLight(lights);
 		terrainShader.loadViewMatrix(camera);
@@ -70,6 +64,21 @@ public class MasterRenderer
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
 		skyboxRenderer.render(camera);
+		shader.start();
+		shader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
+		shader.loadLight(lights);
+		shader.loadViewMatrix(camera);
+		renderer.render(entities, false);
+		shader.stop();
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		shader.start();
+		shader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
+		shader.loadLight(lights);
+		shader.loadViewMatrix(camera);
+		renderer.render(entities, true);
+		shader.stop();
+		GL11.glDisable(GL11.GL_BLEND);
 		terrains.clear();
 		entities.clear();
 	}

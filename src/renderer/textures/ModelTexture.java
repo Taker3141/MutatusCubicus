@@ -13,6 +13,12 @@ public class ModelTexture
 		textureID = id;
 	}
 	
+	public ModelTexture(int id, boolean transparent)
+	{
+		textureID = id;
+		hasTransparency = transparent;
+	}
+	
 	public int getID()
 	{
 		return textureID;
@@ -38,7 +44,7 @@ public class ModelTexture
 		this.reflectivity = reflectivity;
 	}
 
-	public boolean isHasTransparency()
+	public boolean hasTransparency()
 	{
 		return hasTransparency;
 	}

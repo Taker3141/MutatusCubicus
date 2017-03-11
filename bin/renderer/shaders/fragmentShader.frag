@@ -41,11 +41,14 @@ void main(void)
 	totalDiffuse = max(totalDiffuse, 0.2);
 	
 	vec4 textureColor = texture(textureSampler, passTextureCoord);
-	if(textureColor.a < 0.5)
+	float alpha = textureColor.a;
+	
+	if(textureColor.a == 0)
 	{
 		discard;
 	}
 	
 	outColor = vec4(totalDiffuse, 1.0) * textureColor + vec4(totalSpecular, 1.0);
 	outColor = mix(vec4(skyColor, 1.0), outColor, visibility);
+	outColor.a = alpha;
 }

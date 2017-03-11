@@ -53,7 +53,7 @@ public class MenuInventory extends Menu
 		TextMaster.init(loader);
 		while(!Keyboard.isKeyDown(Keyboard.KEY_RETURN))
 		{
-			MainGameLoop.w.tick();
+			//MainGameLoop.w.tick();
 			if(mouseItem != null) mouseItem.getIcon().position = new Vector2f(Mouse.getX() - 32, Mouse.getY() - 32);
 			render();
 			DisplayManager.updateDisplay();

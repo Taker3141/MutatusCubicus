@@ -20,7 +20,7 @@ public class MainGameLoop
 		
 		fbo = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_RENDER_BUFFER);
 		PostProcessing.init(loader);
-		while (!Display.isCloseRequested())
+		while(!Display.isCloseRequested())
 		{
 			if(!w.tick()) break;
 			DisplayManager.updateDisplay();

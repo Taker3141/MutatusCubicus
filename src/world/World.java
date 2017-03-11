@@ -35,9 +35,8 @@ public class World
 	{
 		Particle.init();
 		entities = new ArrayList<Entity>();
-		
 		{
-			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube")));
+			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
 			player = new Player(model, new Vector3f(100, 0, 100), 0, 0, 0, 0.1F, entities, 30);
 		}
 		lights.add(new Light(new Vector3f(0, 100, 0), new Vector3f(1, 1, 1)));

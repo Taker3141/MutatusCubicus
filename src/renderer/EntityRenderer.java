@@ -25,10 +25,11 @@ public class EntityRenderer
 		shader.stop();
 	}
 	
-	public void render(Map<TexturedModel, List<Entity>> entities)
+	public void render(Map<TexturedModel, List<Entity>> entities, boolean renderTransparency)
 	{
 		for(TexturedModel m:entities.keySet())
 		{
+			if(renderTransparency != m.getTexture().hasTransparency()) continue;
 			prepareTexturedModel(m);
 			List<Entity> batch = entities.get(m);
 			for(Entity e:batch)
@@ -48,10 +49,6 @@ public class EntityRenderer
 		GL20.glEnableVertexAttribArray(1);
 		GL20.glEnableVertexAttribArray(2);
 		ModelTexture texture = model.getTexture();
-		if(texture.isHasTransparency())
-		{
-			MasterRenderer.disableBackfaceCulling();
-		}
 		shader.loadFakeLightningVariable(texture.isUseFakeLightning());
 		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
