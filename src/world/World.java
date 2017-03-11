@@ -37,9 +37,9 @@ public class World
 		entities = new ArrayList<Entity>();
 		{
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
-			player = new Player(model, new Vector3f(100, 0, 100), 0, 0, 0, 0.1F, entities, 30);
+			player = new Player(model, new Vector3f(100, 0, 100), 0, 0, 0, 0.05F, entities, 30);
 		}
-		lights.add(new Light(new Vector3f(0, 100, 0), new Vector3f(1, 1, 1)));
+		lights.add(new Light(new Vector3f(100, 100, 0), new Vector3f(1, 1, 1)));
 		c = new Camera(player);
 		t = new Terrain[2];
 		TerrainTexturePack pack = loadTerrainTexturePack(loader);
@@ -61,6 +61,7 @@ public class World
 			e.update(terrain(e.position.x));
 			if(!e.invisible) renderer.processEntities(e);
 		}
+		lights.get(0).position = new Vector3f(player.position.x + 100, player.position.y + 100, player.position.z);
 		ray.castRay(input.getAbsoluteMouseX(), Display.getHeight() - input.getAbsoluteMouseY(), renderer, c);
 		
 		MainGameLoop.fbo.bindFrameBuffer();
