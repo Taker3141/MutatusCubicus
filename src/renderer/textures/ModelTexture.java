@@ -3,7 +3,7 @@ package renderer.textures;
 public class ModelTexture
 {
 	private int textureID;
-	private float shineDamper = 1;
+	private float shineDamper = 8;
 	private float reflectivity = 0;
 	private boolean hasTransparency = false;
 	private boolean useFakeLightning = false;
@@ -17,6 +17,13 @@ public class ModelTexture
 	{
 		textureID = id;
 		hasTransparency = transparent;
+	}
+	
+	public ModelTexture(int id, boolean transparent, float reflect)
+	{
+		textureID = id;
+		hasTransparency = transparent;
+		reflectivity = reflect;
 	}
 	
 	public int getID()
