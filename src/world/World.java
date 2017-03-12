@@ -40,15 +40,12 @@ public class World
 			player = new Player(model, new Vector3f(101, 0, 101), 0, 0, 0, 0.05F, entities, 30);
 		}
 		{
-			TexturedModel brain = createModel("brain", "texture/cube/brain");
-			new Organ(brain, new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
+			new Organ(createModel("brain", "texture/cube/brain"), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
 			TexturedModel heart = createModel("heart", "texture/cube/heart");
 			new Organ(heart, new Vector3f(-0.35F, 10, -2.58F), 0, 0, 0, 1, entities, player);
 			new Organ(heart, new Vector3f(-2.33F, 10, -2.58F), 90, 0, 0, 1, entities, player);
-			TexturedModel liver = createModel("liver", "texture/cube/storage_cone");
-			new Organ(liver, new Vector3f(-5.8F, 6.18F, -6.18F), 0, 0, 0, 1, entities, player);
-			TexturedModel shaper = createModel("shaper", "texture/cube/shaper");
-			new Organ(shaper, new Vector3f(5.47F, 6.76F, 3.12F), 0, 0, 0, 1, entities, player);
+			new Organ(createModel("liver", "texture/cube/storage_cone"), new Vector3f(-5.8F, 6.18F, -6.18F), 0, 0, 0, 1, entities, player);
+			new Organ(createModel("shaper", "texture/cube/shaper"), new Vector3f(5.47F, 6.76F, 3.12F), 0, 0, 0, 1, entities, player);
 			ModelTexture digestive = new ModelTexture(loader.loadTexture("texture/cube/intestines"));
 			TexturedModel lowerIntestine = new TexturedModel(OBJLoader.loadOBJModel("lower_intestine"), digestive);
 			new Organ(lowerIntestine, new Vector3f(-2.7F, 7.56F, 3.42F), 0, 0, 0, 1, entities, player);
@@ -56,6 +53,12 @@ public class World
 			new Organ(upperIntestine, new Vector3f(-2.97F, 5.9F, 3.42F), 0, 0, 0, 1, entities, player);
 			TexturedModel stomach = new TexturedModel(OBJLoader.loadOBJModel("stomach"), digestive);
 			new Organ(stomach, new Vector3f(-2.97F, 9.2F, 3.42F), 0, 0, 0, 1, entities, player);
+			TexturedModel veins = createModel("veins", "texture/cube/veins");
+			new Organ(veins, new Vector3f(-4.93F, 7.37F, -2.71F), -12.01F, 15.67F, 0, 1, entities, player);
+			new Organ(veins, new Vector3f(-2.48F, 9.43F, 1.48F), 14.2F, -4.72F, 0, 0.8F, entities, player);
+			new Organ(veins, new Vector3f(5.31F, 9.28F, 0.79F), 36.21F, 0, 0, 1, entities, player);
+			new Organ(veins, new Vector3f(3.03F, 8.7F, 0.27F), 30.38F, 45, 0, 1, entities, player);
+			new Organ(veins, new Vector3f(2.17F, 12.21F, -2.38F), 36.21F, -94.14F, 0, 0.7F, entities, player);
 		}
 		lights.add(new Light(new Vector3f(100, 100, 0), new Vector3f(1, 1, 1)));
 		c = new Camera(player);

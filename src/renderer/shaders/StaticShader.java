@@ -21,6 +21,7 @@ public class StaticShader extends ShaderProgram
 	private int locationReflectivity;
 	private int locationUseFakeLightning;
 	private int locationSkyColor;
+	private int locationTransparency;
 	
 	public StaticShader()
 	{
@@ -45,6 +46,7 @@ public class StaticShader extends ShaderProgram
 		locationReflectivity = super.getUniformLocation("reflectivity");
 		locationUseFakeLightning = super.getUniformLocation("useFakeLightning");
 		locationSkyColor = super.getUniformLocation("skyColor");
+		locationTransparency = super.getUniformLocation("transparency");
 		
 		locationLightPosition = new int[MAX_LIGHTS];
 		locationLightColor = new int[MAX_LIGHTS];
@@ -103,5 +105,10 @@ public class StaticShader extends ShaderProgram
 	public void loadSkyColor(float r, float b, float g)
 	{
 		super.loadVector(locationSkyColor, new Vector3f(r, g, b));
+	}
+	
+	public void loadTransparency(boolean transparency)
+	{
+		super.loadBoolean(locationTransparency, transparency);
 	}
 }

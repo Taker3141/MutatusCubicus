@@ -13,6 +13,7 @@ uniform vec3 lightColor[4];
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColor;
+uniform bool transparency;
 
 void main(void)
 {
@@ -43,7 +44,7 @@ void main(void)
 	vec4 textureColor = texture(textureSampler, passTextureCoord);
 	float alpha = textureColor.a;
 	
-	if(textureColor.a == 0)
+	if(!transparency && textureColor.a < 0.5)
 	{
 		discard;
 	}
