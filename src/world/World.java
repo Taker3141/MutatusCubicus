@@ -178,10 +178,10 @@ public class World
 
 	private TerrainTexturePack loadTerrainTexturePack(Loader loader)
 	{
-		TerrainTexture back = new TerrainTexture(loader.loadTexture("texture/terrain_grass"));
-		TerrainTexture r = new TerrainTexture(loader.loadTexture("texture/terrain_dirt"));
-		TerrainTexture g = new TerrainTexture(loader.loadTexture("texture/terrain_sand"));
-		TerrainTexture b = new TerrainTexture(loader.loadTexture("texture/terrain_path"));
+		TerrainTexture back = new TerrainTexture(loader.loadTexture("texture/moon_dust"));
+		TerrainTexture r = new TerrainTexture(loader.loadTexture("texture/moon_crater"));
+		TerrainTexture g = new TerrainTexture(loader.loadTexture("texture/grass"));
+		TerrainTexture b = new TerrainTexture(loader.loadTexture("texture/moon_path"));
 		return new TerrainTexturePack(back, r, g, b);
 	}
 	
