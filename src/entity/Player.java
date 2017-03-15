@@ -1,6 +1,5 @@
 package entity;
 
-import gui.item.Inventory;
 import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
@@ -18,7 +17,6 @@ public class Player extends Movable
 	
 	private float currentTurnSpeed = 0;
 	private float speed = RUN_SPEED;
-	private Inventory inventory = new Inventory(15);
 	
 	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
@@ -62,11 +60,6 @@ public class Player extends Movable
 		if (Keyboard.isKeyDown(Keyboard.KEY_ADD)) speed = 2 * RUN_SPEED;
 		if (Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT)) speed = RUN_SPEED;
 		if (Keyboard.isKeyDown(Keyboard.KEY_F12)) System.out.println(position);
-	}
-	
-	public Inventory getInventory()
-	{
-		return inventory;
 	}
 
 	public void clickAt(ICollidable e, Vector3f vec)

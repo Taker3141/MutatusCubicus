@@ -12,7 +12,6 @@ import font.fontRendering.TextMaster;
 import gui.element.Button;
 import gui.element.Checkbox;
 import gui.element.GuiElement;
-import gui.element.Slot;
 import renderer.GuiRenderer;
 import renderer.Loader;
 
@@ -38,7 +37,6 @@ public abstract class Menu
 		TextMaster.clear();
 		Button.loadAllTextures(loader);
 		Checkbox.loadAllTextures(loader);
-		Slot.loadAllTextures(loader);
 		W = Display.getWidth();
 		H = Display.getHeight();
 		GL11.glViewport(0, 0, W, H);

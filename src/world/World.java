@@ -18,7 +18,6 @@ import renderer.models.TexturedModel;
 import renderer.textures.*;
 import terrain.Terrain;
 import entity.*;
-import gui.menu.*;
 
 public class World
 {
@@ -31,7 +30,6 @@ public class World
 	private MasterRenderer renderer;
 	private Loader loader = MainManagerClass.loader;
 	private Input input;
-	private boolean isInventoryOpen = false;
 	
 	public World()
 	{
@@ -143,13 +141,6 @@ public class World
 
 		if(isKeyDown(KEY_ESCAPE)) return false;
 		if(isKeyDown(KEY_F2)) PostProcessing.effects.warp();
-		if(isKeyDown(KEY_F1) && !isInventoryOpen)
-		{
-			isInventoryOpen = true;
-			MenuInventory inventory = new MenuInventory();
-			inventory.doMenu(player);
-			isInventoryOpen = false;
-		}
 		
 		if(isKeyDown(KEY_F5)) t[0] = new Terrain(0, 0, loader, loadTerrainTexturePack(loader), new TerrainTexture(loader.loadTexture("texture/blend_map")), "height_map");
 		return true;

@@ -30,7 +30,7 @@ public class DisplayManager
 		try
 		{
 			recreateDisplay(width, height, fullscreen);
-			Display.setTitle("Teacher Annihilator");
+			Display.setTitle("Mutatus Cubicus");
 			ByteBuffer[] icon = new ByteBuffer[2];
 			icon[0] = new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("res/texture/icons/x32.png")), false, false, null);
 			icon[1] = new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("res/texture/icons/x16.png")), false, false, null);
@@ -77,7 +77,7 @@ public class DisplayManager
 		frameCounter++;
 		long currentFrameTime = getCurrentTime();
 		delta = ((float) (currentFrameTime - lastFrameTime)) / 1000F;
-		if (frameCounter % 10 == 0) Display.setTitle("Teacher Annihilator (" + (int) (1 / delta) + " FPS)");
+		if (frameCounter % 10 == 0) Display.setTitle("Mutatus Cubicus (" + (int) (1 / delta) + " FPS)");
 		lastFrameTime = currentFrameTime;
 		absoluteTime += getFrameTimeSeconds();
 	}
