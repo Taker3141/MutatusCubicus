@@ -1,5 +1,6 @@
 package entity;
 
+import gui.OverlayOrgans;
 import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
@@ -18,6 +19,10 @@ public class Player extends Movable
 	private float currentTurnSpeed = 0;
 	private float speed = RUN_SPEED;
 	
+	public OverlayOrgans organs = new OverlayOrgans(this);
+	public float digestion = 100;
+	public float energy = 200;
+	
 	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
 		super(model, position, rotX, rotY, rotZ, scale, list, 0);
@@ -31,6 +36,11 @@ public class Player extends Movable
 		checkInputs();
 		
 		rotY += currentTurnSpeed * delta;
+		digestion -= DisplayManager.getFrameTimeSeconds();
+		if(digestion < 0) digestion = 0;
+		energy -= DisplayManager.getFrameTimeSeconds() / 50;
+		if(energy < 0) energy = 0;
+		organs.update();
 		super.update(terrain);
 	}
 	

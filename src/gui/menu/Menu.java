@@ -50,7 +50,7 @@ public abstract class Menu
 		renderList.addAll(guiElementsForeground);
 		renderList.addAll(guiElements);
 		renderList.addAll(guiElementsBackground);
-		gRenderer.render(renderList);
+		gRenderer.render(renderList, true);
 		TextMaster.render();
 		Display.update();
 	}

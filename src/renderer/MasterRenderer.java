@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import entity.Camera;
 import entity.Entity;
 import entity.Light;
+import entity.Player;
 import renderer.models.TexturedModel;
 import renderer.shaders.StaticShader;
 import renderer.shaders.TerrainShader;
@@ -33,6 +34,7 @@ public class MasterRenderer
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	private SkyboxRenderer skyboxRenderer;
+	private GuiRenderer guiRenderer;
 	
 	public MasterRenderer()
 	{
@@ -41,6 +43,7 @@ public class MasterRenderer
 		renderer = new EntityRenderer(shader, projection);
 		terrainRenderer = new TerrainRenderer(terrainShader, projection);
 		skyboxRenderer = new SkyboxRenderer(MainManagerClass.loader, projection);
+		guiRenderer = new GuiRenderer(MainManagerClass.loader);
 	}
 	
 	public static void enableBackfaceCulling()
@@ -54,7 +57,7 @@ public class MasterRenderer
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 	
-	public void render(List<Light> lights, Camera camera)
+	public void render(List<Light> lights, Camera camera, Player p)
 	{
 		prepare();
 		terrainShader.start();
@@ -79,6 +82,7 @@ public class MasterRenderer
 		renderer.render(entities, true);
 		shader.stop();
 		GL11.glDisable(GL11.GL_BLEND);
+		guiRenderer.render(p.organs.getElements(), false);
 		terrains.clear();
 		entities.clear();
 	}

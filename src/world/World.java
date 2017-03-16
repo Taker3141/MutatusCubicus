@@ -135,7 +135,7 @@ public class World
 		
 		MainGameLoop.fbo.bindFrameBuffer();
 		renderer.processTerrain(t[0]);
-		renderer.render(lights, c);
+		renderer.render(lights, c, player);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
 

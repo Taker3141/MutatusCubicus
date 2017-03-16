@@ -10,7 +10,7 @@ uniform float offset;
 
 void main(void)
 {
-	vec4 textureColor = texture(guiTexture, vec2(textureCoords.x, (textureCoords.y) * height + offset));
+	vec4 textureColor = texture(guiTexture, vec2(textureCoords.x * height + offset, textureCoords.y));
 	outColor = textureColor;
 	if(textureColor.a < 0.5)
 	{

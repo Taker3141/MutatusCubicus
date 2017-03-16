@@ -26,9 +26,9 @@ public class GuiRenderer
 		shader = new GuiShader();
 	}
 	
-	public void render(List<GuiElement> elements)
+	public void render(List<GuiElement> elements, boolean clear)
 	{
-		prepare();
+		if(clear) prepare();
 		shader.start();
 		GL30.glBindVertexArray(baseQuad.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
