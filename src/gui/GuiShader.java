@@ -12,6 +12,7 @@ public class GuiShader extends ShaderProgram
 	private int locationLayer;
 	private int locationOffset;
 	private int locationHeight;
+	private int locationWidth;
 	
 	public GuiShader()
 	{
@@ -37,6 +38,11 @@ public class GuiShader extends ShaderProgram
 	{
 		super.loadFloat(locationHeight, height);
 	}
+	
+	public void loadWidth(float width)
+	{
+		super.loadFloat(locationWidth, width);
+	}
 
 	@Override
 	protected void getAllUniformLocations()
@@ -45,6 +51,7 @@ public class GuiShader extends ShaderProgram
 		locationLayer = super.getUniformLocation("layer");
 		locationOffset = super.getUniformLocation("offset");
 		locationHeight = super.getUniformLocation("height");
+		locationWidth = super.getUniformLocation("width");
 	}
 	
 	@Override

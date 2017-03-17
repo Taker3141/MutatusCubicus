@@ -42,11 +42,13 @@ public class GuiRenderer
 			{
 				shader.loadOffset(((GuiBar)element).offset);
 				shader.loadHeight(((GuiBar)element).height);
+				shader.loadWidth(((GuiBar)element).width);
 			}
 			else
 			{
 				shader.loadOffset(0);
 				shader.loadHeight(1);
+				shader.loadWidth(1);
 			}
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, baseQuad.getVertexCount());
 		}
