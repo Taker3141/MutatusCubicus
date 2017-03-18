@@ -7,6 +7,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Input;
 import font.fontRendering.TextMaster;
 import gui.element.Button;
+import gui.element.GuiElement;
 import gui.handler.HandlerChangeMenu;
 import gui.handler.HandlerStartGame;
 import gui.handler.MouseHandler;
@@ -21,6 +22,8 @@ public class MainMenu extends Menu
 			guiElements.add(new Button(new Vector2f(indention + 200, H - 200), buttonSize, this).setText("o!Spiel Starten", font, 1).setClickHandler(new HandlerStartGame()));
 			guiElements.add(new Button(new Vector2f(indention + 200, H - 250), buttonSize, this).setText("o!Spiel Beenden", font, 1).setClickHandler(new HandlerChangeMenu(null)));
 		}
+		
+		guiElements.add(new GuiElement(loader.loadTexture("texture/gui/main_menu_background"), new Vector2f(0, -H), new Vector2f(W, 2 * H), null));
 
 		Input input = new Input(Display.getHeight());
 		MouseHandler mouse = new MouseHandler(guiElements);
