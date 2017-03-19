@@ -37,6 +37,7 @@ public class MainManagerClass
 		}
 		AL.destroy();
 		TextMaster.cleanUp();
+		System.out.println("Game successfully terminated.");
 	}
 
 	private static void playMusic()

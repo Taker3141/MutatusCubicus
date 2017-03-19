@@ -4,10 +4,10 @@ import java.util.List;
 import main.MainManagerClass;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import raycasting.AABB;
 import raycasting.ICollidable;
 import raycasting.IHitBox;
 import raycasting.IHitBox.CollisionData;
+import raycasting.NoHitbox;
 import renderer.Loader;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
@@ -39,7 +39,7 @@ public class Entity implements ICollidable
 	
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
-		this(model, position, rotX, rotY, rotZ, scale, list, new AABB(position, new Vector3f(), new Vector3f()));
+		this(model, position, rotX, rotY, rotZ, scale, list, new NoHitbox());
 	}
 	
 	public void update(Terrain t)

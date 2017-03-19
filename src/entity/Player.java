@@ -6,6 +6,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
 import raycasting.ICollidable;
+import raycasting.NoHitbox;
 import renderer.DisplayManager;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
@@ -24,6 +25,8 @@ public class Player extends Movable
 	public float energy = 200;
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
+	
+	private Entity eating;
 	
 	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
@@ -44,6 +47,14 @@ public class Player extends Movable
 		energy -= DisplayManager.getFrameTimeSeconds() / 50;
 		if(energy < 0) energy = 0;
 		organs.update();
+		if(eating != null)
+		{
+			eating.position = new Vector3f(position);
+			eating.position.y = position.y + 10 * scale;
+			if(eating.scale > 0) eating.scale -= DisplayManager.getFrameTimeSeconds() * 0.1F;
+			else {eating.unregister(); eating = null;};
+		}
+		
 		super.update(terrain);
 	}
 	
@@ -76,6 +87,22 @@ public class Player extends Movable
 		if (Keyboard.isKeyDown(Keyboard.KEY_ADD)) speed = 2 * RUN_SPEED;
 		if (Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT)) speed = RUN_SPEED;
 		if (Keyboard.isKeyDown(Keyboard.KEY_F12)) System.out.println(position);
+		if (Keyboard.isKeyDown(Keyboard.KEY_Q) && eating == null)
+		{
+			final float distanceSq = 4;
+			for(Entity e : entityList)
+			{
+				if(!(e instanceof IEdible)) continue;
+				if(scale * 10 < e.scale) continue;
+				float dx, dy, dz;
+				dx = position.x - e.position.x; dy = position.y - e.position.y; dz = position.z - e.position.z;
+				if(dx * dx + dy * dy + dz * dz < distanceSq) 
+				{
+					eating = e; eating.hitBox = new NoHitbox();
+					break;
+				}
+			}
+		}
 	}
 
 	public void clickAt(ICollidable e, Vector3f vec)

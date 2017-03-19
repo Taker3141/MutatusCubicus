@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
 import renderer.models.TexturedModel;
 
-public class Rock extends Entity
+public class Rock extends Entity implements IEdible
 {
 	public Rock(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{

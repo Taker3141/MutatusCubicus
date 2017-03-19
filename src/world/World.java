@@ -119,7 +119,7 @@ public class World
 		{
 			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
-			for(int i = 0; i < 50; i++)
+			for(int i = 0; i < 100; i++)
 			{
 				Vector3f position = new Vector3f(250 * r.nextFloat(), 0, 250 * r.nextFloat());
 				position.y = height(position.x, position.z);
