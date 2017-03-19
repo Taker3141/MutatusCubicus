@@ -20,7 +20,8 @@ public class MainMenu extends Menu
 		{
 			final int indention = W / 4;
 			guiElements.add(new Button(new Vector2f(indention + 200, H - 200), buttonSize, this).setText("o!Spiel Starten", font, 1).setClickHandler(new HandlerStartGame()));
-			guiElements.add(new Button(new Vector2f(indention + 200, H - 250), buttonSize, this).setText("o!Spiel Beenden", font, 1).setClickHandler(new HandlerChangeMenu(null)));
+			guiElements.add(new Button(new Vector2f(indention + 200, H - 250), buttonSize, this).setText("o!Einstellungen", font, 1).setClickHandler(new HandlerChangeMenu(MenuSettings.class)));
+			guiElements.add(new Button(new Vector2f(indention + 200, H - 300), buttonSize, this).setText("o!Spiel Beenden", font, 1).setClickHandler(new HandlerChangeMenu(null)));
 		}
 		
 		guiElements.add(new GuiElement(loader.loadTexture("texture/gui/main_menu_background"), new Vector2f(0, -H), new Vector2f(W, 2 * H), null));

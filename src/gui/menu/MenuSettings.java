@@ -31,20 +31,20 @@ public class MenuSettings extends Menu
 	public void doMenu()
 	{
 		final int buttonIndention = W / 4;
-		new GUIText("settings.settings", 3, font, new Vector2f(0, H - 32), 1, true).setColour(1, 1, 1);
-		guiElements.add(new GuiElement(loader.loadTexture("texture/gui/banner_settings"), new Vector2f(0, H - 128), new Vector2f(W, 128), this));
-		guiElementsBackground.add(new GuiElement(loader.loadTexture("texture/gui/background"), new Vector2f(0, 0), new Vector2f(W, H), this));
+		new GUIText("o!Einstellungen", 3, font, new Vector2f(0, H - 32), 1, true).setColour(1, 1, 1);
+		//guiElements.add(new GuiElement(loader.loadTexture("texture/gui/banner_settings"), new Vector2f(0, H - 128), new Vector2f(W, 128), this));
+		guiElementsBackground.add(new GuiElement(loader.loadTexture("texture/gui/main_menu_background"), new Vector2f(0, -H), new Vector2f(W, 2 * H), this));
 		{
-			langButton = (CycleButton)new CycleButton(new Vector2f(buttonIndention, H - 200), buttonSize, this).setTextList(new String[]{"lang.german", "lang.english"}, font, 1);
-			langButton.index = MainManagerClass.settings.language.compareTo("en_US") == 0 ? 1 : 0;
-			langButton.updateText();
-			new GUIText("lang.lang", 1, font, new Vector2f(langButton.position.x - 100, langButton.position.y + (langButton.size.y / 2) + 10), buttonIndention, false);
+			langButton = (CycleButton)new CycleButton(new Vector2f(buttonIndention, H - 200), buttonSize, this).setTextList(new String[]{"o!Deutsch"}, font, 1);
+			//langButton.index = MainManagerClass.settings.language.compareTo("en_US") == 0 ? 1 : 0;
+			//langButton.updateText();
+			new GUIText("o!Sprache", 1, font, new Vector2f(langButton.position.x - 100, langButton.position.y + (langButton.size.y / 2) + 10), buttonIndention, false);
 			guiElements.add(langButton);
 		}
 		{
 			fullscreenBox = new Checkbox(new Vector2f(buttonIndention * 2.2F, H - 225), checkboxSize, this);
 			fullscreenBox.setChecked(MainManagerClass.settings.fullscreen);
-			new GUIText("screen.fullscreen", 1, font, new Vector2f(fullscreenBox.position.x - 100, fullscreenBox.position.y + (fullscreenBox.size.y / 2) + 10), buttonIndention, false);
+			new GUIText("o!Vollbild", 1, font, new Vector2f(fullscreenBox.position.x - 100, fullscreenBox.position.y + (fullscreenBox.size.y / 2) + 10), buttonIndention, false);
 			guiElements.add(fullscreenBox);
 		}
 		{
@@ -58,17 +58,17 @@ public class MenuSettings extends Menu
 				}
 			}
 			screenButton.updateText();
-			new GUIText("screen.resolution", 1, font, new Vector2f(screenButton.position.x - 100, screenButton.position.y + (screenButton.size.y / 2) + 10), buttonIndention, false);
+			new GUIText("o!Auflösung", 1, font, new Vector2f(screenButton.position.x - 100, screenButton.position.y + (screenButton.size.y / 2) + 10), buttonIndention, false);
 			guiElements.add(screenButton);
 		}
 		{
 			musicBox = new Checkbox(new Vector2f(buttonIndention * 2.2F, H - 300), checkboxSize, this);
 			musicBox.setChecked(MainManagerClass.settings.music);
-			new GUIText("settings.music", 1, font, new Vector2f(musicBox.position.x - 100, musicBox.position.y + (musicBox.size.y / 2) + 10), buttonIndention, false);
+			new GUIText("o!Musik", 1, font, new Vector2f(musicBox.position.x - 100, musicBox.position.y + (musicBox.size.y / 2) + 10), buttonIndention, false);
 			guiElements.add(musicBox);
 		}
 		
-		guiElements.add(new Button(new Vector2f(200, 100), buttonSize, this).setText("menu.back_and_save", font, 1).setIcon(loader.loadTexture("texture/gui/icon_back"), guiElementsForeground).setClickHandler(new HandlerChangeMenu(MainMenu.class)));
+		guiElements.add(new Button(new Vector2f(200, 100), buttonSize, this).setText("o!Zurück", font, 1).setClickHandler(new HandlerChangeMenu(MainMenu.class)));
 		
 		
 		Input input = new Input(Display.getHeight());

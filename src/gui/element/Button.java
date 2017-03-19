@@ -36,7 +36,7 @@ public class Button extends GuiElement implements IClickable
 	
 	public Button setText(String t, FontType f, float s)
 	{
-		setText(t, f, s, 0, 0, 0);
+		setText(t, f, s, 0.9F, 0.9F, 0.9F);
 		return this;
 	}
 	
