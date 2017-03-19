@@ -3,6 +3,7 @@ package world;
 import static org.lwjgl.input.Keyboard.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import main.MainGameLoop;
 import main.MainManagerClass;
 import objLoader.OBJLoader;
@@ -39,9 +40,9 @@ public class World
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
 			player = new Player(model, new Vector3f(101, 0, 101), 0, 0, 0, 0.05F, entities, 30);
 			
-			new Organ(createModel("brain", "texture/cube/brain"), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
+			new Organ(createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
 			{
-				TexturedModel heart = createModel("heart", "texture/cube/heart");
+				TexturedModel heart = createModel("heart", "texture/cube/heart", 0.5F);
 				Organ heart1 = new Organ(heart, new Vector3f(-0.35F, 10, -2.58F), 0, 0, 0, 1, entities, player);
 				Organ heart2 = new Organ(heart, new Vector3f(-2.33F, 10, -2.58F), 90, 0, 0, 1, entities, player);
 				Keyframe[] k1 = 
@@ -61,7 +62,7 @@ public class World
 				heart2.a = new KeyframeAnimation(heart2, k2);
 			}
 			{
-				Organ shaper = new Organ(createModel("shaper", "texture/cube/shaper"), new Vector3f(5.47F, 6.76F, 3.12F), 0, 0, 0, 1, entities, player);
+				Organ shaper = new Organ(createModel("shaper", "texture/cube/shaper", 0.5F), new Vector3f(5.47F, 6.76F, 3.12F), 0, 0, 0, 1, entities, player);
 				Keyframe[] k = 
 					{
 						new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.2F),
@@ -76,7 +77,7 @@ public class World
 			TexturedModel upperIntestine = new TexturedModel(OBJLoader.loadOBJModel("upper_intestine"), digestive);
 			new Organ(upperIntestine, new Vector3f(-2.97F, 5.9F, 3.42F), 0, 0, 0, 1, entities, player);
 			{
-				Organ liver = new Organ(createModel("liver", "texture/cube/storage_cone"), new Vector3f(-5.8F, 6.18F, -6.18F), 0, 0, 0, 1, entities, player);
+				Organ liver = new Organ(createModel("liver", "texture/cube/storage_cone", 0.5F), new Vector3f(-5.8F, 6.18F, -6.18F), 0, 0, 0, 1, entities, player);
 				Keyframe[] k = 
 					{
 						new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 20F),
@@ -101,18 +102,31 @@ public class World
 				stomach.a = new KeyframeAnimation(stomach, k);
 			}
 			
-			TexturedModel veins = createModel("veins", "texture/cube/veins");
+			TexturedModel veins = createModel("veins", "texture/cube/veins", 0.5F);
 			new Organ(veins, new Vector3f(-4.93F, 7.37F, -2.71F), -12.01F, 15.67F, 0, 1, entities, player);
 			new Organ(veins, new Vector3f(-2.48F, 9.43F, 1.48F), 14.2F, -4.72F, 0, 0.8F, entities, player);
 			new Organ(veins, new Vector3f(5.31F, 9.28F, 0.79F), 36.21F, 0, 0, 1, entities, player);
 			new Organ(veins, new Vector3f(3.03F, 8.7F, 0.27F), 30.38F, 45, 0, 1, entities, player);
 			new Organ(veins, new Vector3f(2.17F, 12.21F, -2.38F), 36.21F, -94.14F, 0, 0.7F, entities, player);
 		}
+		
 		lights.add(new Light(new Vector3f(100, 100, 0), new Vector3f(1, 1, 1)));
 		c = new Camera(player);
 		t = new Terrain[2];
 		TerrainTexturePack pack = loadTerrainTexturePack(loader);
 		t[0] = new Terrain(0, 0, loader, pack, new TerrainTexture(loader.loadTexture("texture/blend_map")), "height_map");
+		
+		{
+			Random r = new Random();
+			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
+			for(int i = 0; i < 50; i++)
+			{
+				Vector3f position = new Vector3f(250 * r.nextFloat(), 0, 250 * r.nextFloat());
+				position.y = height(position.x, position.z);
+				new Entity(rock, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.1F + r.nextFloat(), entities);
+			}
+		}
+		
 		ray = new Raycaster(player);
 		ray.setList(entities);
 		input = new Input(Display.getHeight());
@@ -146,9 +160,9 @@ public class World
 		return true;
 	}
 	
-	private TexturedModel createModel(String modelName, String textureName)
+	private TexturedModel createModel(String modelName, String textureName, float reflect)
 	{
-		return new TexturedModel(OBJLoader.loadOBJModel(modelName), new ModelTexture(loader.loadTexture(textureName), false, 0.5F));
+		return new TexturedModel(OBJLoader.loadOBJModel(modelName), new ModelTexture(loader.loadTexture(textureName), false, reflect));
 	}
 	
 	public float height(float x, float z)
