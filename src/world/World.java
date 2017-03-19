@@ -123,7 +123,7 @@ public class World
 			{
 				Vector3f position = new Vector3f(250 * r.nextFloat(), 0, 250 * r.nextFloat());
 				position.y = height(position.x, position.z);
-				new Entity(rock, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.1F + r.nextFloat(), entities);
+				new Rock(rock, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.1F + r.nextFloat(), entities);
 			}
 		}
 		

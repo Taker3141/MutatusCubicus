@@ -44,7 +44,7 @@ public class Entity implements ICollidable
 	
 	public void update(Terrain t)
 	{
-		noCollision();
+		
 	}
 	
 	public void increaseRotation(float dx, float dy, float dz)
@@ -52,47 +52,6 @@ public class Entity implements ICollidable
 		rotX += dx;
 		rotY += dy;
 		rotZ += dz;
-	}
-	
-	protected boolean noCollision()
-	{
-		for (ICollidable c : entityList)
-		{
-			if (c == this) continue;
-			CollisionData data = isInsideHitBox(c.getHitBox());
-			if (data != null)
-			{
-				if(c instanceof Movable && this instanceof Movable)
-				{
-					Movable o1 = (Movable)this;
-					Movable o2 = (Movable)c;
-					Vector3f v1 = o1.v;
-					Vector3f v2 = o2.v;
-					o1.v = new Vector3f((Vector3f)v2.scale(o2.mass).scale(1 / o1.mass));
-					o2.v = new Vector3f((Vector3f)v1.scale(o1.mass).scale(1 / o2.mass));
-				}
-				else if(!(c instanceof Movable) && this instanceof Movable)
-				{
-					if(data.type == IHitBox.Type.OBJECT)
-					{
-						((Movable)this).v = Vector3f.sub(position, c.getHitBox().getCenter(position), null).normalise(null);
-					}
-					else if(data.type == IHitBox.Type.FLOOR && ((Movable)this).v.y < 0) 
-					{
-						((Movable)this).v.y = 0;
-						((Movable)this).isInAir = false;
-					}
-					if(data.type == IHitBox.Type.WALL)
-					{
-//						Vector3f v = Vector3f.sub(position, c.getHitBox().getCenter(position), null).normalise(null);
-//						v.y = 0;
-//						((Movable)this).v = v;
-						((Movable)this).v = ((Movable)this).v.negate(null);
-					}
-				}
-			}
-		}
-		return true;
 	}
 
 	@Override
