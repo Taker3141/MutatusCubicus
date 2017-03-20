@@ -21,12 +21,13 @@ public class Player extends Movable
 	private float speed = RUN_SPEED;
 	
 	public OverlayOrgans organs = new OverlayOrgans(this);
-	public float digestion = 100;
-	public float energy = 200;
+	public float digestion = 0;
+	public float energy = 100;
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
 	
 	private Entity eating;
+	private IEdible food;
 	
 	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
@@ -42,8 +43,12 @@ public class Player extends Movable
 		checkInputs(delta);
 		
 		rotY += currentTurnSpeed * delta;
-		digestion -= DisplayManager.getFrameTimeSeconds();
-		if(digestion < 0) digestion = 0;
+		if(food != null)
+		{
+			digestion -= food.getType().digestPerSecond * delta;
+			energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
+			if(digestion < 0) {digestion = 0; food = null;}
+		}
 		energy -= DisplayManager.getFrameTimeSeconds() / 50;
 		if(energy < 0) energy = 0;
 		organs.update();
@@ -87,7 +92,7 @@ public class Player extends Movable
 		if (Keyboard.isKeyDown(Keyboard.KEY_ADD)) speed = 2 * RUN_SPEED;
 		if (Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT)) speed = RUN_SPEED;
 		if (Keyboard.isKeyDown(Keyboard.KEY_F12)) System.out.println(position);
-		if (Keyboard.isKeyDown(Keyboard.KEY_Q) && eating == null)
+		if (Keyboard.isKeyDown(Keyboard.KEY_Q) && eating == null && digestion == 0)
 		{
 			final float distanceSq = 4;
 			for(Entity e : entityList)
@@ -99,6 +104,8 @@ public class Player extends Movable
 				if(dx * dx + dy * dy + dz * dz < distanceSq) 
 				{
 					eating = e; eating.hitBox = new NoHitbox();
+					food = (IEdible)e;
+					digestion = food.getAmmount() < 100 ? food.getAmmount() : 100;
 					break;
 				}
 			}
