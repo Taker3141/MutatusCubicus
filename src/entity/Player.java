@@ -107,6 +107,7 @@ public class Player extends Movable
 					eating = e; eating.hitBox = new NoHitbox();
 					food = (IEdible)e;
 					digestion = food.getAmmount() < 100 ? food.getAmmount() : 100;
+					organs.setDigestingTexture(e.model.getTexture().getID());
 					break;
 				}
 			}

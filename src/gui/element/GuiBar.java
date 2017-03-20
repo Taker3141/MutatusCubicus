@@ -11,4 +11,9 @@ public class GuiBar extends GuiElement
 	{
 		super(texture, position, size, parent);
 	}
+	
+	public void setTexture(int id)
+	{
+		super.texture = id;
+	}
 }

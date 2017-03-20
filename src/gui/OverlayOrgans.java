@@ -44,4 +44,9 @@ public class OverlayOrgans extends Overlay
 		size.size.y = sizeFactor  * 98;
 		size.offset = ((float)Math.sin(DisplayManager.getTime() * 5) - 0.5F) / 2;
 	}
+	
+	public void setDigestingTexture(int id)
+	{
+		digestion.setTexture(id);
+	}
 }
