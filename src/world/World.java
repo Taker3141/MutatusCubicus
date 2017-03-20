@@ -125,6 +125,14 @@ public class World
 				position.y = height(position.x, position.z);
 				new Rock(rock, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.1F + r.nextFloat(), entities);
 			}
+			
+			TexturedModel waste = createModel("waste", "texture/waste", 0.05F);
+			for(int i = 0; i < 100; i++)
+			{
+				Vector3f position = new Vector3f(20 * r.nextFloat(), 0, 20 * r.nextFloat());
+				position.y = height(position.x, position.z) + 0.4F;
+				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.6F + r.nextFloat() * 0.2F, entities);
+			}
 		}
 		
 		ray = new Raycaster(player);

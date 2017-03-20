@@ -22,7 +22,7 @@ public class Player extends Movable
 	
 	public OverlayOrgans organs = new OverlayOrgans(this);
 	public float digestion = 0;
-	public float energy = 100;
+	public float energy = 0;
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
 	
@@ -49,6 +49,7 @@ public class Player extends Movable
 			energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
 			if(digestion < 0) {digestion = 0; food = null;}
 		}
+		if(energy > 200) energy = 200;
 		energy -= DisplayManager.getFrameTimeSeconds() / 50;
 		if(energy < 0) energy = 0;
 		organs.update();
