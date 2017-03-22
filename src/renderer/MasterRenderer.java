@@ -82,7 +82,9 @@ public class MasterRenderer
 		renderer.render(entities, true);
 		shader.stop();
 		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		guiRenderer.render(p.organs.getElements(), false);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		terrains.clear();
 		entities.clear();
 	}

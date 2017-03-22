@@ -8,22 +8,22 @@ public class FboTestShader extends ShaderProgram
 	private static final String VERTEX_FILE = "src/renderer/fbo/vertexShader.vert";
 	private static final String FRAGMENT_FILE = "src/renderer/fbo/fragmentShader.frag";
 	
-	private int locationWarp;
+	private int locationGreen;
 	
 	public FboTestShader()
 	{
 		super(VERTEX_FILE, FRAGMENT_FILE);
 	}
-	
-	public void loadWarp(float x, float y)
-	{
-		super.load2DVector(locationWarp, new Vector2f(x, y));
-	}
 
+	public void setGreen(boolean green)
+	{
+		super.loadBoolean(locationGreen, green);
+	}
+	
 	@Override
 	protected void getAllUniformLocations()
 	{
-		locationWarp = super.getUniformLocation("warp");
+		locationGreen = super.getUniformLocation("green");
 	}
 
 	@Override
@@ -31,5 +31,4 @@ public class FboTestShader extends ShaderProgram
 	{
 		super.bindAttribute(0, "position");
 	}
-	
 }

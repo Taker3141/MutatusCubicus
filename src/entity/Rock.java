@@ -25,12 +25,12 @@ public class Rock extends Entity implements IEdible
 	@Override
 	public float getAmmount()
 	{
-		return normalSize * 100;
+		return normalSize * 250;
 	}
 
 	@Override
 	public float getEnergy()
 	{
-		return normalSize * 50;
+		return normalSize * 125;
 	}
 }

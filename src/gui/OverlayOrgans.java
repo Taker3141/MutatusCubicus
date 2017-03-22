@@ -21,10 +21,11 @@ public class OverlayOrgans extends Overlay
 		digestion = new GuiBar(loader.loadTexture("texture/cube/intestines"), new Vector2f(X + 765, 74), new Vector2f(198, 48), null);
 		energy = new GuiBar(loader.loadTexture("texture/cube/storage_cone"), new Vector2f(X + 765, 11), new Vector2f(198, 48), null);
 		size = new GuiBar(loader.loadTexture("texture/gui/organ/slime"), new Vector2f(X + 633, 11), new Vector2f(48, 98), null);
+		elements.add(new GuiElement(loader.loadTexture("texture/gui/organ/background"), new Vector2f(W / 2 - 512, 0), new Vector2f(1024, 256), null));
 		elements.add(digestion);
 		elements.add(energy);
 		elements.add(size);
-		elements.add(new GuiElement(loader.loadTexture("texture/gui/organ/background"), new Vector2f(W / 2 - 512, 0), new Vector2f(1024, 256), null));
+		
 	}
 	
 	public void update()

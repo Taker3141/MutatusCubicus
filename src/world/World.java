@@ -38,7 +38,7 @@ public class World
 		entities = new ArrayList<Entity>();
 		{
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
-			player = new Player(model, new Vector3f(101, 0, 101), 0, 0, 0, 0.05F, entities, 30);
+			player = new Player(model, new Vector3f(101, 0, 101), 0, 0, 0, 0.02F, entities, 30);
 			
 			new Organ(createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
 			{
@@ -123,15 +123,15 @@ public class World
 			{
 				Vector3f position = new Vector3f(250 * r.nextFloat(), 0, 250 * r.nextFloat());
 				position.y = height(position.x, position.z);
-				new Rock(rock, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.1F + r.nextFloat(), entities);
+				new Rock(rock, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.04F + r.nextFloat() / 2.5F, entities);
 			}
 			
 			TexturedModel waste = createModel("waste", "texture/waste", 0.05F);
 			for(int i = 0; i < 100; i++)
 			{
 				Vector3f position = new Vector3f(20 * r.nextFloat(), 0, 20 * r.nextFloat());
-				position.y = height(position.x, position.z) + 0.4F;
-				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.6F + r.nextFloat() * 0.2F, entities);
+				position.y = height(position.x, position.z) + 0.2F;
+				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.24F + r.nextFloat() * 0.08F, entities);
 			}
 		}
 		
@@ -145,13 +145,13 @@ public class World
 	{
 		input.poll(Display.getWidth(), Display.getHeight());
 		player.update(terrain(player.position.x));
-		c.update();
 		for(int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);
 			e.update(terrain(e.position.x));
 			if(!e.invisible) renderer.processEntities(e);
 		}
+		c.update();
 		lights.get(0).position = new Vector3f(player.position.x + 100, player.position.y + 100, player.position.z);
 		ray.castRay(input.getAbsoluteMouseX(), Display.getHeight() - input.getAbsoluteMouseY(), renderer, c);
 		
@@ -162,7 +162,6 @@ public class World
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
 
 		if(isKeyDown(KEY_ESCAPE)) return false;
-		if(isKeyDown(KEY_F2)) PostProcessing.effects.warp();
 		
 		if(isKeyDown(KEY_F5)) t[0] = new Terrain(0, 0, loader, loadTerrainTexturePack(loader), new TerrainTexture(loader.loadTexture("texture/blend_map")), "height_map");
 		return true;
