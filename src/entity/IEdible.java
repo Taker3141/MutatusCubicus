@@ -4,7 +4,7 @@ public interface IEdible
 {
 	static enum FoodType
 	{
-		ROCK(0.5F), TOXIC_WASTE(5), ORGANIC(1.2F);
+		ROCK(1F), TOXIC_WASTE(10), ORGANIC(2.4F);
 		
 		public final float digestPerSecond;
 		

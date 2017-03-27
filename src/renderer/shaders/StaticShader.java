@@ -17,6 +17,7 @@ public class StaticShader extends ShaderProgram
 	private int locationView;
 	private int locationLightPosition[];
 	private int locationLightColor[];
+	private int locationLightAttenuation[];
 	private int locationShineDamper;
 	private int locationReflectivity;
 	private int locationUseFakeLightning;
@@ -50,11 +51,13 @@ public class StaticShader extends ShaderProgram
 		
 		locationLightPosition = new int[MAX_LIGHTS];
 		locationLightColor = new int[MAX_LIGHTS];
+		locationLightAttenuation = new int[MAX_LIGHTS];
 		for(int i = 0; i < MAX_LIGHTS; i++)
 		{
 
 			locationLightPosition[i] = super.getUniformLocation("lightPosition[" + i + "]");
 			locationLightColor[i] = super.getUniformLocation("lightColor[" + i + "]");
+			locationLightAttenuation[i] = super.getUniformLocation("attenuation[" + i + "]");
 		}
 	}
 	
@@ -82,11 +85,13 @@ public class StaticShader extends ShaderProgram
 			{
 				super.loadVector(locationLightPosition[i], l.get(i).getPosition());
 				super.loadVector(locationLightColor[i], l.get(i).getColor());
+				super.loadVector(locationLightAttenuation[i], l.get(i).attenuation);
 			}
 			else
 			{
 				super.loadVector(locationLightPosition[i], new Vector3f(0, 0, 0));
 				super.loadVector(locationLightColor[i], new Vector3f(0, 0, 0));
+				super.loadVector(locationLightAttenuation[i], new Vector3f(1, 0, 0));
 			}
 		}
 	}

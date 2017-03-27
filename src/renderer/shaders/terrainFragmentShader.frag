@@ -16,6 +16,7 @@ uniform sampler2D blendMap;
 uniform vec3 skyColor;
 
 uniform vec3 lightColor[4];
+uniform vec3 attenuation[4];
 
 void main(void)
 {
@@ -36,6 +37,8 @@ void main(void)
 	
 	for(int i = 0; i < 4; i++)
 	{
+		float distance = length(toLightVector[i]);
+		float attenuationFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance* distance);
 		vec3 unitLightVector = normalize(toLightVector[i]);
 		vec3 lightDirection = -unitLightVector;
 		vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
@@ -43,7 +46,7 @@ void main(void)
 		float brightness = dot(unitNormal, unitLightVector);
 		brightness += 0.05;
 		brightness = max(brightness, 0);
-		totalDiffuse = totalDiffuse + brightness * lightColor[i];
+		totalDiffuse = totalDiffuse + (brightness * lightColor[i]) / attenuationFactor;
 	}
 	
 	totalDiffuse = max(totalDiffuse, 0.2);

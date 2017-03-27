@@ -13,7 +13,7 @@ import raycasting.IHitBox;
 
 public class Movable extends Entity
 {
-	protected static final float GRAVITY = -5F;
+	protected static final float GRAVITY = -10F;
 	public final float mass;
 	protected boolean isInAir = false;
 	public Vector3f v = new Vector3f();

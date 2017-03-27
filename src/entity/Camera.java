@@ -67,7 +67,7 @@ public class Camera
 	private void calculateCameraPosition(float hDistance, float vDistance)
 	{
 		position.x = player.position.x - (float) (hDistance * Math.sin(Math.toRadians(player.rotY)));
-		position.y = player.position.y + vDistance + 0.5F;
+		if(isFirstPerson) position.y = player.position.y + vDistance + 0.5F; else position.y = player.position.y + vDistance;
 		position.z = player.position.z - (float) (hDistance * Math.cos(Math.toRadians(player.rotY)));
 	}
 	

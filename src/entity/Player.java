@@ -14,7 +14,7 @@ import terrain.Terrain;
 public class Player extends Movable
 {
 	private static final float RUN_SPEED = 5F;
-	private static final float TURN_SPEED = 40;
+	private static final float TURN_SPEED = 80;
 	private static final float JUMP_POWER = 10;
 	
 	private float currentTurnSpeed = 0;

@@ -110,7 +110,8 @@ public class World
 			new Organ(veins, new Vector3f(2.17F, 12.21F, -2.38F), 36.21F, -94.14F, 0, 0.7F, entities, player);
 		}
 		
-		lights.add(new Light(new Vector3f(100, 100, 0), new Vector3f(1, 1, 1)));
+		lights.add(new Light(new Vector3f(100000, 100000, 10000), new Vector3f(1, 1, 1)));
+		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		c = new Camera(player);
 		t = new Terrain[2];
 		TerrainTexturePack pack = loadTerrainTexturePack(loader);
@@ -144,7 +145,6 @@ public class World
 	public boolean tick()
 	{
 		input.poll(Display.getWidth(), Display.getHeight());
-		player.update(terrain(player.position.x));
 		for(int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);
@@ -152,8 +152,8 @@ public class World
 			if(!e.invisible) renderer.processEntities(e);
 		}
 		c.update();
-		lights.get(0).position = new Vector3f(player.position.x + 100, player.position.y + 100, player.position.z);
 		ray.castRay(input.getAbsoluteMouseX(), Display.getHeight() - input.getAbsoluteMouseY(), renderer, c);
+		lights.get(1).position = new Vector3f(player.position.x, player.position.y + 0.5F, player.position.z);
 		
 		MainGameLoop.fbo.bindFrameBuffer();
 		renderer.processTerrain(t[0]);
