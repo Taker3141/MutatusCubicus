@@ -16,18 +16,14 @@ public class Player extends Movable
 	private static final float RUN_SPEED = 5F;
 	private static final float TURN_SPEED = 80;
 	private static final float JUMP_POWER = 10;
+	private Organism organism = this.new Organism();
 	
 	private float currentTurnSpeed = 0;
 	private float speed = RUN_SPEED;
 	
 	public OverlayOrgans organs = new OverlayOrgans(this);
-	public float digestion = 0;
-	public float energy = 0;
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
-	
-	private Entity eating;
-	private IEdible food;
 	
 	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
@@ -43,24 +39,7 @@ public class Player extends Movable
 		checkInputs(delta);
 		
 		rotY += currentTurnSpeed * delta;
-		if(food != null)
-		{
-			digestion -= food.getType().digestPerSecond * delta;
-			energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
-			if(digestion < 0) {digestion = 0; food = null;}
-		}
-		if(energy > 200) energy = 200;
-		energy -= DisplayManager.getFrameTimeSeconds() / 50;
-		if(energy < 0) energy = 0;
-		organs.update();
-		if(eating != null)
-		{
-			eating.position = new Vector3f(position);
-			eating.position.y = position.y + 10 * scale;
-			if(eating.scale > 0) eating.scale -= DisplayManager.getFrameTimeSeconds() * 0.1F;
-			else {eating.unregister(); eating = null;};
-		}
-		
+		organism.update(delta);
 		super.update(terrain);
 	}
 	
@@ -93,9 +72,9 @@ public class Player extends Movable
 		if (Keyboard.isKeyDown(Keyboard.KEY_ADD)) speed = 2 * RUN_SPEED;
 		if (Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT)) speed = RUN_SPEED;
 		if (Keyboard.isKeyDown(Keyboard.KEY_F12)) System.out.println(position);
-		if (Keyboard.isKeyDown(Keyboard.KEY_Q) && eating == null && digestion == 0)
+		if (Keyboard.isKeyDown(Keyboard.KEY_Q) && organism.eating == null && organism.digestion == 0)
 		{
-			final float distanceSq = 4;
+			final float distanceSq = 2;
 			for(Entity e : entityList)
 			{
 				if(!(e instanceof IEdible)) continue;
@@ -104,18 +83,79 @@ public class Player extends Movable
 				dx = position.x - e.position.x; dy = position.y - e.position.y; dz = position.z - e.position.z;
 				if(dx * dx + dy * dy + dz * dz < distanceSq) 
 				{
-					eating = e; eating.hitBox = new NoHitbox();
-					food = (IEdible)e;
-					digestion = food.getAmmount() < 100 ? food.getAmmount() : 100;
-					organs.setDigestingTexture(e.model.getTexture().getID());
+					e.hitBox = new NoHitbox();
+					organism.eat((IEdible)e);
 					break;
 				}
 			}
 		}
 	}
-
+	
+	private class Organism
+	{
+		private float digestion = 0;
+		private float energy = 0;
+		private IEdible food;
+		private Entity eating;
+		
+		public void eat(IEdible f)
+		{
+			if(f instanceof Entity) eating = (Entity)f;
+			organism.food = (IEdible)f;
+			organism.digestion = organism.food.getAmmount() < 100 ? organism.food.getAmmount() : 100;
+			System.out.println(organs);
+			organs.setDigestingTexture(eating.model.getTexture().getID());
+		}
+		
+		public void update(float delta)
+		{
+			energy -= delta / 50;
+			digest(delta);
+		}
+		
+		private void digest(float delta)
+		{
+			if(energy < 0) energy = 0;
+			if(food != null)
+			{
+				digestion -= food.getType().digestPerSecond * delta;
+				energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
+				if(digestion < 0) {digestion = 0; food = null;}
+			}
+			if(energy > 200) energy = 200;
+			organs.update();
+			if(eating != null)
+			{
+				eating.position = new Vector3f(position);
+				eating.position.y = position.y + 10 * scale;
+				if(eating.scale > 0) eating.scale -= DisplayManager.getFrameTimeSeconds() * 0.1F;
+				else {eating.unregister(); eating = null;};
+			}
+		}
+		
+		public float getEnergy()
+		{
+			return energy;
+		}
+		
+		public float getDigestion()
+		{
+			return digestion;
+		}
+	}
+	
 	public void clickAt(ICollidable e, Vector3f vec)
 	{
 		
+	}
+	
+	public float getEnergy()
+	{
+		return organism.getEnergy();
+	}
+	
+	public float getDigestion()
+	{
+		return organism.getDigestion();
 	}
 }

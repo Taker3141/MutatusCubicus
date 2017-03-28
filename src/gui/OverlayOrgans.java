@@ -30,13 +30,13 @@ public class OverlayOrgans extends Overlay
 	
 	public void update()
 	{
-		digestion.width = 2F * p.digestion / 100;
-		digestion.size.x = 198 * p.digestion / 100;
+		digestion.width = 2F * p.getDigestion() / 100;
+		digestion.size.x = 198 * p.getDigestion() / 100;
 		digestion.offset -= DisplayManager.getFrameTimeSeconds() / 10;
 		if(digestion.offset < 1) digestion.offset += 1;
 		
-		energy.width = 2F * p.energy / 200;
-		energy.size.x = 198 * p.energy / 200;
+		energy.width = 2F * p.getEnergy() / 200;
+		energy.size.x = 198 * p.getEnergy() / 200;
 		energy.offset -= DisplayManager.getFrameTimeSeconds() / 40;
 		if(energy.offset < 1) energy.offset += 1;
 		
