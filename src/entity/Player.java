@@ -3,6 +3,7 @@ package entity;
 import gui.OverlayOrgans;
 import java.util.List;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
 import raycasting.ICollidable;
@@ -17,6 +18,7 @@ public class Player extends Movable
 	private static final float TURN_SPEED = 80;
 	private static final float JUMP_POWER = 10;
 	private Organism organism = this.new Organism();
+	private float dyingAnimation = 0;
 	
 	private float currentTurnSpeed = 0;
 	private float speed = RUN_SPEED;
@@ -74,7 +76,7 @@ public class Player extends Movable
 		if (Keyboard.isKeyDown(Keyboard.KEY_F12)) System.out.println(position);
 		if (Keyboard.isKeyDown(Keyboard.KEY_Q) && organism.eating == null && organism.digestion == 0)
 		{
-			final float distanceSq = 2;
+			final float distanceSq = 1;
 			for(Entity e : entityList)
 			{
 				if(!(e instanceof IEdible)) continue;
@@ -94,7 +96,7 @@ public class Player extends Movable
 	private class Organism
 	{
 		private float digestion = 0;
-		private float energy = 0;
+		private float energy = 11;
 		private IEdible food;
 		private Entity eating;
 		
@@ -103,7 +105,6 @@ public class Player extends Movable
 			if(f instanceof Entity) eating = (Entity)f;
 			organism.food = (IEdible)f;
 			organism.digestion = organism.food.getAmmount() < 100 ? organism.food.getAmmount() : 100;
-			System.out.println(organs);
 			organs.setDigestingTexture(eating.model.getTexture().getID());
 		}
 		
@@ -111,18 +112,20 @@ public class Player extends Movable
 		{
 			energy -= delta / 50;
 			digest(delta);
+			if(energy < 0) energy = 0;
+			if(energy > 200) energy = 200;
+			if(energy < 20) dyingAnimation = 1 - (energy / 20);
+			else dyingAnimation = 1.1F;
 		}
 		
 		private void digest(float delta)
 		{
-			if(energy < 0) energy = 0;
 			if(food != null)
 			{
 				digestion -= food.getType().digestPerSecond * delta;
 				energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
 				if(digestion < 0) {digestion = 0; food = null;}
 			}
-			if(energy > 200) energy = 200;
 			organs.update();
 			if(eating != null)
 			{
@@ -144,9 +147,19 @@ public class Player extends Movable
 		}
 	}
 	
-	public void clickAt(ICollidable e, Vector3f vec)
+	@Override
+	public Matrix4f getTransformationMatrix()
 	{
-		
+		if(dyingAnimation <= 1)
+		{
+			Matrix4f m1 = super.getTransformationMatrix();
+			Matrix4f m2 = new Matrix4f();
+			m2.setIdentity();
+			m2.m13 = dyingAnimation * 0.08F;
+			m2.m11 *= 1 - dyingAnimation * 0.5;
+			return Matrix4f.mul(m1, m2, null);
+		}
+		return super.getTransformationMatrix();
 	}
 	
 	public float getEnergy()
@@ -157,5 +170,10 @@ public class Player extends Movable
 	public float getDigestion()
 	{
 		return organism.getDigestion();
+	}
+
+	public void clickAt(ICollidable e, Vector3f vec)
+	{
+		
 	}
 }
