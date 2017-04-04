@@ -38,7 +38,7 @@ public class World
 		entities = new ArrayList<Entity>();
 		{
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
-			player = new Player(model, new Vector3f(101, 0, 101), 0, 0, 0, 0.02F, entities, 30);
+			player = new Player(model, new Vector3f(100, 0, 1000), 0, 0, 0, 0.02F, entities, 30);
 			
 			new Organ(createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
 			{
@@ -109,7 +109,6 @@ public class World
 			new Organ(veins, new Vector3f(3.03F, 8.7F, 0.27F), 30.38F, 45, 0, 1, entities, player);
 			new Organ(veins, new Vector3f(2.17F, 12.21F, -2.38F), 36.21F, -94.14F, 0, 0.7F, entities, player);
 		}
-		
 		lights.add(new Light(new Vector3f(100000, 100000, 10000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		c = new Camera(player);
@@ -134,6 +133,8 @@ public class World
 				position.y = height(position.x, position.z) + 0.2F;
 				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.24F + r.nextFloat() * 0.08F, entities);
 			}
+			
+			new Entity(createModel("reactorBuilding", "texture/concrete", 0), new Vector3f(40, height(40, 980), 980), 0, 90, 0, 50, entities);
 		}
 		
 		ray = new Raycaster(player);
