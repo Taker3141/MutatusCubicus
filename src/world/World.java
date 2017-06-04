@@ -40,11 +40,11 @@ public class World
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
 			player = new Player(model, new Vector3f(101, 0, 101), 0, 0, 0, 0.02F, entities, 30);
 			
-			new Organ(createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
+			new SubEntity(createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
 			{
 				TexturedModel heart = createModel("heart", "texture/cube/heart", 0.5F);
-				Organ heart1 = new Organ(heart, new Vector3f(-0.35F, 10, -2.58F), 0, 0, 0, 1, entities, player);
-				Organ heart2 = new Organ(heart, new Vector3f(-2.33F, 10, -2.58F), 90, 0, 0, 1, entities, player);
+				SubEntity heart1 = new SubEntity(heart, new Vector3f(-0.35F, 10, -2.58F), 0, 0, 0, 1, entities, player);
+				SubEntity heart2 = new SubEntity(heart, new Vector3f(-2.33F, 10, -2.58F), 90, 0, 0, 1, entities, player);
 				Keyframe[] k1 = 
 					{
 						new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.2F),
@@ -62,7 +62,7 @@ public class World
 				heart2.a = new KeyframeAnimation(heart2, k2);
 			}
 			{
-				Organ shaper = new Organ(createModel("shaper", "texture/cube/shaper", 0.5F), new Vector3f(5.47F, 6.76F, 3.12F), 0, 0, 0, 1, entities, player);
+				SubEntity shaper = new SubEntity(createModel("shaper", "texture/cube/shaper", 0.5F), new Vector3f(5.47F, 6.76F, 3.12F), 0, 0, 0, 1, entities, player);
 				Keyframe[] k = 
 					{
 						new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.2F),
@@ -75,9 +75,9 @@ public class World
 			}
 			ModelTexture digestive = new ModelTexture(loader.loadTexture("texture/cube/intestines"));			
 			TexturedModel upperIntestine = new TexturedModel(OBJLoader.loadOBJModel("upper_intestine"), digestive);
-			new Organ(upperIntestine, new Vector3f(-2.97F, 5.9F, 3.42F), 0, 0, 0, 1, entities, player);
+			new SubEntity(upperIntestine, new Vector3f(-2.97F, 5.9F, 3.42F), 0, 0, 0, 1, entities, player);
 			{
-				Organ liver = new Organ(createModel("liver", "texture/cube/storage_cone", 0.5F), new Vector3f(-5.8F, 6.18F, -6.18F), 0, 0, 0, 1, entities, player);
+				SubEntity liver = new SubEntity(createModel("liver", "texture/cube/storage_cone", 0.5F), new Vector3f(-5.8F, 6.18F, -6.18F), 0, 0, 0, 1, entities, player);
 				Keyframe[] k = 
 					{
 						new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 20F),
@@ -89,10 +89,10 @@ public class World
 				liver.a = new KeyframeAnimation(liver, k);
 			}
 			TexturedModel lowerIntestine = new TexturedModel(OBJLoader.loadOBJModel("lower_intestine"), digestive);
-			new Organ(lowerIntestine, new Vector3f(-2.7F, 7.56F, 3.42F), 0, 0, 0, 1, entities, player);
+			new SubEntity(lowerIntestine, new Vector3f(-2.7F, 7.56F, 3.42F), 0, 0, 0, 1, entities, player);
 			{
 				TexturedModel stomachModel = new TexturedModel(OBJLoader.loadOBJModel("stomach"), digestive);
-				Organ stomach = new Organ(stomachModel, new Vector3f(-2.97F, 9.2F, 3.42F), 0, 0, 0, 1, entities, player);
+				SubEntity stomach = new SubEntity(stomachModel, new Vector3f(-2.97F, 9.2F, 3.42F), 0, 0, 0, 1, entities, player);
 				Keyframe[] k = 
 					{
 						new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 1), 
@@ -103,11 +103,11 @@ public class World
 			}
 			
 			TexturedModel veins = createModel("veins", "texture/cube/veins", 0.5F);
-			new Organ(veins, new Vector3f(-4.93F, 7.37F, -2.71F), -12.01F, 15.67F, 0, 1, entities, player);
-			new Organ(veins, new Vector3f(-2.48F, 9.43F, 1.48F), 14.2F, -4.72F, 0, 0.8F, entities, player);
-			new Organ(veins, new Vector3f(5.31F, 9.28F, 0.79F), 36.21F, 0, 0, 1, entities, player);
-			new Organ(veins, new Vector3f(3.03F, 8.7F, 0.27F), 30.38F, 45, 0, 1, entities, player);
-			new Organ(veins, new Vector3f(2.17F, 12.21F, -2.38F), 36.21F, -94.14F, 0, 0.7F, entities, player);
+			new SubEntity(veins, new Vector3f(-4.93F, 7.37F, -2.71F), -12.01F, 15.67F, 0, 1, entities, player);
+			new SubEntity(veins, new Vector3f(-2.48F, 9.43F, 1.48F), 14.2F, -4.72F, 0, 0.8F, entities, player);
+			new SubEntity(veins, new Vector3f(5.31F, 9.28F, 0.79F), 36.21F, 0, 0, 1, entities, player);
+			new SubEntity(veins, new Vector3f(3.03F, 8.7F, 0.27F), 30.38F, 45, 0, 1, entities, player);
+			new SubEntity(veins, new Vector3f(2.17F, 12.21F, -2.38F), 36.21F, -94.14F, 0, 0.7F, entities, player);
 		}
 		
 		lights.add(new Light(new Vector3f(100000, 100000, 10000), new Vector3f(1, 1, 1)));
@@ -116,7 +116,17 @@ public class World
 		t = new Terrain[2];
 		TerrainTexturePack pack = loadTerrainTexturePack(loader);
 		t[0] = new Terrain(0, 0, loader, pack, new TerrainTexture(loader.loadTexture("texture/blend_map")), "height_map");
-		
+		{
+			Entity car = new Entity(createModel("car/car", "texture/metal", 0.2F), new Vector3f(100, height(100, 100), 100), 0, 0, 0, 0.6F, entities);
+			Entity roof = new SubEntity(createModel("car/roof", "texture/glass", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, car);
+			roof.model.getTexture().setHasTransparency(true);
+			new SubEntity(createModel("car/door", "texture/metal", 0.2F), new Vector3f(0.86F, 0.7F, 1.03F), 0, 0, 0, 1, entities, car);
+			new SubEntity(createModel("car/doorR", "texture/metal", 0.2F), new Vector3f(-0.76F, 0.7F, 1.03F), 0, 0, 0, 1, entities, car);
+			new SubEntity(createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, car);
+			new SubEntity(createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-1.5F, 0, 0), 0, 0, 0, 1, entities, car);
+			new SubEntity(createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0, 0, 2.5F), 0, 0, 0, 1, entities, car);
+			new SubEntity(createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-1.5F, 0, 2.5F), 0, 0, 0, 1, entities, car);
+		}
 		{
 			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
