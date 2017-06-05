@@ -68,8 +68,8 @@ public class Movable extends Entity
 					Movable o2 = (Movable)c;
 					Vector3f v1 = o1.v;
 					Vector3f v2 = o2.v;
-					o1.v = new Vector3f((Vector3f)v2.scale(o2.mass).scale(1 / o1.mass));
-					o2.v = new Vector3f((Vector3f)v1.scale(o1.mass).scale(1 / o2.mass));
+					o1.v = (Vector3f)Vector3f.sub(position, o2.getHitBox().getCenter(o1.position), null).normalise(null).scale(0.1F * o2.mass / o1.mass);
+					o2.v = (Vector3f)Vector3f.sub(position, o1.getHitBox().getCenter(o2.position), null).normalise(null).scale(0.1F * o1.mass / o2.mass);
 				}
 				else if(!(c instanceof Movable) && this instanceof Movable)
 				{

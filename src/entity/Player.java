@@ -27,9 +27,9 @@ public class Player extends Movable
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
 	
-	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
+	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
-		super(model, position, rotX, rotY, rotZ, scale, list, 0);
+		super(model, position, rotX, rotY, rotZ, scale, list, 20);
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
 		NORMAL_SIZE = scale;
 	}

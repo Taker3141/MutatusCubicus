@@ -38,7 +38,7 @@ public class World
 		entities = new ArrayList<Entity>();
 		{
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
-			player = new Player(model, new Vector3f(101, 0, 101), 0, 0, 0, 0.02F, entities, 30);
+			player = new Player(model, new Vector3f(101, 0, 101), 0, 0, 0, 0.02F, entities);
 			
 			new SubEntity(createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
 			{
@@ -116,17 +116,7 @@ public class World
 		t = new Terrain[2];
 		TerrainTexturePack pack = loadTerrainTexturePack(loader);
 		t[0] = new Terrain(0, 0, loader, pack, new TerrainTexture(loader.loadTexture("texture/blend_map")), "height_map");
-		{
-			Entity car = new Entity(createModel("car/car", "texture/metal", 0.2F), new Vector3f(100, height(100, 100), 100), 0, 0, 0, 0.6F, entities);
-			Entity roof = new SubEntity(createModel("car/roof", "texture/glass", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, car);
-			roof.model.getTexture().setHasTransparency(true);
-			new SubEntity(createModel("car/door", "texture/metal", 0.2F), new Vector3f(0.86F, 0.7F, 1.03F), 0, 0, 0, 1, entities, car);
-			new SubEntity(createModel("car/doorR", "texture/metal", 0.2F), new Vector3f(-0.76F, 0.7F, 1.03F), 0, 0, 0, 1, entities, car);
-			new SubEntity(createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, car);
-			new SubEntity(createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-1.5F, 0, 0), 0, 0, 0, 1, entities, car);
-			new SubEntity(createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0, 0, 2.5F), 0, 0, 0, 1, entities, car);
-			new SubEntity(createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-1.5F, 0, 2.5F), 0, 0, 0, 1, entities, car);
-		}
+		new Vehicle(new Vector3f(100, height(100, 100), 100), 0, 0, 0, 0.6F, entities, 1000);
 		{
 			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
@@ -177,9 +167,9 @@ public class World
 		return true;
 	}
 	
-	private TexturedModel createModel(String modelName, String textureName, float reflect)
+	public static TexturedModel createModel(String modelName, String textureName, float reflect)
 	{
-		return new TexturedModel(OBJLoader.loadOBJModel(modelName), new ModelTexture(loader.loadTexture(textureName), false, reflect));
+		return new TexturedModel(OBJLoader.loadOBJModel(modelName), new ModelTexture(MainManagerClass.loader.loadTexture(textureName), false, reflect));
 	}
 	
 	public float height(float x, float z)
