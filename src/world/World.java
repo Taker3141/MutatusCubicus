@@ -112,9 +112,13 @@ public class World
 		lights.add(new Light(new Vector3f(0, 100000, 100000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		c = new Camera(player);
-		t = new Terrain[2];
+		t = new Terrain[3 * 3];
 		TerrainTexturePack pack = loadTerrainTexturePack(loader);
-		t[0] = new Terrain(0, 0, loader, pack, new TerrainTexture(loader.loadTexture("texture/blend_map")), "height_map");
+		for (int i = 0; i < 9; i++)
+		{
+			int tx = i % 3; int tz = i / 3;
+			t[i] = new Terrain(tx, 2 - tz, loader, pack, new TerrainTexture(loader.loadTexture("texture/test")), "terrain/height_" + tx + "_" + tz);
+		}
 		
 		{
 			Random r = new Random();
@@ -150,7 +154,7 @@ public class World
 		for(int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);
-			e.update(terrain(e.position.x));
+			e.update(terrain(e.position.x, e.position.z));
 			if(!e.invisible) renderer.processEntities(e);
 		}
 		c.update();
@@ -158,7 +162,7 @@ public class World
 		lights.get(1).position = new Vector3f(player.position.x, player.position.y + 0.5F, player.position.z);
 		
 		MainGameLoop.fbo.bindFrameBuffer();
-		renderer.processTerrain(t[0]);
+		for(int i = 0; i < t.length; i++) renderer.processTerrain(t[i]);
 		renderer.render(lights, c, player);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
@@ -176,12 +180,13 @@ public class World
 	
 	public float height(float x, float z)
 	{
-		return terrain(x).getHeight(x, z);
+		return terrain(x, z).getHeight(x, z);
 	}
 	
-	public Terrain terrain(float positionX)
+	public Terrain terrain(float positionX, float positionZ)
 	{
-		return t[0];
+		if(positionX < 0 || positionX > 3072 || positionZ < 0 || positionZ > 3072) return t[0];
+		return t[((int)(positionX / 1024)) + (2 - ((int)(positionZ / 1024))) * 3];
 	}
 	
 	public void cleanUp()
