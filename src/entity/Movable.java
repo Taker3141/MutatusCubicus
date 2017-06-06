@@ -106,7 +106,7 @@ public class Movable extends Entity
 	
 	protected void checkTerrain(Terrain terrain)
 	{
-		terrainHeight = terrain.getHeight(position.x, position.z);
+		terrainHeight = terrain == null ? 0 : terrain.getHeight(position.x, position.z);
 		if (position.y <= terrainHeight)
 		{
 			v.y = 0;
@@ -117,7 +117,8 @@ public class Movable extends Entity
 	
 	protected boolean canMove(float x, float z, Terrain terrain)
 	{
-		return (position.y > terrainHeight || (terrain.getHeight(position.x + x, position.z + z) - terrainHeight) < 0.2F) && noCollision();
+		float ty = terrain == null ? 0 : terrain.getHeight(position.x + x, position.z + z);
+		return (position.y > terrainHeight || (ty - terrainHeight) < 0.2F) && noCollision();
 	}
 	
 	protected float getGravity()
