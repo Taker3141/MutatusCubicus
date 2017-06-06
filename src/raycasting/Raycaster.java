@@ -12,7 +12,7 @@ import entity.*;
 public class Raycaster
 {
 	private List<ICollidable> list = new ArrayList<ICollidable>();
-	private static final float step = 0.05F;
+	private static final float step = 0.5F;
 	private Player player;
 
 	private boolean isMouseDown = false;
@@ -44,7 +44,11 @@ public class Raycaster
 				if(e.isInsideHitBox(vec) != null) 
 				{
 					e.hover();
-					if(clickFlag) player.clickAt(e, vec);
+					if(clickFlag) 
+					{
+						player.clickAt(e, vec);
+						e.click();
+					}
 					break endLoop;
 				}
 			}

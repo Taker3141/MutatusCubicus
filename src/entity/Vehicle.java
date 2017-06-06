@@ -21,4 +21,10 @@ public class Vehicle extends Movable
 		new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-1.5F, 0, 2.5F), 0, 0, 0, 1, list, this);
 		hitBox = new AABB(new Vector3f(0, 0, 0), new Vector3f(1.5F, 1.2F, 2.5F), new Vector3f(-0.75F, 0, -1.25F));
 	}
+	
+	@Override
+	public void click()
+	{
+		
+	}
 }
