@@ -138,8 +138,9 @@ public class World
 				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.24F + r.nextFloat() * 0.08F, entities);
 			}
 			
-			Entity reactor = new Entity(createModel("reactorBuilding", "texture/concrete", 0), new Vector3f(40, height(40, 980), 980), 0, 90, 0, 50, entities);
+			Entity reactor = new Entity(createModel("reactorBuilding", "texture/concrete", 0), new Vector3f(1062, height(1062, 2004), 2004), 0, 90, 0, 50, entities);
 			new SubEntity(createModel("reactorDecoration", "texture/reactor_decoration", 0.5F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new Entity(createModel("antenna", "texture/metal", 0.4F), new Vector3f(1184, height(1184, 1224), 1224), 0, 45, 0, 50, entities);
 		}
 		
 		ray = new Raycaster(player);
