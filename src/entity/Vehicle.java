@@ -2,6 +2,8 @@ package entity;
 
 import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
+import animation.KeyframeAnimation;
+import animation.KeyframeAnimation.Keyframe;
 import raycasting.AABB;
 import terrain.Terrain;
 import world.World;
@@ -9,6 +11,10 @@ import world.World;
 public class Vehicle extends Movable
 {
 	public Player passenger;
+	SubEntity wheel1;
+	SubEntity wheel2;
+	SubEntity wheel3;
+	SubEntity wheel4;
 	
 	public Vehicle(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
@@ -17,16 +23,42 @@ public class Vehicle extends Movable
 		roof.model.getTexture().setHasTransparency(true);
 		new SubEntity(World.createModel("car/door", "texture/metal", 0.2F), new Vector3f(0.86F, 0.7F, 1.03F), 0, 0, 0, 1, list, this);
 		new SubEntity(World.createModel("car/doorR", "texture/metal", 0.2F), new Vector3f(-0.76F, 0.7F, 1.03F), 0, 0, 0, 1, list, this);
-		new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, list, this);
-		new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-1.5F, 0, 0), 0, 0, 0, 1, list, this);
-		new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0, 0, 2.5F), 0, 0, 0, 1, list, this);
-		new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-1.5F, 0, 2.5F), 0, 0, 0, 1, list, this);
+		wheel1 = new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0.7F, 0.2F, -1.5F), 0, 0, 0, 1, list, this);
+		wheel2 = new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-0.7F, 0.2F, -1.5F), 0, 0, 0, 1, list, this);
+		wheel3 = new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0.7F, 0.2F, 1.2F), 0, 0, 0, 1, list, this);
+		wheel4 = new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-0.7F, 0.2F, 1.2F), 0, 0, 0, 1, list, this);
+		Keyframe[] k = 
+			{
+				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.1F),
+				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(90, 0, 0), 0, 0.1F),
+				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(180, 0, 0), 0, 0.1F),
+				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(270, 0, 0), 0, 0.1F),
+				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(360, 0, 0), 0, 0.01F)
+			};
+		wheel1.a = new KeyframeAnimation(wheel1, k);
+		wheel2.a = new KeyframeAnimation(wheel2, k);
+		wheel3.a = new KeyframeAnimation(wheel3, k);
+		wheel4.a = new KeyframeAnimation(wheel4, k);
 		hitBox = new AABB(new Vector3f(0, 0, 0), new Vector3f(1.5F, 1.2F, 2.5F), new Vector3f(-0.75F, 0, -1.25F));
 	}
 	
 	public void update(Terrain t)
 	{
 		super.update(t);
+		if(v.lengthSquared() > 0.1F)
+		{
+			wheel1.a.isRunning = true;
+			wheel2.a.isRunning = true;
+			wheel3.a.isRunning = true;
+			wheel4.a.isRunning = true;
+		}
+		else
+		{
+			wheel1.a.isRunning = false;
+			wheel2.a.isRunning = false;
+			wheel3.a.isRunning = false;
+			wheel4.a.isRunning = false;
+		}
 		if(passenger != null)
 		{
 			passenger.position = new Vector3f(position); 
