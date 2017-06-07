@@ -95,7 +95,7 @@ public class Movable extends Entity
 		return true;
 	}
 	
-	private void calculateFriction(float delta)
+	protected void calculateFriction(float delta)
 	{
 		double factor = Math.pow(0.9F, delta * 50);
 		if (Math.abs(v.x) < 0.05F) v.x = 0;

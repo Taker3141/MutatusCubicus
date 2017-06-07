@@ -75,8 +75,23 @@ public class Player extends Movable
 		}
 		else
 		{
-			position = new Vector3f(vehicle.position); position.y += 0.2F;
-			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {vehicle = null; position.x += 1.5F; model.transparencyNumber = 1;}
+			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {vehicle.passenger = null; vehicle = null; position.x += 1.5F; model.transparencyNumber = 1;}
+			if(Keyboard.isKeyDown(Keyboard.KEY_W) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) < 1000)
+			{
+				vehicle.v.x += (float) (10 * Math.sin(Math.toRadians(vehicle.rotY)));
+				vehicle.v.z += (float) (10 * Math.cos(Math.toRadians(vehicle.rotY)));
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_S) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) > 1)
+			{
+				float dvx = (float) (20 * Math.sin(Math.toRadians(vehicle.rotY)));
+				float dvz = (float) (20 * Math.cos(Math.toRadians(vehicle.rotY)));
+				boolean xSign = vehicle.v.x > 0;
+				boolean zSign = vehicle.v.x > 0;
+				if(vehicle.v.x - dvx > 0 == xSign) vehicle.v.x -= dvx;
+				if(vehicle.v.z - dvz > 0 == zSign) vehicle.v.z -= dvz;
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {vehicle.rotY += dt * 2 * vehicle.v.length(); rotY += dt * 2 * vehicle.v.length();}
+			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {vehicle.rotY -= dt * 2 * vehicle.v.length(); rotY -= dt * 2 * vehicle.v.length();}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7) && (scale + 0.001F * dt) < NORMAL_SIZE * MAX_SIZE_FACTOR) scale += 0.001F * dt;
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4) && scale > NORMAL_SIZE) scale -= 0.001F * dt;
@@ -187,6 +202,7 @@ public class Player extends Movable
 		if(e instanceof Vehicle && Vector3f.sub(vec, position, null).length() < 4)
 		{
 			vehicle = (Vehicle)e;
+			vehicle.passenger = this;
 			model.transparencyNumber = -1;
 		}
 	}

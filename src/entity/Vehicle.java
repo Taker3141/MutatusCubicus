@@ -8,6 +8,8 @@ import world.World;
 
 public class Vehicle extends Movable
 {
+	public Player passenger;
+	
 	public Vehicle(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
 		super(World.createModel("car/car", "texture/metal", 0.2F), position, rotX, rotY, rotZ, scale, list, mass);
@@ -22,9 +24,13 @@ public class Vehicle extends Movable
 		hitBox = new AABB(new Vector3f(0, 0, 0), new Vector3f(1.5F, 1.2F, 2.5F), new Vector3f(-0.75F, 0, -1.25F));
 	}
 	
-	@Override
-	public void click()
+	public void update(Terrain t)
 	{
-		
+		super.update(t);
+		if(passenger != null)
+		{
+			passenger.position = new Vector3f(position); 
+			passenger.position.y += 0.2F;
+		}
 	}
 }
