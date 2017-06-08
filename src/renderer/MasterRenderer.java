@@ -91,7 +91,7 @@ public class MasterRenderer
 	
 	public void processTerrain(Terrain t)
 	{
-		terrains.add(t);
+		if(!terrains.contains(t)) terrains.add(t);
 	}
 	
 	public void processEntities(Entity e)

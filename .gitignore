@@ -6,6 +6,9 @@ libs/**/*
 .classpath
 ideas.txt
 
+*.blend1
+.blend1
+
 *.mp4
 .mp4
 

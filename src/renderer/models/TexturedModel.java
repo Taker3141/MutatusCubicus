@@ -2,10 +2,11 @@ package renderer.models;
 
 import renderer.textures.ModelTexture;
 
-public class TexturedModel
+public class TexturedModel implements Comparable<TexturedModel>
 {
 	private SimpleModel simpleModel;
 	private ModelTexture texture;
+	public int transparencyNumber = 0;
 	
 	public TexturedModel(SimpleModel model, ModelTexture tex)
 	{
@@ -21,5 +22,11 @@ public class TexturedModel
 	public ModelTexture getTexture()
 	{
 		return texture;
+	}
+
+	@Override
+	public int compareTo(TexturedModel o)
+	{
+		return Integer.compare(transparencyNumber, o.transparencyNumber);
 	}
 }

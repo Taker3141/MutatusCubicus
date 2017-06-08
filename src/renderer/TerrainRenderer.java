@@ -30,6 +30,7 @@ public class TerrainRenderer
 	{
 		for(Terrain terrain:terrains)
 		{
+			if(terrain == null) continue;
 			prepareTerrain(terrain);
 			loadModelMatrix(terrain);
 			GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);

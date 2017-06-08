@@ -7,12 +7,12 @@ import animation.KeyframeAnimation;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
 
-public class Organ extends Entity
+public class SubEntity extends Entity
 {
 	public Entity parent;
 	public KeyframeAnimation a;
 	
-	public Organ(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, Entity parent)
+	public SubEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, Entity parent)
 	{
 		super(model, position, rotX, rotY, rotZ, scale, list);
 		this.parent = parent;
