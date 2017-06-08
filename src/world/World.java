@@ -38,7 +38,7 @@ public class World
 		entities = new ArrayList<Entity>();
 		{
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
-			player = new Player(model, new Vector3f(100, 0, 1000), 0, 0, 0, 0.02F, entities, 30);
+			player = new Player(model, new Vector3f(1125, 0, 1125), 0, 0, 0, 0.02F, entities);
 			
 			new SubEntity(createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
 			{
@@ -119,7 +119,7 @@ public class World
 			int tx = i % 3; int tz = i / 3;
 			t[i] = new Terrain(tx, 2 - tz, loader, pack, new TerrainTexture(loader.loadTexture("texture/test")), "terrain/height_" + tx + "_" + tz);
 		}
-		
+		new Vehicle(new Vector3f(1124, height(1124, 1124), 1124), 0, 0, 0, 0.6F, entities, 1000);
 		{
 			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
@@ -178,9 +178,9 @@ public class World
 		return true;
 	}
 	
-	private TexturedModel createModel(String modelName, String textureName, float reflect)
+	public static TexturedModel createModel(String modelName, String textureName, float reflect)
 	{
-		return new TexturedModel(OBJLoader.loadOBJModel(modelName), new ModelTexture(loader.loadTexture(textureName), false, reflect));
+		return new TexturedModel(OBJLoader.loadOBJModel(modelName), new ModelTexture(MainManagerClass.loader.loadTexture(textureName), false, reflect));
 	}
 	
 	public float height(float x, float z)

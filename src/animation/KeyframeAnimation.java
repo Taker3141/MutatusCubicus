@@ -14,6 +14,7 @@ public class KeyframeAnimation
 	private float time = 0;
 	private float totalTime = 0;
 	private float[] frameTimes;
+	public boolean isRunning = true;
 	
 	public KeyframeAnimation(Entity e, Keyframe[] k)
 	{
@@ -36,6 +37,7 @@ public class KeyframeAnimation
 	
 	public void tick()
 	{
+		if(!isRunning) return;
 		time += DisplayManager.getFrameTimeSeconds();
 		int i1 = frameTimes.length - 1;
 		while(time < frameTimes[i1]) i1--;

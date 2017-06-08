@@ -63,7 +63,7 @@ public class Entity implements ICollidable
 	@Override
 	public CollisionData isInsideHitBox(IHitBox box)
 	{
-		return hitBox.isInside(box);
+		return getHitBox().isInside(box);
 	}
 	
 	@Override
