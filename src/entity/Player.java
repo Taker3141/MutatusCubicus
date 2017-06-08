@@ -78,8 +78,8 @@ public class Player extends Movable
 			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {vehicle.passenger = null; vehicle = null; position.x += 1.5F; model.transparencyNumber = 1;}
 			if(Keyboard.isKeyDown(Keyboard.KEY_W) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) < 1000)
 			{
-				vehicle.v.x += (float) (10 * Math.sin(Math.toRadians(vehicle.rotY)));
-				vehicle.v.z += (float) (10 * Math.cos(Math.toRadians(vehicle.rotY)));
+				vehicle.v.x += (float) (20 * Math.sin(Math.toRadians(vehicle.rotY)));
+				vehicle.v.z += (float) (20 * Math.cos(Math.toRadians(vehicle.rotY)));
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_S) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) > 1)
 			{
