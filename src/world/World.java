@@ -149,6 +149,14 @@ public class World
 			SubEntity biosphereInside = new SubEntity(createModel("biosphere_inside", "texture/glass", 0.2F), new Vector3f(), 0, 0, 0, 1, entities, biosphere);
 			biosphereInside.model.getTexture().setHasTransparency(true);
 			biosphereInside.model.transparencyNumber = 1;
+			TexturedModel grass = createModel("grass", "texture/plant/grass", 0);
+			grass.getTexture().setUseFakeLightning(true);
+			generateDecoration(grass, 100, biosphere.position.x, biosphere.position.z, 0.5F, 1.5F, 110, true);
+			TexturedModel bush = createModel("grass", "texture/plant/bush", 0);
+			bush.getTexture().setUseFakeLightning(true);
+			generateDecoration(bush, 100, biosphere.position.x, biosphere.position.z, 1, 2, 110, true);
+			TexturedModel tree = createModel("tree", "texture/plant/tree", 0);
+			generateDecoration(tree, 40, biosphere.position.x, biosphere.position.z, 0.1F, 2, 110, false);
 		}
 		
 		ray = new Raycaster(player);
@@ -171,7 +179,6 @@ public class World
 		lights.get(1).position = new Vector3f(player.position.x, player.position.y + 0.5F, player.position.z);
 		
 		MainGameLoop.fbo.bindFrameBuffer();
-		//for(int i = 0; i < t.length; i++) renderer.processTerrain(t[i]);
 		renderer.processTerrain(terrain(player.position.x + 100, player.position.z + 100));
 		renderer.processTerrain(terrain(player.position.x - 100, player.position.z + 100));
 		renderer.processTerrain(terrain(player.position.x + 100, player.position.z - 100));
@@ -184,6 +191,20 @@ public class World
 		
 		if(isKeyDown(KEY_F5)) t[0] = new Terrain(0, 0, loader, loadTerrainTexturePack(loader), new TerrainTexture(loader.loadTexture("texture/blend_map")), "height_map");
 		return true;
+	}
+	
+	private void generateDecoration(TexturedModel model, int number, float x, float z, float scaleMin, float scaleMax, float rad, boolean duplicate)
+	{
+		Random r = new Random();
+		for(int i = 0; i < number; i++)
+		{
+			float angle = r.nextFloat() * 360;
+			float radius = r.nextFloat() * rad;
+			float rotation = r.nextFloat() * 90;
+			float size = scaleMin + r.nextFloat() * (scaleMax - scaleMin);
+			new Entity(model, hVector((float)(x + radius * Math.cos(angle)), (float)(z + radius * Math.sin(angle))), 0, rotation, 0, size, entities);
+			if(duplicate) new Entity(model, hVector((float)(x + radius * Math.cos(angle)), (float)(z + radius * Math.sin(angle))), 0, rotation + 180, 0, size, entities);
+		}
 	}
 	
 	public static TexturedModel createModel(String modelName, String textureName, float reflect)
@@ -201,6 +222,11 @@ public class World
 	{
 		if(positionX < 0 || positionX > 3072 || positionZ < 0 || positionZ > 3072) return null;
 		return t[((int)(positionX / 1024)) + (2 - ((int)(positionZ / 1024))) * 3];
+	}
+	
+	public Vector3f hVector(float x, float z)
+	{
+		return new Vector3f(x, height(x, z), z);
 	}
 	
 	public void cleanUp()
