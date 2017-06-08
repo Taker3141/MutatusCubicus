@@ -117,7 +117,9 @@ public class World
 		for (int i = 0; i < 9; i++)
 		{
 			int tx = i % 3; int tz = i / 3;
-			t[i] = new Terrain(tx, 2 - tz, loader, pack, new TerrainTexture(loader.loadTexture("texture/test")), "terrain/height_" + tx + "_" + tz);
+			t[i] = new Terrain(tx, 2 - tz, loader, pack, 
+					new TerrainTexture(loader.loadTexture((tx == 1 && tz == 1) ? "texture/terrain/blend_1_1" : "texture/terrain/blend_0_0")), 
+					"terrain/height_" + tx + "_" + tz);
 		}
 		new Vehicle(new Vector3f(1124, height(1124, 1124), 1124), 0, 0, 0, 0.6F, entities, 1000);
 		{
@@ -141,6 +143,12 @@ public class World
 			Entity reactor = new Entity(createModel("reactorBuilding", "texture/concrete", 0), new Vector3f(1062, height(1062, 2004), 2004), 0, 90, 0, 50, entities);
 			new SubEntity(createModel("reactorDecoration", "texture/reactor_decoration", 0.5F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
 			new Entity(createModel("antenna", "texture/metal", 0.4F), new Vector3f(1184, height(1184, 1224), 1224), 0, 45, 0, 50, entities);
+			Entity biosphere = new Entity(createModel("biosphere_outside", "texture/glass", 0.2F), new Vector3f(1194, height(1194, 1436) - 10, 1436), 0, 0, 0, 120, entities);
+			biosphere.model.getTexture().setHasTransparency(true);
+			biosphere.model.transparencyNumber = 1;
+			SubEntity biosphereInside = new SubEntity(createModel("biosphere_inside", "texture/glass", 0.2F), new Vector3f(), 0, 0, 0, 1, entities, biosphere);
+			biosphereInside.model.getTexture().setHasTransparency(true);
+			biosphereInside.model.transparencyNumber = 1;
 		}
 		
 		ray = new Raycaster(player);
