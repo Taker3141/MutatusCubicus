@@ -156,6 +156,16 @@ public class World
 			new SubEntity(createModel("reactor/helium_tube", "texture/color/yellow", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
 			new SubEntity(createModel("reactor/steam_tube1", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
 			new SubEntity(createModel("reactor/steam_tube2", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			{
+				TexturedModel energyCell = createModel("reactor/energy_cell", "texture/color/red", 0);
+				for(int i = 0; i < 11; i++)
+				{
+					for(int j = 0; j < 6; j++)
+					{
+						new Entity(energyCell, hVector(1310 + i * 8, 1940 + j * 8), 0, 0, 0, 2, entities);
+					}
+				}
+			}
 			new Entity(createModel("antenna", "texture/metal", 0.4F), new Vector3f(1184, height(1184, 1224), 1224), 0, 45, 0, 50, entities);
 			Entity biosphere = new Entity(createModel("biosphere_outside", "texture/glass", 0.2F), new Vector3f(1194, height(1194, 1436) - 10, 1436), 0, 0, 0, 120, entities);
 			biosphere.model.getTexture().setHasTransparency(true);
