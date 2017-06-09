@@ -38,7 +38,7 @@ public class World
 		entities = new ArrayList<Entity>();
 		{
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
-			player = new Player(model, new Vector3f(1125, 0, 1125), 0, 0, 0, 0.02F, entities);
+			player = new Player(model, new Vector3f(1250, 0, 2010), 0, 0, 0, 0.02F, entities);
 			
 			new SubEntity(createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
 			{
@@ -111,6 +111,7 @@ public class World
 		}
 		lights.add(new Light(new Vector3f(0, 100000, 100000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
+		lights.add(new Light(new Vector3f(1261, 40, 1955), new Vector3f(1F, 0.5F, 0.9F), new Vector3f(1, 0.01F, 0.0002F)));
 		c = new Camera(player);
 		t = new Terrain[3 * 3];
 		TerrainTexturePack pack = loadTerrainTexturePack(loader);
@@ -121,7 +122,7 @@ public class World
 					new TerrainTexture(loader.loadTexture((tx == 1 && tz == 1) ? "texture/terrain/blend_1_1" : "texture/terrain/blend_0_0")), 
 					"terrain/height_" + tx + "_" + tz);
 		}
-		new Vehicle(new Vector3f(1124, height(1124, 1124), 1124), 0, 0, 0, 0.6F, entities, 1000);
+		new Vehicle(hVector(1240, 2010), 0, 0, 0, 0.6F, entities, 1000);
 		{
 			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
@@ -140,8 +141,21 @@ public class World
 				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.24F + r.nextFloat() * 0.08F, entities);
 			}
 			
-			Entity reactor = new Entity(createModel("reactorBuilding", "texture/concrete", 0), new Vector3f(1062, height(1062, 2004), 2004), 0, 90, 0, 50, entities);
-			new SubEntity(createModel("reactorDecoration", "texture/reactor_decoration", 0.5F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			Entity reactor = new Entity(createModel("reactor/reactor_building", "texture/concrete", 0), new Vector3f(1062, height(1062, 2004), 2004), 0, 90, 0, 50, entities);
+			new SubEntity(createModel("reactor/reactor_decoration", "texture/reactor_decoration", 0.5F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/plasma_chamber", "texture/plasma_chamber", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/turbine", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/electrolyse_chamber", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/isotope_generator", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/water_tube", "texture/color/blue", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/water_tube", "texture/color/blue", 0.2F), new Vector3f(-0.09F, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/water_tube", "texture/color/blue", 0.2F), new Vector3f(-0.18F, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/hydrogen_tube1", "texture/color/green", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/hydrogen_tube2", "texture/color/green", 0.2F), new Vector3f(-0.09F, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/heavy_hydrogen_tube", "texture/color/green", 0.2F), new Vector3f(-0.18F, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/helium_tube", "texture/color/yellow", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/steam_tube1", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
+			new SubEntity(createModel("reactor/steam_tube2", "texture/metal", 0.2F), new Vector3f(-0.09F, 0, 0), 0, 0, 0, 1, entities, reactor);
 			new Entity(createModel("antenna", "texture/metal", 0.4F), new Vector3f(1184, height(1184, 1224), 1224), 0, 45, 0, 50, entities);
 			Entity biosphere = new Entity(createModel("biosphere_outside", "texture/glass", 0.2F), new Vector3f(1194, height(1194, 1436) - 10, 1436), 0, 0, 0, 120, entities);
 			biosphere.model.getTexture().setHasTransparency(true);
@@ -179,10 +193,10 @@ public class World
 		lights.get(1).position = new Vector3f(player.position.x, player.position.y + 0.5F, player.position.z);
 		
 		MainGameLoop.fbo.bindFrameBuffer();
-		renderer.processTerrain(terrain(player.position.x + 100, player.position.z + 100));
-		renderer.processTerrain(terrain(player.position.x - 100, player.position.z + 100));
-		renderer.processTerrain(terrain(player.position.x + 100, player.position.z - 100));
-		renderer.processTerrain(terrain(player.position.x - 100, player.position.z - 100));
+		renderer.processTerrain(terrain(player.position.x + 200, player.position.z + 200));
+		renderer.processTerrain(terrain(player.position.x - 200, player.position.z + 200));
+		renderer.processTerrain(terrain(player.position.x + 200, player.position.z - 200));
+		renderer.processTerrain(terrain(player.position.x - 200, player.position.z - 200));
 		renderer.render(lights, c, player);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
