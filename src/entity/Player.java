@@ -15,15 +15,12 @@ import terrain.Terrain;
 
 public class Player extends Movable
 {
-	private static final float RUN_SPEED = 10F;
 	private static final float TURN_SPEED = 80;
-	private static final float JUMP_POWER = 10;
 	private Organism organism = this.new Organism();
 	private Vehicle vehicle = null;
 	private float dyingAnimation = 0;
 	
 	private float currentTurnSpeed = 0;
-	private float speed = RUN_SPEED;
 	
 	public OverlayOrgans organs = new OverlayOrgans(this);
 	public final float NORMAL_SIZE;
@@ -44,13 +41,13 @@ public class Player extends Movable
 		checkInputs(delta);
 		
 		rotY += currentTurnSpeed * delta;
-		organism.update(delta);
+		organism.update(delta, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT));
 		super.update(terrain);
 	}
 	
 	private void jump()
 	{
-		v.y = JUMP_POWER;
+		v.y = organism.getJumpPower();
 		isInAir = true;
 	}
 	
@@ -60,13 +57,13 @@ public class Player extends Movable
 		{
 			if (Keyboard.isKeyDown(Keyboard.KEY_W))
 			{
-				v.x = (float) (speed * Math.sin(Math.toRadians(rotY)));
-				v.z = (float) (speed * Math.cos(Math.toRadians(rotY)));
+				v.x = (float) (organism.getSpeed() * Math.sin(Math.toRadians(rotY)));
+				v.z = (float) (organism.getSpeed() * Math.cos(Math.toRadians(rotY)));
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_S))
 			{
-				v.x = (float) (-speed * Math.sin(Math.toRadians(rotY)));
-				v.z = (float) (-speed * Math.cos(Math.toRadians(rotY)));
+				v.x = (float) (-organism.getSpeed() * Math.sin(Math.toRadians(rotY)));
+				v.z = (float) (-organism.getSpeed() * Math.cos(Math.toRadians(rotY)));
 			}
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) currentTurnSpeed = TURN_SPEED;
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) currentTurnSpeed = -TURN_SPEED;
@@ -96,8 +93,6 @@ public class Player extends Movable
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7) && (scale + 0.001F * dt) < NORMAL_SIZE * MAX_SIZE_FACTOR) scale += 0.001F * dt;
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4) && scale > NORMAL_SIZE) scale -= 0.001F * dt;
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_ADD)) speed = 2 * RUN_SPEED;
-		if(Keyboard.isKeyDown(Keyboard.KEY_SUBTRACT)) speed = RUN_SPEED;
 		if(Keyboard.isKeyDown(Keyboard.KEY_F12)) System.out.println(position);
 		if(Keyboard.isKeyDown(Keyboard.KEY_Q) && organism.eating == null && organism.digestion == 0)
 		{
@@ -122,6 +117,8 @@ public class Player extends Movable
 	{
 		private float digestion = 0;
 		private float energy = 110;
+		private float boost = 100;
+		private boolean boosting;
 		private IEdible food;
 		private Entity eating;
 		
@@ -133,7 +130,7 @@ public class Player extends Movable
 			organs.setDigestingTexture(eating.model.getTexture().getID());
 		}
 		
-		public void update(float delta)
+		public void update(float delta, boolean boost)
 		{
 			energy -= delta / 50;
 			digest(delta);
@@ -141,6 +138,9 @@ public class Player extends Movable
 			if(energy > 200) energy = 200;
 			if(energy < 20) dyingAnimation = 1 - (energy / 20);
 			else dyingAnimation = 1.1F;
+			boosting = boost && (this.boost > 0);
+			if(boosting) this.boost -= delta * 10;
+			if(this.boost < 0) this.boost = 0;
 		}
 		
 		private void digest(float delta)
@@ -161,6 +161,18 @@ public class Player extends Movable
 			}
 		}
 		
+		public float getSpeed()
+		{
+			if(!boosting) return 20;
+			else return 50;
+		}
+		
+		public float getJumpPower()
+		{
+			if(!boosting) return 10;
+			else return 25;
+		}
+		
 		public float getEnergy()
 		{
 			return energy;
@@ -169,6 +181,11 @@ public class Player extends Movable
 		public float getDigestion()
 		{
 			return digestion;
+		}
+		
+		public float getBoost()
+		{
+			return boost;
 		}
 	}
 	
@@ -195,6 +212,11 @@ public class Player extends Movable
 	public float getDigestion()
 	{
 		return organism.getDigestion();
+	}
+	
+	public float getBoost()
+	{
+		return organism.getBoost();
 	}
 
 	public void clickAt(ICollidable e, Vector3f vec)

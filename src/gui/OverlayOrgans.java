@@ -48,8 +48,8 @@ public class OverlayOrgans extends Overlay
 		size.size.y = sizeFactor  * 98;
 		size.offsetX = size.offsetY = ((float)Math.sin(DisplayManager.getTime() * 5) - 0.5F) / 2;
 		
-		boost.width = 50F / 100;
-		boost.size.x = 198 * 50 / 100;
+		boost.width = p.getBoost() / 100;
+		boost.size.x = 198 * p.getBoost() / 100;
 		boost.offsetY -= DisplayManager.getFrameTimeSeconds() * 4;
 		if(boost.offsetY < 1) boost.offsetY += 1;
 	}
