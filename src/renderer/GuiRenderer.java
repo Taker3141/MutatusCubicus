@@ -40,13 +40,13 @@ public class GuiRenderer
 			shader.loadTransformationMatrix(matrix);
 			if(element instanceof GuiBar)
 			{
-				shader.loadOffset(((GuiBar)element).offset);
+				shader.loadOffset(((GuiBar)element).offsetX, ((GuiBar)element).offsetY);
 				shader.loadHeight(((GuiBar)element).height);
 				shader.loadWidth(((GuiBar)element).width);
 			}
 			else
 			{
-				shader.loadOffset(0);
+				shader.loadOffset(0, 0);
 				shader.loadHeight(1);
 				shader.loadWidth(1);
 			}

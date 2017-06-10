@@ -10,7 +10,8 @@ public class GuiShader extends ShaderProgram
 	
 	private int locationTransformationMatrix;
 	private int locationLayer;
-	private int locationOffset;
+	private int locationOffsetX;
+	private int locationOffsetY;
 	private int locationHeight;
 	private int locationWidth;
 	
@@ -29,9 +30,10 @@ public class GuiShader extends ShaderProgram
 		super.loadInt(locationLayer, layer);
 	}
 	
-	public void loadOffset(float offset)
+	public void loadOffset(float offsetX, float offsetY)
 	{
-		super.loadFloat(locationOffset, offset);
+		super.loadFloat(locationOffsetX, offsetX);
+		super.loadFloat(locationOffsetY, offsetY);
 	}
 	
 	public void loadHeight(float height)
@@ -49,7 +51,8 @@ public class GuiShader extends ShaderProgram
 	{
 		locationTransformationMatrix = super.getUniformLocation("transformationMatrix");
 		locationLayer = super.getUniformLocation("layer");
-		locationOffset = super.getUniformLocation("offset");
+		locationOffsetX = super.getUniformLocation("offsetX");
+		locationOffsetY = super.getUniformLocation("offsetY");
 		locationHeight = super.getUniformLocation("height");
 		locationWidth = super.getUniformLocation("width");
 	}
