@@ -138,6 +138,13 @@ public class World
 				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.24F + r.nextFloat() * 0.08F, entities);
 			}
 			
+			TexturedModel fuel = createModel("pile", "texture/octanitrocubane", 0);
+			for(int i = 0; i < 10; i++)
+			{
+				float x = player.position.x + r.nextInt(20) - 10, z = player.position.z + r.nextInt(20) - 10;
+				new Octanitrocubane(fuel, new Vector3f(x, height(x, z), z), 0, 0, 0, 0.1F, entities);
+			}
+			
 			Entity reactor = new Entity(createModel("reactorBuilding", "texture/concrete", 0), new Vector3f(1062, height(1062, 2004), 2004), 0, 90, 0, 50, entities);
 			new SubEntity(createModel("reactorDecoration", "texture/reactor_decoration", 0.5F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
 			new Entity(createModel("antenna", "texture/metal", 0.4F), new Vector3f(1184, height(1184, 1224), 1224), 0, 45, 0, 50, entities);
@@ -163,7 +170,6 @@ public class World
 		lights.get(1).position = new Vector3f(player.position.x, player.position.y + 0.5F, player.position.z);
 		
 		MainGameLoop.fbo.bindFrameBuffer();
-		//for(int i = 0; i < t.length; i++) renderer.processTerrain(t[i]);
 		renderer.processTerrain(terrain(player.position.x + 100, player.position.z + 100));
 		renderer.processTerrain(terrain(player.position.x - 100, player.position.z + 100));
 		renderer.processTerrain(terrain(player.position.x + 100, player.position.z - 100));

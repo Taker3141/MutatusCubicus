@@ -117,7 +117,7 @@ public class Player extends Movable
 	{
 		private float digestion = 0;
 		private float energy = 110;
-		private float boost = 100;
+		private float boost = 0;
 		private boolean boosting;
 		private IEdible food;
 		private Entity eating;
@@ -149,6 +149,11 @@ public class Player extends Movable
 			{
 				digestion -= food.getType().digestPerSecond * delta;
 				energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
+				if(food.getType() == IEdible.FoodType.FUEL)
+				{
+					boost += (50 / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
+					if(boost > 100) boost = 100;
+				}
 				if(digestion < 0) {digestion = 0; food = null;}
 			}
 			organs.update();
@@ -163,7 +168,7 @@ public class Player extends Movable
 		
 		public float getSpeed()
 		{
-			if(!boosting) return 20;
+			if(!boosting) return 10;
 			else return 50;
 		}
 		
