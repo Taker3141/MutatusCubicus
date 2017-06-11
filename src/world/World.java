@@ -12,6 +12,7 @@ import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Input;
 import animation.KeyframeAnimation;
 import static animation.KeyframeAnimation.Keyframe;
+import raycasting.AABB;
 import raycasting.Raycaster;
 import renderer.*;
 import renderer.fbo.PostProcessing;
@@ -168,19 +169,29 @@ public class World
 			}
 			{
 				Entity fuelGenerator = new Entity(createModel("fuel_generator/tank", "texture/metal", 0.2F), hVector(1510, 1936), 0, 0, 0, 2, entities);
+				fuelGenerator.setHitBox(new AABB(new Vector3f(fuelGenerator.position), new Vector3f(7, 8, 10), new Vector3f(-2, 0, -5)));
 				SubEntity pipe1 = new SubEntity(createModel("fuel_generator/pipe1", "texture/metal", 0.2F), new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator);
 				SubEntity pipe2 = new SubEntity(createModel("fuel_generator/pipe2", "texture/metal", 0.2F), new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator);
 				SubEntity pipe3 = new SubEntity(createModel("fuel_generator/pipe3", "texture/metal", 0.2F), new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator);
 				SubEntity out = new SubEntity(createModel("fuel_generator/output", "texture/color/red", 0), new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator);
-				SubEntity box1 = new SubEntity(createModel("box", "texture/color/red", 0), new Vector3f(0, 0, 2), 0, 0, 0, 1, entities, fuelGenerator);
-				SubEntity box2 = new SubEntity(createModel("box", "texture/color/grey", 0), new Vector3f(2, 0, 1), 0, 0, 0, 1, entities, fuelGenerator);
+				SubEntity box1 = new SubEntity(createModel("box", "texture/nitrogen_box", 0), new Vector3f(0, 0, 2), 0, 0, 0, 1, entities, fuelGenerator);
+				SubEntity box2 = new SubEntity(createModel("box", "texture/benzene_box", 0), new Vector3f(2, 0, 1), 0, 0, 0, 1, entities, fuelGenerator);
 				Entity fuelGenerator2 = new Entity(fuelGenerator.model, hVector(1520, 1936), 0, 0, 0, 2, entities);
+				fuelGenerator2.setHitBox(new AABB(new Vector3f(fuelGenerator2.position), new Vector3f(7, 8, 10), new Vector3f(-2, 0, -5)));
 				new SubEntity(pipe1.model, new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(pipe2.model, new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(pipe3.model, new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(out.model, new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(box1.model, new Vector3f(0, 0, 2), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(box2.model, new Vector3f(2, 0, 1), 0, 0, 0, 1, entities, fuelGenerator2);
+				for(int i = 0; i < 10; i++)
+				{
+					new Rock(rock, hVector(1525 + r.nextFloat() * 20, 1967 + r.nextFloat() * 20), r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.3F + r.nextFloat() / 10F, entities);
+					Entity b1 = new Entity(box1.model, hVector(1468 + r.nextFloat() * 20, 1949 + r.nextFloat() * 20), 0, r.nextFloat() * 360, 0, 2, entities);
+					b1.setHitBox(new AABB(b1.position, new Vector3f(2, 2, 2), new Vector3f(-1, 0, -1)));
+					Entity b2 = new Entity(box2.model, hVector(1480 + r.nextFloat() * 20, 1913 + r.nextFloat() * 20), 0, r.nextFloat() * 360, 0, 2, entities);
+					b2.setHitBox(new AABB(b2.position, new Vector3f(2, 2, 2), new Vector3f(-1, 0, -1)));
+				}
 			}
 			new Entity(createModel("antenna", "texture/metal", 0.4F), new Vector3f(1184, height(1184, 1224), 1224), 0, 45, 0, 50, entities);
 			Entity biosphere = new Entity(createModel("biosphere_outside", "texture/glass", 0.2F), new Vector3f(1194, height(1194, 1436) - 10, 1436), 0, 0, 0, 120, entities);
