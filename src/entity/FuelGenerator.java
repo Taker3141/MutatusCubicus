@@ -2,7 +2,6 @@ package entity;
 
 import java.util.List;
 import java.util.Random;
-import javax.annotation.Generated;
 import main.MainManagerClass;
 import objLoader.OBJLoader;
 import org.lwjgl.util.vector.Vector3f;

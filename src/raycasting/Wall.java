@@ -28,7 +28,7 @@ public class Wall extends AABB
 	public CollisionData isInside(Vector3f point)
 	{
 		Vector3f p = transform(point);
-		CollisionData ret = new CollisionData(location, false, Type.WALL);
+		CollisionData ret = new CollisionData(location, new Vector3f(), false, Type.WALL);
 		Vector3f corner = Vector3f.add(location, offset, null);
 		if(p.x < corner.x || p.x > corner.x + size.x) return null;
 		if(p.y < corner.y || p.y > corner.y + size.y) return null;
@@ -39,7 +39,7 @@ public class Wall extends AABB
 	@Override
 	public CollisionData isInside(IHitBox box)
 	{
-		CollisionData ret = new CollisionData(location, false, Type.WALL);
+		CollisionData ret = new CollisionData(location, new Vector3f(), false, Type.WALL);
 		Vector3f c1 = Vector3f.add(location, offset, null);
 		Vector3f c2 = Vector3f.add(c1, size, null);
 		if(box.isInside(transform(new Vector3f(c1.x, c1.y, c1.z))) != null) return ret;
