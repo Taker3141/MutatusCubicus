@@ -38,7 +38,7 @@ public class Floor implements IHitBox
 			}
 			j = i;
 		}
-		if(oddNodes) return new CollisionData(new Vector3f(point.x, location.y, point.z), true, Type.FLOOR);
+		if(oddNodes) return new CollisionData(new Vector3f(point.x, location.y, point.z), new Vector3f(0, 1, 0), true, Type.FLOOR);
 		return null;
 	}
 	

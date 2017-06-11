@@ -66,14 +66,16 @@ public class Movable extends Entity
 				{
 					Movable o1 = (Movable)this;
 					Movable o2 = (Movable)c;
-					o1.v = (Vector3f)Vector3f.sub(position, o2.getHitBox().getCenter(o1.position), null).normalise(null).scale(0.1F * o2.mass / o1.mass);
-					o2.v = (Vector3f)Vector3f.sub(position, o1.getHitBox().getCenter(o2.position), null).normalise(null).scale(0.1F * o1.mass / o2.mass);
+					o1.v = (Vector3f) data.normal.normalise(null).scale(0.1F * o2.mass / o1.mass);
+					o2.v = (Vector3f) data.normal.normalise(null).scale(-0.1F * o1.mass / o2.mass);
+					//o1.v = (Vector3f)Vector3f.sub(position, o2.getHitBox().getCenter(o1.position), null).normalise(null).scale(0.1F * o2.mass / o1.mass);
+					//o2.v = (Vector3f)Vector3f.sub(position, o1.getHitBox().getCenter(o2.position), null).normalise(null).scale(0.1F * o1.mass / o2.mass);
 				}
 				else if(!(c instanceof Movable) && this instanceof Movable)
 				{
 					if(data.type == IHitBox.Type.OBJECT)
 					{
-						((Movable)this).v = Vector3f.sub(position, c.getHitBox().getCenter(position), null).normalise(null);
+						((Movable)this).v = data.normal.normalise(null);
 					}
 					else if(data.type == IHitBox.Type.FLOOR && ((Movable)this).v.y < 0) 
 					{

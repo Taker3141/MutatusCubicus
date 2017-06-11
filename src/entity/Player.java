@@ -79,15 +79,15 @@ public class Player extends Movable
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_S) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) > 1)
 			{
-				float dvx = (float) (100 * Math.sin(Math.toRadians(vehicle.rotY)));
-				float dvz = (float) (100 * Math.cos(Math.toRadians(vehicle.rotY)));
+				float dvx = (float) (40 * Math.sin(Math.toRadians(vehicle.rotY)));
+				float dvz = (float) (40 * Math.cos(Math.toRadians(vehicle.rotY)));
 				boolean xSign = vehicle.v.x > 0;
 				boolean zSign = vehicle.v.x > 0;
 				if(vehicle.v.x - dvx > 0 == xSign) vehicle.v.x -= dvx;
 				if(vehicle.v.z - dvz > 0 == zSign) vehicle.v.z -= dvz;
 			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {vehicle.rotY += dt * 2 * vehicle.v.length(); rotY += dt * 2 * vehicle.v.length();}
-			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {vehicle.rotY -= dt * 2 * vehicle.v.length(); rotY -= dt * 2 * vehicle.v.length();}
+			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {vehicle.rotY += dt * 5 * vehicle.v.length(); rotY += dt * 5 * vehicle.v.length();}
+			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {vehicle.rotY -= dt * 5 * vehicle.v.length(); rotY -= dt * 5 * vehicle.v.length();}
 			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {vehicle.passenger = null; vehicle = null; position.x += 1.5F; model.transparencyNumber = 1;}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7) && (scale + 0.001F * dt) < NORMAL_SIZE * MAX_SIZE_FACTOR) scale += 0.001F * dt;

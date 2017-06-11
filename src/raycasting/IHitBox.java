@@ -12,12 +12,14 @@ public interface IHitBox
 	public static class CollisionData
 	{
 		public final Vector3f origin;
+		public final Vector3f normal;
 		public final boolean isPlatform;
 		public final Type type;
 		
-		protected CollisionData(Vector3f o, boolean platform, Type t)
+		protected CollisionData(Vector3f o, Vector3f n, boolean platform, Type t)
 		{
 			origin = o;
+			normal = n;
 			isPlatform = platform;
 			type = t;
 		}

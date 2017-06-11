@@ -1,5 +1,6 @@
 package raycasting;
 
+import java.util.HashMap;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -21,18 +22,17 @@ public class AABB implements IHitBox
 	@Override
 	public CollisionData isInside(Vector3f point)
 	{
-		CollisionData ret = new CollisionData(location, false, Type.OBJECT);
 		Vector3f corner = Vector3f.add(location, offset, null);
 		if(point.x < corner.x || point.x > corner.x + size.x) return null;
 		if(point.y < corner.y || point.y > corner.y + size.y) return null;
 		if(point.z < corner.z || point.z > corner.z + size.z) return null;
-		return ret;
+		return new CollisionData(location, findNormal(point), false, Type.OBJECT);
 	}
 	
 	@Override
 	public CollisionData isInside(IHitBox box)
 	{
-		CollisionData ret = new CollisionData(location, false, Type.OBJECT);
+		CollisionData ret;
 		Vector3f c1 = Vector3f.add(location, offset, null);
 		Vector3f c2 = Vector3f.add(c1, size, null);
 		ret = box.isInside(c1); if(ret != null) return ret;
@@ -44,6 +44,24 @@ public class AABB implements IHitBox
 		ret = box.isInside(new Vector3f(c2.x, c2.y, c1.z)); if(ret != null) return ret;
 		ret = box.isInside(c2); if(ret != null) return ret;
 		return null;
+	}
+	
+	protected Vector3f findNormal(Vector3f point)
+	{
+		Vector3f corner = Vector3f.add(location, offset, null);
+		HashMap<Vector3f, Float> dist = new HashMap<Vector3f, Float>();
+		dist.put(new Vector3f(-1, 0, 0), Math.abs(point.x - corner.x));
+		dist.put(new Vector3f(1, 0, 0), Math.abs(point.x - (corner.x + size.x)));
+		//dist.put(new Vector3f(0, -1, 0), Math.abs(point.y - corner.y));
+		dist.put(new Vector3f(0, 1, 0), Math.abs(point.y - (corner.y + size.y)));
+		dist.put(new Vector3f(0, 0, -1), Math.abs(point.z - corner.z));
+		dist.put(new Vector3f(0, 0, 1), Math.abs(point.z - (corner.z + size.z)));
+		HashMap.Entry<Vector3f, Float> minEntry = null;
+		for (HashMap.Entry<Vector3f, Float> entry : dist.entrySet())
+		{
+		    if (minEntry == null || entry.getValue() <= minEntry.getValue()) minEntry = entry; 
+		}
+		return minEntry.getKey();
 	}
 	
 	@Override
