@@ -79,8 +79,8 @@ public class Player extends Movable
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_S) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) > 1)
 			{
-				float dvx = (float) (20 * Math.sin(Math.toRadians(vehicle.rotY)));
-				float dvz = (float) (20 * Math.cos(Math.toRadians(vehicle.rotY)));
+				float dvx = (float) (100 * Math.sin(Math.toRadians(vehicle.rotY)));
+				float dvz = (float) (100 * Math.cos(Math.toRadians(vehicle.rotY)));
 				boolean xSign = vehicle.v.x > 0;
 				boolean zSign = vehicle.v.x > 0;
 				if(vehicle.v.x - dvx > 0 == xSign) vehicle.v.x -= dvx;

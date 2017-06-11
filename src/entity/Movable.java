@@ -46,7 +46,7 @@ public class Movable extends Entity
 		position.y += v.y * delta;
 		position.z += v.z * delta;
 		checkTerrain(terrain);
-		((AABB)hitBox).location = position;
+		if(hitBox instanceof AABB) ((AABB)hitBox).location = position;
 		if (position.x != position.x)
 		{
 			System.out.println("Oh, shit! Position is Not A Number!");

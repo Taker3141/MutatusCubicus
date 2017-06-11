@@ -168,20 +168,20 @@ public class World
 				}
 			}
 			{
-				Entity fuelGenerator = new Entity(createModel("fuel_generator/tank", "texture/metal", 0.2F), hVector(1510, 1936), 0, 0, 0, 2, entities);
+				FuelGenerator fuelGenerator = new FuelGenerator(hVector(1510, 1936), 0, 0, 0, entities);
 				fuelGenerator.setHitBox(new AABB(new Vector3f(fuelGenerator.position), new Vector3f(7, 8, 10), new Vector3f(-2, 0, -5)));
 				SubEntity pipe1 = new SubEntity(createModel("fuel_generator/pipe1", "texture/metal", 0.2F), new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator);
 				SubEntity pipe2 = new SubEntity(createModel("fuel_generator/pipe2", "texture/metal", 0.2F), new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator);
 				SubEntity pipe3 = new SubEntity(createModel("fuel_generator/pipe3", "texture/metal", 0.2F), new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator);
-				SubEntity out = new SubEntity(createModel("fuel_generator/output", "texture/color/red", 0), new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator);
+				SubEntity out = new SubEntity(createModel("fuel_generator/output", "texture/color/red", 0), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, fuelGenerator);
 				SubEntity box1 = new SubEntity(createModel("box", "texture/nitrogen_box", 0), new Vector3f(0, 0, 2), 0, 0, 0, 1, entities, fuelGenerator);
 				SubEntity box2 = new SubEntity(createModel("box", "texture/benzene_box", 0), new Vector3f(2, 0, 1), 0, 0, 0, 1, entities, fuelGenerator);
-				Entity fuelGenerator2 = new Entity(fuelGenerator.model, hVector(1520, 1936), 0, 0, 0, 2, entities);
+				FuelGenerator fuelGenerator2 = new FuelGenerator(hVector(1520, 1936), 0, 0, 0, entities);
 				fuelGenerator2.setHitBox(new AABB(new Vector3f(fuelGenerator2.position), new Vector3f(7, 8, 10), new Vector3f(-2, 0, -5)));
 				new SubEntity(pipe1.model, new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(pipe2.model, new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(pipe3.model, new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator2);
-				new SubEntity(out.model, new Vector3f(), 0, 0, 0, 1, entities, fuelGenerator2);
+				new SubEntity(out.model, new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(box1.model, new Vector3f(0, 0, 2), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(box2.model, new Vector3f(2, 0, 1), 0, 0, 0, 1, entities, fuelGenerator2);
 				for(int i = 0; i < 10; i++)
