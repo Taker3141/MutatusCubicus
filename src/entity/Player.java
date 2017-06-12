@@ -74,17 +74,13 @@ public class Player extends Movable
 		{
 			if(Keyboard.isKeyDown(Keyboard.KEY_W) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) < 1000)
 			{
-				vehicle.v.x += (float) (20 * Math.sin(Math.toRadians(vehicle.rotY)));
-				vehicle.v.z += (float) (20 * Math.cos(Math.toRadians(vehicle.rotY)));
+				vehicle.v.x += (float) (5 * Math.sin(Math.toRadians(vehicle.rotY)));
+				vehicle.v.z += (float) (5 * Math.cos(Math.toRadians(vehicle.rotY)));
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_S) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) > 1)
 			{
-				float dvx = (float) (40 * Math.sin(Math.toRadians(vehicle.rotY)));
-				float dvz = (float) (40 * Math.cos(Math.toRadians(vehicle.rotY)));
-				boolean xSign = vehicle.v.x > 0;
-				boolean zSign = vehicle.v.x > 0;
-				if(vehicle.v.x - dvx > 0 == xSign) vehicle.v.x -= dvx;
-				if(vehicle.v.z - dvz > 0 == zSign) vehicle.v.z -= dvz;
+				vehicle.v.x *= 0.9F;
+				vehicle.v.z *= 0.9F;
 			}
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {vehicle.rotY += dt * 5 * vehicle.v.length(); rotY += dt * 5 * vehicle.v.length();}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {vehicle.rotY -= dt * 5 * vehicle.v.length(); rotY -= dt * 5 * vehicle.v.length();}
