@@ -124,6 +124,7 @@ public class World
 					"terrain/height_" + tx + "_" + tz);
 		}
 		new Vehicle(hVector(1240, 2010), 0, 0, 0, 0.6F, entities, 1000);
+		new Entity(createModel("rocketship", "texture/rocketship", 0.1F), hVector(1240, 2100), 0, 0, 0, 10, entities);
 		{
 			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
