@@ -125,7 +125,9 @@ public class World
 		}
 		new Vehicle(hVector(1240, 2010), 0, 0, 0, 0.6F, entities, 1000);
 		Entity rocketship = new Entity(createModel("rocketship", "texture/rocketship", 0.1F), hVector(1240, 2100), 0, 0, 0, 10, entities);
+		rocketship.invisible = false;
 		new SubEntity(createModel("rocket_engine", "texture/color/red", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
+		new SubEntity(createModel("decks", "texture/metal", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
 		{
 			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
