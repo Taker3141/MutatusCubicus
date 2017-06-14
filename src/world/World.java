@@ -39,7 +39,7 @@ public class World
 		entities = new ArrayList<Entity>();
 		{
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
-			player = new Player(model, new Vector3f(1250, 0, 2010), 0, 0, 0, 0.02F, entities);
+			player = new Player(model, new Vector3f(1164, 0, 1808), 0, 180, 0, 0.02F, entities);
 			
 			new SubEntity(createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
 			{
@@ -123,11 +123,13 @@ public class World
 					new TerrainTexture(loader.loadTexture((tx == 1 && tz == 1) ? "texture/terrain/blend_1_1" : "texture/terrain/blend_0_0")), 
 					"terrain/height_" + tx + "_" + tz);
 		}
-		new Vehicle(hVector(1240, 2010), 0, 0, 0, 0.6F, entities, 1000);
-		Entity rocketship = new Entity(createModel("rocketship", "texture/rocketship", 0.1F), hVector(1240, 2100), 0, 0, 0, 10, entities);
-		rocketship.invisible = false;
-		new SubEntity(createModel("rocket_engine", "texture/color/red", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
-		new SubEntity(createModel("decks", "texture/metal", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
+		new Vehicle(hVector(player.position.x + 10, player.position.z), 0, 0, 0, 0.6F, entities, 1000);
+		Entity rocketship = new Entity(createModel("rocketship", "texture/rocketship", 0.1F), hVector(1135, 1700), 0, -90, 0, 10, entities);
+		Entity engine = new SubEntity(createModel("rocket_engine", "texture/color/red", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
+		Entity decks = new SubEntity(createModel("decks", "texture/metal", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
+		Entity rocketship2 = new Entity(rocketship.model, hVector(1250, 1700), 0, 180, 0, 10, entities);
+		new SubEntity(engine.model, new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship2);
+		new SubEntity(decks.model, new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship2);
 		{
 			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
