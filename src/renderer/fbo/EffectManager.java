@@ -2,7 +2,6 @@ package renderer.fbo;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
-import renderer.DisplayManager;
 
 public class EffectManager
 {

@@ -124,12 +124,6 @@ public class World
 		new Car(hVector(player.position.x + 10, player.position.z), 0, 0, 0, 0.6F, entities, 1000);
 		new Rocketship(hVector(1135, 1700), 0, -90, 0, entities);
 		new Rocketship(hVector(1250, 1700), 0, 180, 0, entities);
-//		Entity rocketship = new Entity(createModel("rocketship/rocketship", "texture/rocketship", 0.1F), hVector(1135, 1700), 0, -90, 0, 10, entities);
-//		Entity engine = new SubEntity(createModel("rocketship/rocket_engine", "texture/color/red", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
-//		Entity decks = new SubEntity(createModel("rocketship/decks", "texture/metal", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
-//		Entity rocketship2 = new Entity(rocketship.model, hVector(1250, 1700), 0, 180, 0, 10, entities);
-//		new SubEntity(engine.model, new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship2);
-//		new SubEntity(decks.model, new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship2);
 		{
 			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
