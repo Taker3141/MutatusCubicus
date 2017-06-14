@@ -1,25 +1,22 @@
 package world;
 
 import static org.lwjgl.input.Keyboard.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import main.MainGameLoop;
-import main.MainManagerClass;
+import java.util.*;
+import main.*;
 import objLoader.OBJLoader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Input;
 import animation.KeyframeAnimation;
 import static animation.KeyframeAnimation.Keyframe;
-import raycasting.AABB;
-import raycasting.Raycaster;
+import raycasting.*;
 import renderer.*;
 import renderer.fbo.PostProcessing;
 import renderer.models.TexturedModel;
 import renderer.textures.*;
 import terrain.Terrain;
 import entity.*;
+import entity.vehicle.*;
 
 public class World
 {
@@ -36,6 +33,7 @@ public class World
 	public World()
 	{
 		Particle.init();
+		Rocketship.init();
 		entities = new ArrayList<Entity>();
 		{
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
@@ -123,13 +121,15 @@ public class World
 					new TerrainTexture(loader.loadTexture((tx == 1 && tz == 1) ? "texture/terrain/blend_1_1" : "texture/terrain/blend_0_0")), 
 					"terrain/height_" + tx + "_" + tz);
 		}
-		new Vehicle(hVector(player.position.x + 10, player.position.z), 0, 0, 0, 0.6F, entities, 1000);
-		Entity rocketship = new Entity(createModel("rocketship", "texture/rocketship", 0.1F), hVector(1135, 1700), 0, -90, 0, 10, entities);
-		Entity engine = new SubEntity(createModel("rocket_engine", "texture/color/red", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
-		Entity decks = new SubEntity(createModel("decks", "texture/metal", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
-		Entity rocketship2 = new Entity(rocketship.model, hVector(1250, 1700), 0, 180, 0, 10, entities);
-		new SubEntity(engine.model, new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship2);
-		new SubEntity(decks.model, new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship2);
+		new Car(hVector(player.position.x + 10, player.position.z), 0, 0, 0, 0.6F, entities, 1000);
+		new Rocketship(hVector(1135, 1700), 0, -90, 0, entities);
+		new Rocketship(hVector(1250, 1700), 0, 180, 0, entities);
+//		Entity rocketship = new Entity(createModel("rocketship/rocketship", "texture/rocketship", 0.1F), hVector(1135, 1700), 0, -90, 0, 10, entities);
+//		Entity engine = new SubEntity(createModel("rocketship/rocket_engine", "texture/color/red", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
+//		Entity decks = new SubEntity(createModel("rocketship/decks", "texture/metal", 0.1F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship);
+//		Entity rocketship2 = new Entity(rocketship.model, hVector(1250, 1700), 0, 180, 0, 10, entities);
+//		new SubEntity(engine.model, new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship2);
+//		new SubEntity(decks.model, new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, rocketship2);
 		{
 			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);

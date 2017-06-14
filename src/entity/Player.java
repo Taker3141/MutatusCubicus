@@ -1,5 +1,6 @@
 package entity;
 
+import entity.vehicle.Car;
 import gui.OverlayOrgans;
 import java.util.List;
 import org.lwjgl.input.Keyboard;
@@ -17,7 +18,7 @@ public class Player extends Movable
 {
 	private static final float TURN_SPEED = 80;
 	private Organism organism = this.new Organism();
-	private Vehicle vehicle = null;
+	private Car vehicle = null;
 	private float dyingAnimation = 0;
 	
 	private float currentTurnSpeed = 0;
@@ -226,9 +227,9 @@ public class Player extends Movable
 
 	public void clickAt(ICollidable e, Vector3f vec)
 	{
-		if(e instanceof Vehicle && Vector3f.sub(vec, position, null).length() < 4)
+		if(e instanceof Car && Vector3f.sub(vec, position, null).length() < 4)
 		{
-			vehicle = (Vehicle)e;
+			vehicle = (Car)e;
 			vehicle.passenger = this;
 			model.transparencyNumber = -1;
 		}
