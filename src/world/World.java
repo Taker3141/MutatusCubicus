@@ -32,6 +32,7 @@ public class World
 	private MasterRenderer renderer;
 	private Loader loader = MainManagerClass.loader;
 	private Input input;
+	private Entity lab;
 	
 	public World()
 	{
@@ -141,6 +142,8 @@ public class World
 				position.y = height(position.x, position.z) + 0.2F;
 				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.24F + r.nextFloat() * 0.08F, entities);
 			}
+			
+			lab = new Entity(createModel("lab", "texture/concrete", 0), hVector(1577, 1421), 0, 0, 0, 54.8F, entities);
 			
 			Entity reactor = new Entity(createModel("reactor/reactor_building", "texture/concrete", 0), new Vector3f(1062, height(1062, 2004), 2004), 0, 90, 0, 50, entities);
 			new SubEntity(createModel("reactor/reactor_decoration", "texture/reactor_decoration", 0.5F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
