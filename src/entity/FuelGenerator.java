@@ -20,7 +20,7 @@ public class FuelGenerator extends Entity
 	private final float Y;
 	private Random rand = new Random();
 	
-	static
+	public static void init()
 	{
 		MAIN_MODEL = new TexturedModel(OBJLoader.loadOBJModel("fuel_generator/tank"), new ModelTexture(MainManagerClass.loader.loadTexture("texture/metal"), false, 0.2F));
 		FUEL_MODEL = new TexturedModel(OBJLoader.loadOBJModel("pile"), new ModelTexture(MainManagerClass.loader.loadTexture("texture/octanitrocubane")));

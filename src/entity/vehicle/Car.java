@@ -69,4 +69,14 @@ public class Car extends Movable
 			passenger.position.y += 0.2F;
 		}
 	}
+	
+	@Override
+	protected void calculateFriction(float delta)
+	{
+		double factor = Math.pow(0.95F, delta * 50);
+		if (Math.abs(v.x) < 0.05F) v.x = 0;
+		else v.x *= factor;
+		if (Math.abs(v.z) < 0.05F) v.z = 0;
+		else v.z *= factor;
+	}
 }
