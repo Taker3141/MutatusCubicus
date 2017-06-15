@@ -1,25 +1,22 @@
 package world;
 
 import static org.lwjgl.input.Keyboard.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import main.MainGameLoop;
-import main.MainManagerClass;
+import java.util.*;
+import main.*;
 import objLoader.OBJLoader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Input;
 import animation.KeyframeAnimation;
 import static animation.KeyframeAnimation.Keyframe;
-import raycasting.AABB;
-import raycasting.Raycaster;
+import raycasting.*;
 import renderer.*;
 import renderer.fbo.PostProcessing;
 import renderer.models.TexturedModel;
 import renderer.textures.*;
 import terrain.Terrain;
 import entity.*;
+import entity.vehicle.*;
 
 public class World
 {
@@ -34,13 +31,16 @@ public class World
 	private Input input;
 	private Entity lab;
 	
+	public static Random r = new Random();
+	
 	public World()
 	{
 		Particle.init();
+		Rocketship.init();
 		entities = new ArrayList<Entity>();
 		{
 			TexturedModel model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
-			player = new Player(model, new Vector3f(1250, 0, 2010), 0, 0, 0, 0.02F, entities);
+			player = new Player(model, new Vector3f(1164, 0, 1808), 0, 180, 0, 0.02F, entities);
 			
 			new SubEntity(createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entities, player);
 			{
@@ -124,9 +124,10 @@ public class World
 					new TerrainTexture(loader.loadTexture((tx == 1 && tz == 1) ? "texture/terrain/blend_1_1" : "texture/terrain/blend_0_0")), 
 					"terrain/height_" + tx + "_" + tz);
 		}
-		new Vehicle(hVector(1240, 2010), 0, 0, 0, 0.6F, entities, 1000);
+		new Car(hVector(player.position.x + 10, player.position.z), 0, 0, 0, 0.6F, entities, 1000);
+		new Rocketship(hVector(1135, 1700), 0, -90, 0, entities);
+		new Rocketship(hVector(1250, 1700), 0, 180, 0, entities);
 		{
-			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
 			for(int i = 0; i < 100; i++)
 			{
@@ -251,7 +252,6 @@ public class World
 	
 	private void generateDecoration(TexturedModel model, int number, float x, float z, float scaleMin, float scaleMax, float rad, boolean duplicate)
 	{
-		Random r = new Random();
 		for(int i = 0; i < number; i++)
 		{
 			float angle = r.nextFloat() * 360;

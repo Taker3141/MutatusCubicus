@@ -1,14 +1,18 @@
-package entity;
+package entity.vehicle;
 
 import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
+import entity.Entity;
+import entity.Movable;
+import entity.Player;
+import entity.SubEntity;
 import animation.KeyframeAnimation;
 import animation.KeyframeAnimation.Keyframe;
 import raycasting.AABB;
 import terrain.Terrain;
 import world.World;
 
-public class Vehicle extends Movable
+public class Car extends Movable
 {
 	public Player passenger;
 	SubEntity wheel1;
@@ -16,7 +20,7 @@ public class Vehicle extends Movable
 	SubEntity wheel3;
 	SubEntity wheel4;
 	
-	public Vehicle(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
+	public Car(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
 		super(World.createModel("car/car", "texture/metal", 0.2F), position, rotX, rotY, rotZ, scale, list, mass);
 		Entity roof = new SubEntity(World.createModel("car/roof", "texture/glass", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, list, this);

@@ -1,6 +1,5 @@
 package renderer.fbo;
 
-import org.lwjgl.util.vector.Vector2f;
 import renderer.shaders.ShaderProgram;
 
 public class FboTestShader extends ShaderProgram

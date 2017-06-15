@@ -19,6 +19,7 @@ public class Movable extends Entity
 	public Vector3f v = new Vector3f();
 	public List<Vector3f> forces = new ArrayList<Vector3f>();
 	protected float terrainHeight = 0;
+	protected boolean collisionOff = false;
 	
 	public Movable(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
@@ -35,13 +36,13 @@ public class Movable extends Entity
 		forces.clear();
 		v.y += getGravity() * delta;
 		
-		if (!canMove(v.x * delta, v.z * delta, terrain))
+		if (!collisionOff &&!canMove(v.x * delta, v.z * delta, terrain))
 		{
 			v.x *= -1;
 			v.y = 0;
 			v.z *= -1;
 		}
-		calculateFriction(delta);
+		if(terrain != null && position.y < terrain.getHeight(position.x, position.z) + 0.2F) calculateFriction(delta);
 		position.x += v.x * delta;
 		position.y += v.y * delta;
 		position.z += v.z * delta;
@@ -66,8 +67,8 @@ public class Movable extends Entity
 				{
 					Movable o1 = (Movable)this;
 					Movable o2 = (Movable)c;
-					o1.v = (Vector3f) data.normal.normalise(null).scale(0.1F * o2.mass / o1.mass);
-					o2.v = (Vector3f) data.normal.normalise(null).scale(-0.1F * o1.mass / o2.mass);
+					o1.v = (Vector3f) data.normal.normalise(null).scale(0.1F * o1.v.length());
+					o2.v = (Vector3f) data.normal.normalise(null).scale(-0.1F * o2.v.length());
 					//o1.v = (Vector3f)Vector3f.sub(position, o2.getHitBox().getCenter(o1.position), null).normalise(null).scale(0.1F * o2.mass / o1.mass);
 					//o2.v = (Vector3f)Vector3f.sub(position, o1.getHitBox().getCenter(o2.position), null).normalise(null).scale(0.1F * o1.mass / o2.mass);
 				}

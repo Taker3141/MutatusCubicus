@@ -45,7 +45,7 @@ public class FuelGenerator extends Entity
 			{
 				generating = false;
 				Octanitrocubane fuel = new Octanitrocubane(FUEL_MODEL, Vector3f.add(position, new Vector3f(0.4F, 2.8F, -4F), null), 0, 360 * rand.nextFloat(), 0, 0.1F, entityList);
-				fuel.v = new Vector3f(10 * rand.nextFloat() - 5, 0, -10 - 5 * rand.nextFloat());
+				fuel.v = new Vector3f(10 * rand.nextFloat() - 5, 0, -2 - 1 * rand.nextFloat());
 			}
 			position.y = (float)(Math.sin(DisplayManager.getTime() * 100) * 0.05F + Y);
 		}
