@@ -30,6 +30,8 @@ public class World
 	private Loader loader = MainManagerClass.loader;
 	private Input input;
 	
+	public static Random r = new Random();
+	
 	public World()
 	{
 		Particle.init();
@@ -125,7 +127,6 @@ public class World
 		new Rocketship(hVector(1135, 1700), 0, -90, 0, entities);
 		new Rocketship(hVector(1250, 1700), 0, 180, 0, entities);
 		{
-			Random r = new Random();
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
 			for(int i = 0; i < 100; i++)
 			{
@@ -247,7 +248,6 @@ public class World
 	
 	private void generateDecoration(TexturedModel model, int number, float x, float z, float scaleMin, float scaleMax, float rad, boolean duplicate)
 	{
-		Random r = new Random();
 		for(int i = 0; i < number; i++)
 		{
 			float angle = r.nextFloat() * 360;
