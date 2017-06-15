@@ -6,6 +6,7 @@ import objLoader.OBJLoader;
 import org.lwjgl.util.vector.Vector3f;
 import entity.Entity;
 import entity.Movable;
+import entity.Player;
 import entity.SubEntity;
 import raycasting.AABB;
 import renderer.DisplayManager;
@@ -23,7 +24,9 @@ public class Rocketship extends Movable
 	private static TexturedModel FLAMES;
 	
 	private boolean thrusting = false;
+	private float thrustingDistance = 0;
 	private SubEntity[] flames = new SubEntity[2];
+	public Player passenger;
 	
 	public static void init()
 	{
@@ -51,16 +54,23 @@ public class Rocketship extends Movable
 	{
 		if(thrusting)
 		{
-			v.y = GRAVITY * -1.1F;
-			v.x += (float)(10000 * Math.cos(Math.toRadians(-rotY)) * DisplayManager.getFrameTimeSeconds());
-			v.z += (float)(10000 * Math.sin(Math.toRadians(-rotY)) * DisplayManager.getFrameTimeSeconds());
+			float dt = DisplayManager.getFrameTimeSeconds();
+			if (thrustingDistance < 1000)
+			{
+				v.y = GRAVITY * -1.1F;
+				v.x += (float) (10000 * Math.cos(Math.toRadians(-rotY)) * dt);
+				v.z += (float) (10000 * Math.sin(Math.toRadians(-rotY)) * dt);
+				float dx = v.x * dt, dz = v.z * dt;
+				thrustingDistance += Math.sqrt(dx * dx + dz * dz);
+			}
 			for (int i = 0; i < flames.length; i++)
 			{
-				flames[i].rotX += 1000 * DisplayManager.getFrameTimeSeconds();
+				flames[i].rotX += 1000 * dt;
 				flames[i].rotY = (float)(World.r.nextGaussian() * 10);
 			}
 		}
 		super.update(t);
+		if(passenger != null) {passenger.position = new Vector3f(position); passenger.position.y += 20;}
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package entity;
 
 import entity.vehicle.Car;
+import entity.vehicle.Rocketship;
 import gui.OverlayOrgans;
 import java.util.List;
 import org.lwjgl.input.Keyboard;
@@ -19,6 +20,7 @@ public class Player extends Movable
 	private static final float TURN_SPEED = 80;
 	private Organism organism = this.new Organism();
 	private Car vehicle = null;
+	private Rocketship ship;
 	private float dyingAnimation = 0;
 	
 	private float currentTurnSpeed = 0;
@@ -54,7 +56,7 @@ public class Player extends Movable
 	
 	private void checkInputs(float dt)
 	{
-		if (vehicle == null)
+		if(vehicle == null && ship == null)
 		{
 			if (Keyboard.isKeyDown(Keyboard.KEY_W))
 			{
@@ -71,7 +73,7 @@ public class Player extends Movable
 			else currentTurnSpeed = 0;
 			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) && !isInAir) jump();
 		}
-		else
+		if(vehicle != null)
 		{
 			if(Keyboard.isKeyDown(Keyboard.KEY_W) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) < 1000)
 			{
@@ -86,6 +88,12 @@ public class Player extends Movable
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {vehicle.rotY += dt * 5 * vehicle.v.length(); rotY += dt * 5 * vehicle.v.length();}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {vehicle.rotY -= dt * 5 * vehicle.v.length(); rotY -= dt * 5 * vehicle.v.length();}
 			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {vehicle.passenger = null; vehicle = null; position.x += 1.5F; model.transparencyNumber = 1;}
+		}
+		if(ship != null)
+		{
+			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {ship.rotY += dt * 20; rotY += dt * 20;}
+			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {ship.rotY -= dt * 20; rotY -= dt * 20;}
+			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {ship.passenger = null; ship = null;}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7) && (scale + 0.001F * dt) < NORMAL_SIZE * MAX_SIZE_FACTOR) scale += 0.001F * dt;
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4) && scale > NORMAL_SIZE) scale -= 0.001F * dt;
@@ -229,19 +237,24 @@ public class Player extends Movable
 			vehicle.passenger = this;
 			model.transparencyNumber = -1;
 		}
+		if(e instanceof Rocketship)
+		{
+			ship = (Rocketship)e;
+			ship.passenger = this;
+		}
 	}
 	
 	@Override
 	public IHitBox getHitBox()
 	{
-		if(vehicle == null) return hitBox;
+		if(vehicle == null && ship == null) return hitBox;
 		else return new AABB(new Vector3f(), new Vector3f(), new Vector3f());
 	}
 	
 	@Override
 	protected float getGravity()
 	{
-		if(vehicle == null) return GRAVITY;
+		if(vehicle == null && ship == null) return GRAVITY;
 		else return 0;
 	}
 }
