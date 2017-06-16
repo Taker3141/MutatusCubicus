@@ -2,8 +2,9 @@ package entity;
 
 import entity.vehicle.Car;
 import gui.OverlayOrgans;
+import inventory.Inventory;
 import java.util.List;
-import org.lwjgl.input.Keyboard;
+import static org.lwjgl.input.Keyboard.*;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
@@ -24,6 +25,7 @@ public class Player extends Movable
 	private float currentTurnSpeed = 0;
 	
 	public OverlayOrgans organs = new OverlayOrgans(this);
+	public Inventory inv = new Inventory(10);
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
 	
@@ -42,7 +44,7 @@ public class Player extends Movable
 		checkInputs(delta);
 		
 		rotY += currentTurnSpeed * delta;
-		organism.update(delta, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT));
+		organism.update(delta, isKeyDown(KEY_LSHIFT));
 		super.update(terrain);
 	}
 	
@@ -56,42 +58,46 @@ public class Player extends Movable
 	{
 		if (vehicle == null)
 		{
-			if (Keyboard.isKeyDown(Keyboard.KEY_W))
+			if (isKeyDown(KEY_W))
 			{
 				v.x = (float) (organism.getSpeed() * Math.sin(Math.toRadians(rotY)));
 				v.z = (float) (organism.getSpeed() * Math.cos(Math.toRadians(rotY)));
 			}
-			else if (Keyboard.isKeyDown(Keyboard.KEY_S))
+			else if (isKeyDown(KEY_S))
 			{
 				v.x = (float) (-organism.getSpeed() * Math.sin(Math.toRadians(rotY)));
 				v.z = (float) (-organism.getSpeed() * Math.cos(Math.toRadians(rotY)));
 			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_A)) currentTurnSpeed = TURN_SPEED;
-			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) currentTurnSpeed = -TURN_SPEED;
+			if (isKeyDown(KEY_A)) currentTurnSpeed = TURN_SPEED;
+			else if (isKeyDown(KEY_D)) currentTurnSpeed = -TURN_SPEED;
 			else currentTurnSpeed = 0;
-			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) && !isInAir) jump();
+			if (isKeyDown(KEY_SPACE) && !isInAir) jump();
 		}
 		else
 		{
-			if(Keyboard.isKeyDown(Keyboard.KEY_W) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) < 1000)
+			if(isKeyDown(KEY_W) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) < 1000)
 			{
 				vehicle.v.x += (float) (5 * Math.sin(Math.toRadians(vehicle.rotY)));
 				vehicle.v.z += (float) (5 * Math.cos(Math.toRadians(vehicle.rotY)));
 			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_S) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) > 1)
+			if(isKeyDown(KEY_S) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) > 1)
 			{
 				vehicle.v.x *= 0.9F;
 				vehicle.v.z *= 0.9F;
 			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {vehicle.rotY += dt * 5 * vehicle.v.length(); rotY += dt * 5 * vehicle.v.length();}
-			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {vehicle.rotY -= dt * 5 * vehicle.v.length(); rotY -= dt * 5 * vehicle.v.length();}
-			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {vehicle.passenger = null; vehicle = null; position.x += 1.5F; model.transparencyNumber = 1;}
+			if (isKeyDown(KEY_A)) {vehicle.rotY += dt * 5 * vehicle.v.length(); rotY += dt * 5 * vehicle.v.length();}
+			else if (isKeyDown(KEY_D)) {vehicle.rotY -= dt * 5 * vehicle.v.length(); rotY -= dt * 5 * vehicle.v.length();}
+			if(isKeyDown(KEY_E)) {vehicle.passenger = null; vehicle = null; position.x += 1.5F; model.transparencyNumber = 1;}
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7) && (scale + 0.001F * dt) < NORMAL_SIZE * MAX_SIZE_FACTOR) scale += 0.001F * dt;
-		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4) && scale > NORMAL_SIZE) scale -= 0.001F * dt;
+		for (int i = 0; i < 10; i++)
+		{
+			if (isKeyDown(i + 2)) inv.selectSlot(i);
+		}
+		if(isKeyDown(KEY_NUMPAD7) && (scale + 0.001F * dt) < NORMAL_SIZE * MAX_SIZE_FACTOR) scale += 0.001F * dt;
+		if(isKeyDown(KEY_NUMPAD4) && scale > NORMAL_SIZE) scale -= 0.001F * dt;
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_F12)) System.out.println(position);
-		if(Keyboard.isKeyDown(Keyboard.KEY_Q) && organism.eating == null && organism.digestion == 0)
+		if(isKeyDown(KEY_F12)) System.out.println(position);
+		if(isKeyDown(KEY_Q) && organism.eating == null && organism.digestion == 0)
 		{
 			final float distanceSq = 1;
 			for(Entity e : entityList)
