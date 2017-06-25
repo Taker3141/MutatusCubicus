@@ -14,7 +14,7 @@ import renderer.Loader;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import terrain.Terrain;
-import world.World;
+import world.MoonLabWorld;
 
 public class Rocketship extends Movable
 {
@@ -66,7 +66,7 @@ public class Rocketship extends Movable
 			for (int i = 0; i < flames.length; i++)
 			{
 				flames[i].rotX += 1000 * dt;
-				flames[i].rotY = (float)(World.r.nextGaussian() * 10);
+				flames[i].rotY = (float)(MoonLabWorld.r.nextGaussian() * 10);
 			}
 		}
 		super.update(t);

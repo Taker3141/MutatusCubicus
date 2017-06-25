@@ -1,6 +1,7 @@
 package entity;
 
 import main.MainGameLoop;
+import world.MoonLabWorld;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
@@ -29,9 +30,9 @@ public class Camera
 		
 		if (!isFirstPerson)
 		{
-			if(position.y - 0.5 < MainGameLoop.w.height(position.x, position.z)) 
+			if(position.y - 0.5 < ((MoonLabWorld)MainGameLoop.w).height(position.x, position.z)) 
 			{
-				float minHeight = MainGameLoop.w.height(position.x, position.z) + 0.5F;
+				float minHeight = ((MoonLabWorld)MainGameLoop.w).height(position.x, position.z) + 0.5F;
 				float sin = (minHeight - player.position.y) / distanceFromPlayer;
 				if(sin > 1) sin = 1;
 				pitch = (float)Math.toDegrees(Math.asin(sin));
@@ -84,7 +85,7 @@ public class Camera
 		if (Mouse.isButtonDown(2))
 		{
 			float pitchChange = Mouse.getDY() * 0.1F;
-			if(position.y - 1 < MainGameLoop.w.height(position.x, position.z) && pitchChange > 0 && !isFirstPerson) return;
+			if(position.y - 1 < ((MoonLabWorld)MainGameLoop.w).height(position.x, position.z) && pitchChange > 0 && !isFirstPerson) return;
 			pitch -= pitchChange;
 			if (pitch < -90) pitch = -90;
 			if (pitch > 90) pitch = 90;

@@ -4,6 +4,7 @@ import org.lwjgl.opengl.Display;
 import renderer.*;
 import renderer.fbo.Fbo;
 import renderer.fbo.PostProcessing;
+import world.MoonLabWorld;
 import world.World;
 
 public class MainGameLoop
@@ -13,7 +14,7 @@ public class MainGameLoop
 	
 	public static void doGame()
 	{
-		w = new World();
+		w = new MoonLabWorld();
 		Loader loader = MainManagerClass.loader;
 		
 		w.updateRaycaster();
