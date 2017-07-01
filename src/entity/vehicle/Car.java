@@ -11,6 +11,7 @@ import animation.KeyframeAnimation.Keyframe;
 import raycasting.AABB;
 import terrain.Terrain;
 import world.MoonLabWorld;
+import world.World;
 
 public class Car extends Movable
 {
@@ -46,9 +47,10 @@ public class Car extends Movable
 		hitBox = new AABB(new Vector3f(0, 0, 0), new Vector3f(1.5F, 1.2F, 2.5F), new Vector3f(-0.75F, 0, -1.25F));
 	}
 	
-	public void update(Terrain t)
+	@Override
+	public void update(World w, Terrain t)
 	{
-		super.update(t);
+		super.update(w, t);
 		if(v.lengthSquared() > 0.1F)
 		{
 			wheel1.a.isRunning = true;

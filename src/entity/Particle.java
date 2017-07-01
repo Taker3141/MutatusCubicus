@@ -10,6 +10,7 @@ import renderer.models.SimpleModel;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import terrain.Terrain;
+import world.World;
 
 public class Particle extends Movable
 {
@@ -29,13 +30,13 @@ public class Particle extends Movable
 	}
 	
 	@Override
-	public void update(Terrain terrain)
+	public void update(World w, Terrain terrain)
 	{
 		float delta = DisplayManager.getFrameTimeSeconds();
 		position.x += v.x * delta;
 		position.y += v.y * delta;
 		position.z += v.z * delta;
-		v.y += GRAVITY * delta * 0.1;
+		v = Vector3f.add(v, (Vector3f)w.getGravityVector(this).scale(delta * getGravityFactor()), null);
 		lifetime -= DisplayManager.getFrameTimeSeconds();
 		if(lifetime <= 0) unregister();
 	}
@@ -59,9 +60,9 @@ public class Particle extends Movable
 	}
 	
 	@Override
-	protected float getGravity()
+	protected float getGravityFactor()
 	{
-		return -1F;
+		return 0.1F;
 	}
 	
 	public static void init()

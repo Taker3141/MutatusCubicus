@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 import animation.KeyframeAnimation;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
+import world.World;
 
 public class SubEntity extends Entity
 {
@@ -19,7 +20,7 @@ public class SubEntity extends Entity
 	}
 	
 	@Override
-	public void update(Terrain t)
+	public void update(World w, Terrain t)
 	{
 		if(a != null) a.tick();
 	}

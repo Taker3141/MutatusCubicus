@@ -15,6 +15,7 @@ import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import terrain.Terrain;
 import world.MoonLabWorld;
+import world.World;
 
 public class Rocketship extends Movable
 {
@@ -50,14 +51,14 @@ public class Rocketship extends Movable
 	}
 	
 	@Override
-	public void update(Terrain t)
+	public void update(World w, Terrain t)
 	{
 		if(thrusting)
 		{
 			float dt = DisplayManager.getFrameTimeSeconds();
 			if (thrustingDistance < 1000)
 			{
-				v.y = GRAVITY * -1.1F;
+				v = Vector3f.add(v, (Vector3f)w.getGravityVector(this).scale(-1.1F), null);
 				v.x += (float) (10000 * Math.cos(Math.toRadians(-rotY)) * dt);
 				v.z += (float) (10000 * Math.sin(Math.toRadians(-rotY)) * dt);
 				float dx = v.x * dt, dz = v.z * dt;
@@ -69,7 +70,7 @@ public class Rocketship extends Movable
 				flames[i].rotY = (float)(MoonLabWorld.r.nextGaussian() * 10);
 			}
 		}
-		super.update(t);
+		super.update(w, t);
 		if(passenger != null) {passenger.position = new Vector3f(position); passenger.position.y += 20;}
 	}
 	

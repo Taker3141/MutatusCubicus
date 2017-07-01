@@ -203,14 +203,14 @@ public class MoonLabWorld extends World
 	@Override
 	public boolean tick()
 	{
-		super.tick();
 		for(int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);
-			e.update(terrain(e.position.x, e.position.z));
+			e.update(this, terrain(e.position.x, e.position.z));
 			if(!e.invisible) renderer.processEntities(e);
 		}
-		
+
+		super.tick();
 		MainGameLoop.fbo.bindFrameBuffer();
 		renderer.processTerrain(terrain(player.position.x + 200, player.position.z + 200));
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z + 200));
@@ -253,6 +253,12 @@ public class MoonLabWorld extends World
 	public Vector3f hVector(float x, float z)
 	{
 		return new Vector3f(x, height(x, z), z);
+	}
+	
+	@Override
+	public Vector3f getGravityVector(Entity e)
+	{
+		return new Vector3f(0, -10, 0);
 	}
 
 	private TerrainTexturePack loadTerrainTexturePack(Loader loader)

@@ -14,6 +14,7 @@ import raycasting.NoHitbox;
 import renderer.DisplayManager;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
+import world.World;
 
 public class Player extends Movable
 {
@@ -38,14 +39,14 @@ public class Player extends Movable
 	}
 	
 	@Override
-	public void update(Terrain terrain)
+	public void update(World w, Terrain terrain)
 	{
 		float delta = DisplayManager.getFrameTimeSeconds();
 		checkInputs(delta);
 		
 		rotY += currentTurnSpeed * delta;
 		organism.update(delta, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT));
-		super.update(terrain);
+		super.update(w, terrain);
 	}
 	
 	private void jump()
@@ -252,9 +253,9 @@ public class Player extends Movable
 	}
 	
 	@Override
-	protected float getGravity()
+	protected float getGravityFactor()
 	{
-		if(vehicle == null && ship == null) return GRAVITY;
+		if(vehicle == null && ship == null) return 1;
 		else return 0;
 	}
 }

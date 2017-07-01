@@ -12,6 +12,7 @@ import renderer.Loader;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
 import toolbox.Maths;
+import world.World;
 
 public class Entity implements ICollidable
 {
@@ -42,7 +43,7 @@ public class Entity implements ICollidable
 		this(model, position, rotX, rotY, rotZ, scale, list, new NoHitbox());
 	}
 	
-	public void update(Terrain t)
+	public void update(World w, Terrain t)
 	{
 		
 	}

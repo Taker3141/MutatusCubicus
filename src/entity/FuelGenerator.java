@@ -9,6 +9,7 @@ import renderer.DisplayManager;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import terrain.Terrain;
+import world.World;
 
 public class FuelGenerator extends Entity
 {
@@ -33,7 +34,7 @@ public class FuelGenerator extends Entity
 	}
 	
 	@Override
-	public void update(Terrain t)
+	public void update(World w, Terrain t)
 	{
 		if(generating)
 		{

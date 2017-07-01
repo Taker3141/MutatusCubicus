@@ -38,6 +38,7 @@ public abstract class World
 	}
 	
 	public abstract void loadEntities();
+	public abstract Vector3f getGravityVector(Entity e);
 	
 	public boolean tick()
 	{
