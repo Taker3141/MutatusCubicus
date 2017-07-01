@@ -21,8 +21,8 @@ import entity.Player;
 public abstract class World
 {
 	public static Random r = new Random();
-	public List<Entity> entities = new ArrayList<Entity>();;
-	protected MasterRenderer renderer = new MasterRenderer();;
+	public List<Entity> entities = new ArrayList<Entity>();
+	protected MasterRenderer renderer = new MasterRenderer();
 	protected Loader loader = MainManagerClass.loader;
 	protected Input input = new Input(Display.getHeight());
 	protected Camera c;
@@ -32,6 +32,7 @@ public abstract class World
 	
 	public World()
 	{
+		Entity.w = this;
 		loadEntities();
 		ray = new Raycaster(player);
 		ray.setList(entities);
@@ -39,6 +40,7 @@ public abstract class World
 	
 	public abstract void loadEntities();
 	public abstract Vector3f getGravityVector(Entity e);
+	public abstract float height(float x, float z);
 	
 	public boolean tick()
 	{
@@ -64,5 +66,10 @@ public abstract class World
 	public void updateRaycaster()
 	{
 		ray.setList(entities);
+	}
+	
+	public Vector3f getCoordinateOffset()
+	{
+		return new Vector3f();
 	}
 }

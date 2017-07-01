@@ -71,6 +71,6 @@ public class EntityRenderer
 	
 	private void prepareInstance(Entity e)
 	{
-		shader.loadTransformationMatrix(e.getTransformationMatrix());
+		shader.loadTransformationMatrix(e.getTransformationMatrix(true));
 	}
 }

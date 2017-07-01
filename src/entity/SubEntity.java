@@ -26,8 +26,8 @@ public class SubEntity extends Entity
 	}
 	
 	@Override
-	public Matrix4f getTransformationMatrix()
+	public Matrix4f getTransformationMatrix(boolean correct)
 	{
-		return Matrix4f.mul(parent.getTransformationMatrix(), super.getTransformationMatrix(), null);
+		return Matrix4f.mul(parent.getTransformationMatrix(true), super.getTransformationMatrix(false), null);
 	}
 }

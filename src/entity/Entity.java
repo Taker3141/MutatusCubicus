@@ -24,6 +24,7 @@ public class Entity implements ICollidable
 	protected IHitBox hitBox;
 	protected List<Entity> entityList;
 	public boolean invisible = false;
+	public static World w;
 	
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, IHitBox hitBox)
 	{
@@ -100,8 +101,10 @@ public class Entity implements ICollidable
 		entityList.remove(this);
 	}
 
-	public Matrix4f getTransformationMatrix()
+	public Matrix4f getTransformationMatrix(boolean correct)
 	{
-		return Maths.createTransformationMatrix(position, rotX, rotY, rotZ, scale);
+		Vector3f correctedPosition = Vector3f.add(position, w.getCoordinateOffset(), null);
+		if(correct) return Maths.createTransformationMatrix(correctedPosition, rotX, rotY, rotZ, scale);
+		else return Maths.createTransformationMatrix(position, rotX, rotY, rotZ, scale); 
 	}
 }

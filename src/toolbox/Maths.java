@@ -35,7 +35,7 @@ public class Maths
 		matrix.setIdentity();
 		Matrix4f.rotate((float) Math.toRadians(c.pitch), new Vector3f(1, 0, 0), matrix, matrix);
 		Matrix4f.rotate((float) Math.toRadians(c.yaw), new Vector3f(0, 1, 0), matrix, matrix);
-		Vector3f cameraPosition = c.position;
+		Vector3f cameraPosition = Vector3f.add(c.position, c.w.getCoordinateOffset(), null);
 		Vector3f negativeCameraPosition = new Vector3f(-cameraPosition.x, -cameraPosition.y, -cameraPosition.z);
 		Matrix4f.translate(negativeCameraPosition, matrix, matrix);
 		return matrix;
