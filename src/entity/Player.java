@@ -179,8 +179,8 @@ public class Player extends Movable
 		
 		public float getSpeed()
 		{
-			if(!boosting) return 50;
-			else return 50;
+			if(!boosting) return 10;
+			else return 10;
 		}
 		
 		public float getJumpPower()

@@ -17,9 +17,13 @@ import renderer.textures.ModelTexture;
 public class EntityRenderer
 {
 	private StaticShader shader;
+	private Matrix4f projectionMatrix;
+	private Matrix4f farProjectionMatrix;
 	
-	public EntityRenderer(StaticShader s, Matrix4f projectionMatrix)
+	public EntityRenderer(StaticShader s, Matrix4f projectionMatrix, Matrix4f farProjectionMatrix)
 	{
+		this.projectionMatrix = projectionMatrix;
+		this.farProjectionMatrix = farProjectionMatrix;
 		shader = s;
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
@@ -31,6 +35,21 @@ public class EntityRenderer
 		TexturedModel[] models = new TexturedModel[entities.size()];
 		entities.keySet().toArray(models);
 		if(renderTransparency) Arrays.sort(models);
+		for(TexturedModel m : models)
+		{
+			if(renderTransparency != m.getTexture().hasTransparency()) continue;
+			prepareTexturedModel(m);
+			List<Entity> batch = entities.get(m);
+			for(Entity e:batch) if (e.astronomical)
+			{
+				prepareInstance(e);
+				shader.loadProjectionMatrix(farProjectionMatrix);
+				GL11.glDepthMask(false);
+				GL11.glDrawElements(GL11.GL_TRIANGLES, m.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+				GL11.glDepthMask(true);
+				shader.loadProjectionMatrix(projectionMatrix);
+			}
+		}
 		for(TexturedModel m : models)
 		{
 			if(renderTransparency != m.getTexture().hasTransparency()) continue;

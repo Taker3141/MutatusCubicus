@@ -25,6 +25,7 @@ public class Entity implements ICollidable
 	protected List<Entity> entityList;
 	public boolean invisible = false;
 	public static World w;
+	public final boolean astronomical;
 	
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, IHitBox hitBox)
 	{
@@ -36,6 +37,7 @@ public class Entity implements ICollidable
 		this.scale = scale;
 		this.hitBox = hitBox;
 		entityList = list;
+		astronomical = scale > 1000;
 		register();
 	}
 	

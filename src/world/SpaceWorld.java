@@ -1,7 +1,6 @@
 package world;
 
-import static org.lwjgl.input.Keyboard.KEY_ESCAPE;
-import static org.lwjgl.input.Keyboard.isKeyDown;
+import static org.lwjgl.input.Keyboard.*;
 import main.MainGameLoop;
 import org.lwjgl.util.vector.Vector3f;
 import renderer.fbo.PostProcessing;
@@ -12,11 +11,13 @@ import entity.Player;
 
 public class SpaceWorld extends World
 {
+	private Entity moon;
+	
 	@Override
 	public void loadEntities()
 	{
-		new Entity(createModel("moon", "texture/moon_dust", 0), new Vector3f(), 0, 0, 0, 3476, entities);
-		player = new Player(new Vector3f(0, 1739, 0), 0, 180, 0, 0.02F, entities);
+		moon = new Entity(createModel("moon", "texture/moon_dust", 0), new Vector3f(), 0, 0, 0, 3476000, entities);
+		player = new Player(new Vector3f(0, 1739000, 0), 0, 180, 0, 0.02F, entities);
 		c = new Camera(player, this, true);
 		lights.add(new Light(new Vector3f(0, 100000000, 100000000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
@@ -32,7 +33,6 @@ public class SpaceWorld extends World
 			e.update(this, null);
 			if(!e.invisible) renderer.processEntities(e);
 		}
-
 		super.tick();
 		MainGameLoop.fbo.bindFrameBuffer();
 		renderer.render(lights, c, player);
@@ -59,6 +59,6 @@ public class SpaceWorld extends World
 	@Override
 	public Vector3f getCoordinateOffset()
 	{
-		return new Vector3f(0, -1739, 0);
+		return player != null ? player.position.negate(null) : new Vector3f(0, -1739000, 0);
 	}
 }
