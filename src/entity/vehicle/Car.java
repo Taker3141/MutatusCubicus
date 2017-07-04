@@ -10,6 +10,7 @@ import animation.KeyframeAnimation;
 import animation.KeyframeAnimation.Keyframe;
 import raycasting.AABB;
 import terrain.Terrain;
+import world.MoonLabWorld;
 import world.World;
 
 public class Car extends Movable
@@ -22,15 +23,15 @@ public class Car extends Movable
 	
 	public Car(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
-		super(World.createModel("car/car", "texture/metal", 0.2F), position, rotX, rotY, rotZ, scale, list, mass);
-		Entity roof = new SubEntity(World.createModel("car/roof", "texture/glass", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, list, this);
+		super(MoonLabWorld.createModel("car/car", "texture/metal", 0.2F), position, rotX, rotY, rotZ, scale, list, mass);
+		Entity roof = new SubEntity(MoonLabWorld.createModel("car/roof", "texture/glass", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, list, this);
 		roof.model.getTexture().setHasTransparency(true);
-		new SubEntity(World.createModel("car/door", "texture/metal", 0.2F), new Vector3f(0.86F, 0.7F, 1.03F), 0, 0, 0, 1, list, this);
-		new SubEntity(World.createModel("car/doorR", "texture/metal", 0.2F), new Vector3f(-0.76F, 0.7F, 1.03F), 0, 0, 0, 1, list, this);
-		wheel1 = new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0.7F, 0.2F, -1.5F), 0, 0, 0, 1, list, this);
-		wheel2 = new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-0.7F, 0.2F, -1.5F), 0, 0, 0, 1, list, this);
-		wheel3 = new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0.7F, 0.2F, 1.2F), 0, 0, 0, 1, list, this);
-		wheel4 = new SubEntity(World.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-0.7F, 0.2F, 1.2F), 0, 0, 0, 1, list, this);
+		new SubEntity(MoonLabWorld.createModel("car/door", "texture/metal", 0.2F), new Vector3f(0.86F, 0.7F, 1.03F), 0, 0, 0, 1, list, this);
+		new SubEntity(MoonLabWorld.createModel("car/doorR", "texture/metal", 0.2F), new Vector3f(-0.76F, 0.7F, 1.03F), 0, 0, 0, 1, list, this);
+		wheel1 = new SubEntity(MoonLabWorld.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0.7F, 0.2F, -1.5F), 0, 0, 0, 1, list, this);
+		wheel2 = new SubEntity(MoonLabWorld.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-0.7F, 0.2F, -1.5F), 0, 0, 0, 1, list, this);
+		wheel3 = new SubEntity(MoonLabWorld.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0.7F, 0.2F, 1.2F), 0, 0, 0, 1, list, this);
+		wheel4 = new SubEntity(MoonLabWorld.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(-0.7F, 0.2F, 1.2F), 0, 0, 0, 1, list, this);
 		Keyframe[] k = 
 			{
 				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.1F),
@@ -46,9 +47,10 @@ public class Car extends Movable
 		hitBox = new AABB(new Vector3f(0, 0, 0), new Vector3f(1.5F, 1.2F, 2.5F), new Vector3f(-0.75F, 0, -1.25F));
 	}
 	
-	public void update(Terrain t)
+	@Override
+	public void update(World w, Terrain t)
 	{
-		super.update(t);
+		super.update(w, t);
 		if(v.lengthSquared() > 0.1F)
 		{
 			wheel1.a.isRunning = true;

@@ -21,12 +21,14 @@ import terrain.Terrain;
 public class MasterRenderer
 {
 	private static final float FOV = 70;
-	private static final float NEAR_PLANE = 0.1F;
-	private static final float FAR_PLANE = 1000;
+	private static final float NEAR_PLANE = 1e-1F;
+	private static final float FAR_PLANE = 1e+3F;
+	private static final float VERY_FAR_PLANE = 1e+7F;
 	private static final float SKY_RED = 0F;
 	private static final float SKY_GREEN = 0F;
 	private static final float SKY_BLUE = 0F;
 	private Matrix4f projection;
+	private Matrix4f farProjection;
 	private StaticShader shader = new StaticShader();
 	private EntityRenderer renderer;
 	private TerrainShader terrainShader = new TerrainShader();
@@ -39,8 +41,9 @@ public class MasterRenderer
 	public MasterRenderer()
 	{
 		enableBackfaceCulling();
-		createProjectionMatrix();
-		renderer = new EntityRenderer(shader, projection);
+		projection = createProjectionMatrix(FOV, FAR_PLANE, NEAR_PLANE);
+		farProjection = createProjectionMatrix(FOV, VERY_FAR_PLANE, 500);
+		renderer = new EntityRenderer(shader, projection, farProjection);
 		terrainRenderer = new TerrainRenderer(terrainShader, projection);
 		skyboxRenderer = new SkyboxRenderer(MainManagerClass.loader, projection);
 		guiRenderer = new GuiRenderer(MainManagerClass.loader);
@@ -110,20 +113,21 @@ public class MasterRenderer
 		}
 	}
 	
-	private void createProjectionMatrix()
+	private Matrix4f createProjectionMatrix(float fov, float farPlane, float nearPlane)
 	{
 		float aspectRatio = (float)Display.getWidth() / (float)Display.getHeight();
-		float yScale = (float)((1F / Math.tan(Math.toRadians(FOV / 2F))) * aspectRatio);
+		float yScale = (float)((1F / Math.tan(Math.toRadians(fov / 2F))) * aspectRatio);
 		float xScale = yScale / aspectRatio;
-		float frustumLength = FAR_PLANE - NEAR_PLANE;
+		float frustumLength = farPlane - nearPlane;
 		
-		projection = new Matrix4f();
-		projection.m00 = xScale;
-		projection.m11 = yScale;
-		projection.m22 = -((FAR_PLANE + NEAR_PLANE) / frustumLength);
-		projection.m23 = -1;
-		projection.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustumLength);
-		projection.m33 = 0;
+		Matrix4f m = new Matrix4f();
+		m.m00 = xScale;
+		m.m11 = yScale;
+		m.m22 = -((farPlane + nearPlane) / frustumLength);
+		m.m23 = -1;
+		m.m32 = -((2 * nearPlane * farPlane) / frustumLength);
+		m.m33 = 0;
+		return m;
 	}
 	
 	public void prepare()

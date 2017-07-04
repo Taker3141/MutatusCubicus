@@ -9,11 +9,11 @@ import raycasting.IHitBox.CollisionData;
 import renderer.DisplayManager;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
+import world.World;
 import raycasting.IHitBox;
 
 public class Movable extends Entity
 {
-	protected static final float GRAVITY = -10F;
 	public final float mass;
 	protected boolean isInAir = false;
 	public Vector3f v = new Vector3f();
@@ -28,14 +28,13 @@ public class Movable extends Entity
 	}
 	
 	@Override
-	public void update(Terrain terrain)
+	public void update(World w, Terrain terrain)
 	{
 		float delta = DisplayManager.getFrameTimeSeconds();
 		
 		for (Vector3f force : forces) v = Vector3f.add(v, force, v);
 		forces.clear();
-		v.y += getGravity() * delta;
-		
+		v = Vector3f.add(v, (Vector3f)w.getGravityVector(this).scale(delta * getGravityFactor()), null);
 		if (!collisionOff &&!canMove(v.x * delta, v.z * delta, terrain))
 		{
 			v.x *= -1;
@@ -107,6 +106,7 @@ public class Movable extends Entity
 	
 	protected void checkTerrain(Terrain terrain)
 	{
+		if(terrain == null) return;
 		terrainHeight = terrain == null ? 0 : terrain.getHeight(position.x, position.z);
 		if (position.y <= terrainHeight)
 		{
@@ -122,8 +122,8 @@ public class Movable extends Entity
 		return (position.y > terrainHeight || (ty - terrainHeight) < 0.2F) && noCollision();
 	}
 	
-	protected float getGravity()
+	protected float getGravityFactor()
 	{
-		return GRAVITY;
+		return 1;
 	}
 }

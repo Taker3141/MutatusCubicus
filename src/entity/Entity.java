@@ -12,6 +12,7 @@ import renderer.Loader;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
 import toolbox.Maths;
+import world.World;
 
 public class Entity implements ICollidable
 {
@@ -23,6 +24,8 @@ public class Entity implements ICollidable
 	protected IHitBox hitBox;
 	protected List<Entity> entityList;
 	public boolean invisible = false;
+	public static World w;
+	public final boolean astronomical;
 	
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, IHitBox hitBox)
 	{
@@ -34,6 +37,7 @@ public class Entity implements ICollidable
 		this.scale = scale;
 		this.hitBox = hitBox;
 		entityList = list;
+		astronomical = scale > 1000;
 		register();
 	}
 	
@@ -42,7 +46,7 @@ public class Entity implements ICollidable
 		this(model, position, rotX, rotY, rotZ, scale, list, new NoHitbox());
 	}
 	
-	public void update(Terrain t)
+	public void update(World w, Terrain t)
 	{
 		
 	}
@@ -99,8 +103,10 @@ public class Entity implements ICollidable
 		entityList.remove(this);
 	}
 
-	public Matrix4f getTransformationMatrix()
+	public Matrix4f getTransformationMatrix(boolean correct)
 	{
-		return Maths.createTransformationMatrix(position, rotX, rotY, rotZ, scale);
+		Vector3f correctedPosition = Vector3f.add(position, w.getCoordinateOffset(), null);
+		if(correct) return Maths.createTransformationMatrix(correctedPosition, rotX, rotY, rotZ, scale);
+		else return Maths.createTransformationMatrix(position, rotX, rotY, rotZ, scale); 
 	}
 }

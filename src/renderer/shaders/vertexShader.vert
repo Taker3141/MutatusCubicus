@@ -40,6 +40,6 @@ void main(void)
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
 	
 	float distance = length(positionRelativeToCam.xyz);
-	visibility = exp(-pow((distance * density), gradient));
+	visibility = 1; //exp(-pow((distance * density), gradient));
 	visibility = clamp(visibility, 0.0, 1.0);
 }

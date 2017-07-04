@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 import animation.KeyframeAnimation;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
+import world.World;
 
 public class SubEntity extends Entity
 {
@@ -19,14 +20,14 @@ public class SubEntity extends Entity
 	}
 	
 	@Override
-	public void update(Terrain t)
+	public void update(World w, Terrain t)
 	{
 		if(a != null) a.tick();
 	}
 	
 	@Override
-	public Matrix4f getTransformationMatrix()
+	public Matrix4f getTransformationMatrix(boolean correct)
 	{
-		return Matrix4f.mul(parent.getTransformationMatrix(), super.getTransformationMatrix(), null);
+		return Matrix4f.mul(parent.getTransformationMatrix(true), super.getTransformationMatrix(false), null);
 	}
 }

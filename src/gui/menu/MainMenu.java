@@ -11,6 +11,7 @@ import gui.element.GuiElement;
 import gui.handler.HandlerChangeMenu;
 import gui.handler.HandlerStartGame;
 import gui.handler.MouseHandler;
+import world.*;
 
 public class MainMenu extends Menu
 {
@@ -19,7 +20,8 @@ public class MainMenu extends Menu
 	{	
 		{
 			final int indention = W / 4;
-			guiElements.add(new Button(new Vector2f(indention + 200, H - 200), buttonSize, this).setText("o!Spiel Starten", font, 1).setClickHandler(new HandlerStartGame()));
+			guiElements.add(new Button(new Vector2f(indention + 200, H - 200), buttonSize, this).setText("o!Spiel Starten", font, 1).setClickHandler(new HandlerStartGame(MoonLabWorld.class)));
+			guiElements.add(new Button(new Vector2f(indention + 600, H - 200), buttonSize, this).setText("o!Weltraum", font, 1).setClickHandler(new HandlerStartGame(SpaceWorld.class)));
 			guiElements.add(new Button(new Vector2f(indention + 200, H - 250), buttonSize, this).setText("o!Einstellungen", font, 1).setClickHandler(new HandlerChangeMenu(MenuSettings.class)));
 			guiElements.add(new Button(new Vector2f(indention + 200, H - 300), buttonSize, this).setText("o!Spiel Beenden", font, 1).setClickHandler(new HandlerChangeMenu(null)));
 		}
@@ -46,7 +48,7 @@ public class MainMenu extends Menu
 			if (shouldStartGame)
 			{
 				shouldStartGame = false;
-				MainGameLoop.doGame();
+				MainGameLoop.doGame(startWorld);
 				MainManagerClass.nextMenu = MainMenu.class;
 			}
 		}

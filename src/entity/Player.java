@@ -1,24 +1,31 @@
 package entity;
 
 import entity.vehicle.Car;
+import entity.vehicle.Rocketship;
 import gui.OverlayOrgans;
 import java.util.List;
+import objLoader.OBJLoader;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
+import animation.KeyframeAnimation;
+import animation.KeyframeAnimation.Keyframe;
 import raycasting.AABB;
 import raycasting.ICollidable;
 import raycasting.IHitBox;
 import raycasting.NoHitbox;
 import renderer.DisplayManager;
 import renderer.models.TexturedModel;
+import renderer.textures.ModelTexture;
 import terrain.Terrain;
+import world.World;
 
 public class Player extends Movable
 {
 	private static final float TURN_SPEED = 80;
 	private Organism organism = this.new Organism();
 	private Car vehicle = null;
+	private Rocketship ship;
 	private float dyingAnimation = 0;
 	
 	private float currentTurnSpeed = 0;
@@ -27,23 +34,24 @@ public class Player extends Movable
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
 	
-	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
+	public Player(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
-		super(model, position, rotX, rotY, rotZ, scale, list, 20);
+		super(null, position, rotX, rotY, rotZ, scale, list, 20);
+		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
 		NORMAL_SIZE = scale;
 		model.transparencyNumber = 1;
 	}
 	
 	@Override
-	public void update(Terrain terrain)
+	public void update(World w, Terrain terrain)
 	{
 		float delta = DisplayManager.getFrameTimeSeconds();
 		checkInputs(delta);
 		
 		rotY += currentTurnSpeed * delta;
 		organism.update(delta, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT));
-		super.update(terrain);
+		super.update(w, terrain);
 	}
 	
 	private void jump()
@@ -54,7 +62,7 @@ public class Player extends Movable
 	
 	private void checkInputs(float dt)
 	{
-		if (vehicle == null)
+		if(vehicle == null && ship == null)
 		{
 			if (Keyboard.isKeyDown(Keyboard.KEY_W))
 			{
@@ -71,7 +79,7 @@ public class Player extends Movable
 			else currentTurnSpeed = 0;
 			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) && !isInAir) jump();
 		}
-		else
+		if(vehicle != null)
 		{
 			if(Keyboard.isKeyDown(Keyboard.KEY_W) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) < 1000)
 			{
@@ -86,6 +94,12 @@ public class Player extends Movable
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {vehicle.rotY += dt * 5 * vehicle.v.length(); rotY += dt * 5 * vehicle.v.length();}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {vehicle.rotY -= dt * 5 * vehicle.v.length(); rotY -= dt * 5 * vehicle.v.length();}
 			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {vehicle.passenger = null; vehicle = null; position.x += 1.5F; model.transparencyNumber = 1;}
+		}
+		if(ship != null)
+		{
+			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {ship.rotY += dt * 20; rotY += dt * 20;}
+			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {ship.rotY -= dt * 20; rotY -= dt * 20;}
+			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {ship.passenger = null; ship = null;}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7) && (scale + 0.001F * dt) < NORMAL_SIZE * MAX_SIZE_FACTOR) scale += 0.001F * dt;
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4) && scale > NORMAL_SIZE) scale -= 0.001F * dt;
@@ -165,8 +179,8 @@ public class Player extends Movable
 		
 		public float getSpeed()
 		{
-			if(!boosting) return 10;
-			else return 50;
+			if(!boosting) return 5;
+			else return 10;
 		}
 		
 		public float getJumpPower()
@@ -192,18 +206,18 @@ public class Player extends Movable
 	}
 	
 	@Override
-	public Matrix4f getTransformationMatrix()
+	public Matrix4f getTransformationMatrix(boolean correct)
 	{
 		if(dyingAnimation <= 1)
 		{
-			Matrix4f m1 = super.getTransformationMatrix();
+			Matrix4f m1 = super.getTransformationMatrix(correct);
 			Matrix4f m2 = new Matrix4f();
 			m2.setIdentity();
 			m2.m13 = dyingAnimation * 0.08F;
 			m2.m11 *= 1 - dyingAnimation * 0.5;
 			return Matrix4f.mul(m1, m2, null);
 		}
-		return super.getTransformationMatrix();
+		return super.getTransformationMatrix(correct);
 	}
 	
 	public float getEnergy()
@@ -229,19 +243,98 @@ public class Player extends Movable
 			vehicle.passenger = this;
 			model.transparencyNumber = -1;
 		}
+		if(e instanceof Rocketship)
+		{
+			ship = (Rocketship)e;
+			ship.passenger = this;
+		}
 	}
 	
 	@Override
 	public IHitBox getHitBox()
 	{
-		if(vehicle == null) return hitBox;
+		if(vehicle == null && ship == null) return hitBox;
 		else return new AABB(new Vector3f(), new Vector3f(), new Vector3f());
 	}
 	
 	@Override
-	protected float getGravity()
+	protected float getGravityFactor()
 	{
-		if(vehicle == null) return GRAVITY;
+		if(vehicle == null && ship == null) return 1;
 		else return 0;
+	}
+	
+	protected void loadModels()
+	{
+		model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
+		
+		new SubEntity(World.createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entityList, this);
+		{
+			TexturedModel heart = World.createModel("heart", "texture/cube/heart", 0.5F);
+			SubEntity heart1 = new SubEntity(heart, new Vector3f(-0.35F, 10, -2.58F), 0, 0, 0, 1, entityList, this);
+			SubEntity heart2 = new SubEntity(heart, new Vector3f(-2.33F, 10, -2.58F), 90, 0, 0, 1, entityList, this);
+			Keyframe[] k1 = 
+				{
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.2F),
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.1F), 
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0.1F, 0.1F),
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.8F)
+				};
+			heart1.a = new KeyframeAnimation(heart1, k1);
+			Keyframe[] k2 = 
+				{
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.1F), 
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0.1F, 0.1F),
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 1)
+				};
+			heart2.a = new KeyframeAnimation(heart2, k2);
+		}
+		{
+			SubEntity shaper = new SubEntity(World.createModel("shaper", "texture/cube/shaper", 0.5F), new Vector3f(5.47F, 6.76F, 3.12F), 0, 0, 0, 1, entityList, this);
+			Keyframe[] k = 
+				{
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.2F),
+					new Keyframe(new Vector3f(0, 0.2F, 0), new Vector3f(0, 0, 0), 0, 0.2F),
+					new Keyframe(new Vector3f(0, 0.2F, 0.2F), new Vector3f(0, 0, 0), 0, 0.2F),
+					new Keyframe(new Vector3f(0, 0, 0.2F), new Vector3f(0, 0, 0), 0, 0.2F),
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.01F),
+				};
+			shaper.a = new KeyframeAnimation(shaper, k);
+		}
+		ModelTexture digestive = new ModelTexture(loader.loadTexture("texture/cube/intestines"));			
+		TexturedModel upperIntestine = new TexturedModel(OBJLoader.loadOBJModel("upper_intestine"), digestive);
+		new SubEntity(upperIntestine, new Vector3f(-2.97F, 5.9F, 3.42F), 0, 0, 0, 1, entityList, this);
+		{
+			SubEntity liver = new SubEntity(World.createModel("liver", "texture/cube/storage_cone", 0.5F), new Vector3f(-5.8F, 6.18F, -6.18F), 0, 0, 0, 1, entityList, this);
+			Keyframe[] k = 
+				{
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 20F),
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 90, 0), 0, 20F),
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 180, 0), 0, 20F),
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 270, 0), 0, 20F),
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 360, 0), 0, 0.01F)
+				};
+			liver.a = new KeyframeAnimation(liver, k);
+		}
+		TexturedModel lowerIntestine = new TexturedModel(OBJLoader.loadOBJModel("lower_intestine"), digestive);
+		new SubEntity(lowerIntestine, new Vector3f(-2.7F, 7.56F, 3.42F), 0, 0, 0, 1, entityList, this);
+		{
+			TexturedModel stomachModel = new TexturedModel(OBJLoader.loadOBJModel("stomach"), digestive);
+			SubEntity stomach = new SubEntity(stomachModel, new Vector3f(-2.97F, 9.2F, 3.42F), 0, 0, 0, 1, entityList, this);
+			Keyframe[] k = 
+				{
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 1), 
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0.2F, 2), 
+					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 1)
+				};
+			stomach.a = new KeyframeAnimation(stomach, k);
+		}
+		
+		TexturedModel veins = World.createModel("veins", "texture/cube/veins", 0.5F);
+		new SubEntity(veins, new Vector3f(-4.93F, 7.37F, -2.71F), -12.01F, 15.67F, 0, 1, entityList, this);
+		new SubEntity(veins, new Vector3f(-2.48F, 9.43F, 1.48F), 14.2F, -4.72F, 0, 0.8F, entityList, this);
+		new SubEntity(veins, new Vector3f(5.31F, 9.28F, 0.79F), 36.21F, 0, 0, 1, entityList, this);
+		new SubEntity(veins, new Vector3f(3.03F, 8.7F, 0.27F), 30.38F, 45, 0, 1, entityList, this);
+		new SubEntity(veins, new Vector3f(2.17F, 12.21F, -2.38F), 36.21F, -94.14F, 0, 0.7F, entityList, this);
 	}
 }

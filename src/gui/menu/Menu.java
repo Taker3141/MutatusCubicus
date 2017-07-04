@@ -14,6 +14,7 @@ import gui.element.Checkbox;
 import gui.element.GuiElement;
 import renderer.GuiRenderer;
 import renderer.Loader;
+import world.World;
 
 public abstract class Menu
 {
@@ -31,6 +32,7 @@ public abstract class Menu
 	protected GuiRenderer gRenderer = new GuiRenderer(loader);
 	protected boolean isCloseRequested = false;
 	protected boolean shouldStartGame = false;
+	protected Class<? extends World> startWorld;
 	
 	public Menu()
 	{
@@ -67,8 +69,9 @@ public abstract class Menu
 		MainManagerClass.nextMenu = next;
 	}
 	
-	public void requestGameStart()
+	public void requestGameStart(Class<? extends World> world)
 	{
+		startWorld = world;
 		isCloseRequested = true;
 		shouldStartGame = true;
 	}
