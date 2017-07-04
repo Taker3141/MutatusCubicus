@@ -34,6 +34,7 @@ public class SpaceWorld extends World
 			if(!e.invisible) renderer.processEntities(e);
 		}
 		super.tick();
+		System.out.println(player.position);
 		MainGameLoop.fbo.bindFrameBuffer();
 		renderer.render(lights, c, player);
 		MainGameLoop.fbo.unbindFrameBuffer();
@@ -47,7 +48,9 @@ public class SpaceWorld extends World
 	@Override
 	public Vector3f getGravityVector(Entity e)
 	{
-		return new Vector3f();
+		final float strength = 2.80383e+6F;
+		float factor = strength / e.position.lengthSquared();
+		return (Vector3f)Vector3f.sub(new Vector3f(), e.position, null).scale(factor);
 	}
 
 	@Override

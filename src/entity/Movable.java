@@ -35,7 +35,6 @@ public class Movable extends Entity
 		for (Vector3f force : forces) v = Vector3f.add(v, force, v);
 		forces.clear();
 		v = Vector3f.add(v, (Vector3f)w.getGravityVector(this).scale(delta * getGravityFactor()), null);
-		
 		if (!collisionOff &&!canMove(v.x * delta, v.z * delta, terrain))
 		{
 			v.x *= -1;
@@ -107,6 +106,7 @@ public class Movable extends Entity
 	
 	protected void checkTerrain(Terrain terrain)
 	{
+		if(terrain == null) return;
 		terrainHeight = terrain == null ? 0 : terrain.getHeight(position.x, position.z);
 		if (position.y <= terrainHeight)
 		{
