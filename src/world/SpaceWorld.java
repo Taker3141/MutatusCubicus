@@ -8,6 +8,7 @@ import entity.Camera;
 import entity.Entity;
 import entity.Light;
 import entity.Player;
+import entity.vehicle.Rocketship;
 
 public class SpaceWorld extends World
 {
@@ -16,8 +17,11 @@ public class SpaceWorld extends World
 	@Override
 	public void loadEntities()
 	{
+		Rocketship.init();
+		
 		moon = new Entity(createModel("moon", "texture/moon_dust", 0), new Vector3f(), 0, 0, 0, 3476000, entities);
 		player = new Player(new Vector3f(0, 1739000, 0), 0, 180, 0, 0.02F, entities);
+		player.clickAt(new Rocketship(new Vector3f(1, 1739000, 0), 0, 0, 0, entities), new Vector3f());
 		c = new Camera(player, this, true);
 		lights.add(new Light(new Vector3f(0, 100000000, 100000000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
@@ -34,7 +38,6 @@ public class SpaceWorld extends World
 			if(!e.invisible) renderer.processEntities(e);
 		}
 		super.tick();
-		System.out.println(player.position);
 		MainGameLoop.fbo.bindFrameBuffer();
 		renderer.render(lights, c, player);
 		MainGameLoop.fbo.unbindFrameBuffer();

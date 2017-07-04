@@ -179,7 +179,7 @@ public class Player extends Movable
 		
 		public float getSpeed()
 		{
-			if(!boosting) return 10;
+			if(!boosting) return 5;
 			else return 10;
 		}
 		

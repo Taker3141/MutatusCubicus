@@ -56,7 +56,7 @@ public class Rocketship extends Movable
 		if(thrusting)
 		{
 			float dt = DisplayManager.getFrameTimeSeconds();
-			if (thrustingDistance < 1000)
+			if (thrustingDistance < 200)
 			{
 				v = Vector3f.add(v, (Vector3f)w.getGravityVector(this).scale(-1.1F), null);
 				v.x += (float) (10000 * Math.cos(Math.toRadians(-rotY)) * dt);
