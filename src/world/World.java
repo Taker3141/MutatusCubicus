@@ -17,11 +17,13 @@ import entity.Camera;
 import entity.Entity;
 import entity.Light;
 import entity.Player;
+import gui.Overlay;
 
 public abstract class World
 {
 	public static Random r = new Random();
 	public List<Entity> entities = new ArrayList<Entity>();
+	public List<Overlay> overlays = new ArrayList<Overlay>();
 	protected MasterRenderer renderer = new MasterRenderer();
 	protected Loader loader = MainManagerClass.loader;
 	protected Input input = new Input(Display.getHeight());

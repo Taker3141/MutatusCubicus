@@ -8,6 +8,7 @@ import entity.Entity;
 import entity.Movable;
 import entity.Player;
 import entity.SubEntity;
+import gui.OverlaySpaceship;
 import raycasting.AABB;
 import renderer.DisplayManager;
 import renderer.Loader;
@@ -28,6 +29,7 @@ public class Rocketship extends Movable
 	private float thrustingDistance = 0;
 	private SubEntity[] flames = new SubEntity[2];
 	public Player passenger;
+	public OverlaySpaceship info = new OverlaySpaceship(this);
 	
 	public static void init()
 	{

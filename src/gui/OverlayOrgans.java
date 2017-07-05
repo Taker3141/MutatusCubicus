@@ -2,15 +2,12 @@ package gui;
 
 import org.lwjgl.util.vector.Vector2f;
 import renderer.DisplayManager;
-import renderer.Loader;
-import main.MainManagerClass;
 import entity.Player;
 import gui.element.*;
 
 public class OverlayOrgans extends Overlay
 {
 	protected Player p;
-	protected Loader loader = MainManagerClass.loader;
 	protected final int X = W / 2 - 512;
 	protected GuiBar digestion, energy, size, boost;
 	

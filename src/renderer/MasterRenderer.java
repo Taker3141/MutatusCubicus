@@ -12,6 +12,7 @@ import entity.Camera;
 import entity.Entity;
 import entity.Light;
 import entity.Player;
+import gui.Overlay;
 import renderer.models.TexturedModel;
 import renderer.shaders.StaticShader;
 import renderer.shaders.TerrainShader;
@@ -60,7 +61,7 @@ public class MasterRenderer
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 	
-	public void render(List<Light> lights, Camera camera, Player p)
+	public void render(List<Light> lights, Camera camera, Player p, List<Overlay> overlays)
 	{
 		prepare();
 		terrainShader.start();
@@ -86,7 +87,10 @@ public class MasterRenderer
 		shader.stop();
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		guiRenderer.render(p.organs.getElements(), false);
+		for(Overlay o : overlays)
+		{
+			guiRenderer.render(o.getElements(), false);
+		}
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		terrains.clear();
 		entities.clear();

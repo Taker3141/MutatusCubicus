@@ -21,7 +21,10 @@ public class SpaceWorld extends World
 		
 		moon = new Entity(createModel("moon", "texture/moon_dust", 0), new Vector3f(), 0, 0, 0, 3476000, entities);
 		player = new Player(new Vector3f(0, 1739000, 0), 0, 180, 0, 0.02F, entities);
-		player.clickAt(new Rocketship(new Vector3f(1, 1739000, 0), 0, 0, 0, entities), new Vector3f());
+		overlays.add(player.organs);
+		Rocketship ship = new Rocketship(new Vector3f(1, 1739000, 0), 0, 0, 0, entities);
+		overlays.add(ship.info);
+		player.clickAt(ship, new Vector3f());
 		c = new Camera(player, this, true);
 		lights.add(new Light(new Vector3f(0, 100000000, 100000000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
@@ -39,7 +42,7 @@ public class SpaceWorld extends World
 		}
 		super.tick();
 		MainGameLoop.fbo.bindFrameBuffer();
-		renderer.render(lights, c, player);
+		renderer.render(lights, c, player, overlays);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
 

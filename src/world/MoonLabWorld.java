@@ -142,7 +142,7 @@ public class MoonLabWorld extends World
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z + 200));
 		renderer.processTerrain(terrain(player.position.x + 200, player.position.z - 200));
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z - 200));
-		renderer.render(lights, c, player);
+		renderer.render(lights, c, player, overlays);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
 
