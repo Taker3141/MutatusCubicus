@@ -1,6 +1,7 @@
 package main;
 
 import org.lwjgl.opengl.Display;
+import font.fontRendering.TextMaster;
 import renderer.*;
 import renderer.fbo.Fbo;
 import renderer.fbo.PostProcessing;
@@ -13,11 +14,11 @@ public class MainGameLoop
 	
 	public static void doGame(Class<? extends World> world)
 	{
+		TextMaster.clear();
 		try
 		{
 			w = world.newInstance();
 			Loader loader = MainManagerClass.loader;
-			
 			w.updateRaycaster();
 			
 			fbo = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_RENDER_BUFFER);

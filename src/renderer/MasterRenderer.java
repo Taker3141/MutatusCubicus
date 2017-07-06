@@ -12,6 +12,7 @@ import entity.Camera;
 import entity.Entity;
 import entity.Light;
 import entity.Player;
+import font.fontRendering.TextMaster;
 import gui.Overlay;
 import renderer.models.TexturedModel;
 import renderer.shaders.StaticShader;
@@ -91,6 +92,7 @@ public class MasterRenderer
 		{
 			guiRenderer.render(o.getElements(), false);
 		}
+		TextMaster.render();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		terrains.clear();
 		entities.clear();

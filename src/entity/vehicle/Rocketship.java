@@ -72,6 +72,7 @@ public class Rocketship extends Movable
 				flames[i].rotY = (float)(MoonLabWorld.r.nextGaussian() * 10);
 			}
 		}
+		info.update();
 		super.update(w, t);
 		if(passenger != null) {passenger.position = new Vector3f(position); passenger.position.y += 20;}
 	}

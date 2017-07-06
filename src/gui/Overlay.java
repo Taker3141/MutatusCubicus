@@ -1,6 +1,8 @@
 package gui;
 
+import font.fontMeshCreator.FontType;
 import gui.element.GuiElement;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import main.MainManagerClass;
@@ -13,6 +15,7 @@ public abstract class Overlay
 	protected final int W, H;
 	protected Loader loader = MainManagerClass.loader;
 	public boolean isActive = true;
+	public FontType font = new FontType(loader.loadTexture("font/roboto"), new File("res/font/roboto.fnt"));
 	
 	public Overlay()
 	{
