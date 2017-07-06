@@ -46,6 +46,7 @@ public class TextMaster
 		if (text != null)
 		{
 			List<GUIText> textBatch = texts.get(text.getFont());
+			if(textBatch == null) return;
 			textBatch.remove(text);
 			if (textBatch.isEmpty())
 			{

@@ -99,7 +99,7 @@ public class Player extends Movable
 		{
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {ship.rotY += dt * 20; rotY += dt * 20;}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {ship.rotY -= dt * 20; rotY -= dt * 20;}
-			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {ship.passenger = null; ship = null;}
+			if(Keyboard.isKeyDown(Keyboard.KEY_E)) {ship.passenger = null; ship.info.setVisible(false); w.overlays.remove(ship.info); ship = null;}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD7) && (scale + 0.001F * dt) < NORMAL_SIZE * MAX_SIZE_FACTOR) scale += 0.001F * dt;
 		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4) && scale > NORMAL_SIZE) scale -= 0.001F * dt;
@@ -243,10 +243,12 @@ public class Player extends Movable
 			vehicle.passenger = this;
 			model.transparencyNumber = -1;
 		}
-		if(e instanceof Rocketship)
+		if(e instanceof Rocketship && ship == null)
 		{
 			ship = (Rocketship)e;
 			ship.passenger = this;
+			ship.info.setVisible(true);
+			w.overlays.add(ship.info);
 		}
 	}
 	
