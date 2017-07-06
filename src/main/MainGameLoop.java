@@ -1,5 +1,7 @@
 package main;
 
+import gui.menu.LoadingScreen;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import renderer.*;
 import renderer.fbo.Fbo;
@@ -15,6 +17,8 @@ public class MainGameLoop
 	{
 		try
 		{
+			LoadingScreen loading = new LoadingScreen();
+			loading.doMenu();
 			w = world.newInstance();
 			Loader loader = MainManagerClass.loader;
 			

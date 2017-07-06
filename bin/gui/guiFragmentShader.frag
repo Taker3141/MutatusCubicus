@@ -16,6 +16,6 @@ void main(void)
 	outColor = textureColor;
 	if(textureColor.a < 0.5)
 	{
-		discard;
+		//discard;
 	}
 }
