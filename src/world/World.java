@@ -13,10 +13,7 @@ import renderer.Loader;
 import renderer.MasterRenderer;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
-import entity.Camera;
-import entity.Entity;
-import entity.Light;
-import entity.Player;
+import entity.*;
 import gui.Overlay;
 
 public abstract class World
@@ -24,6 +21,7 @@ public abstract class World
 	public static Random r = new Random();
 	public List<Entity> entities = new ArrayList<Entity>();
 	public List<Overlay> overlays = new ArrayList<Overlay>();
+	public List<Orbit> orbitList = new ArrayList<Orbit>();
 	protected MasterRenderer renderer = new MasterRenderer();
 	protected Loader loader = MainManagerClass.loader;
 	protected Input input = new Input(Display.getHeight());

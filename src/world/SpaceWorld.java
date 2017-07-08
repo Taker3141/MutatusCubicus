@@ -4,10 +4,7 @@ import static org.lwjgl.input.Keyboard.*;
 import main.MainGameLoop;
 import org.lwjgl.util.vector.Vector3f;
 import renderer.fbo.PostProcessing;
-import entity.Camera;
-import entity.Entity;
-import entity.Light;
-import entity.Player;
+import entity.*;
 import entity.vehicle.Rocketship;
 
 public class SpaceWorld extends World
@@ -28,6 +25,16 @@ public class SpaceWorld extends World
 		lights.add(new Light(new Vector3f(0, 100000000, 100000000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new Light(new Vector3f(0, -100000000, -100000000), new Vector3f(1, 1, 1)));
+		{
+			Vector3f[] points = new Vector3f[100];
+			for(int i = 0; i < 100; i++)
+			{
+				points[i] = new Vector3f(i * 1000, 0, 0);
+				points[i] = Vector3f.add(points[i], getCoordinateOffset(), null);
+			}
+			Orbit testOrbit = loader.loadOrbitToVAO(points);
+			orbitList.add(testOrbit);
+		}
 	}
 	
 	@Override
@@ -41,7 +48,7 @@ public class SpaceWorld extends World
 		}
 		super.tick();
 		MainGameLoop.fbo.bindFrameBuffer();
-		renderer.render(lights, c, player, overlays);
+		renderer.render(lights, c, player, overlays, orbitList);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
 

@@ -22,7 +22,16 @@ public class MoonLabWorld extends World
 		Particle.init();
 		Rocketship.init();
 		
-		player = new Player(new Vector3f(1164, 0, 1808), 0, 180, 0, 0.02F, entities);
+		player = new Player(new Vector3f(1164, 21, 1808), 0, 180, 0, 0.02F, entities);
+		{
+			Vector3f[] points = new Vector3f[100];
+			for(int i = 0; i < 100; i++)
+			{
+				points[i] = Vector3f.add(player.position, new Vector3f(i, i, 0), null);
+			}
+			Orbit testOrbit = loader.loadOrbitToVAO(points);
+			orbitList.add(testOrbit);
+		}
 		lights.add(new Light(new Vector3f(0, 100000, 100000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new PulsatingLight(new Vector3f(1261, 40, 1955), new Vector3f(2F, 0.1F, 1.8F), new Vector3f(1, 0.01F, 0.002F), 2));
@@ -142,7 +151,7 @@ public class MoonLabWorld extends World
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z + 200));
 		renderer.processTerrain(terrain(player.position.x + 200, player.position.z - 200));
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z - 200));
-		renderer.render(lights, c, player, overlays);
+		renderer.render(lights, c, player, overlays, orbitList);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
 
