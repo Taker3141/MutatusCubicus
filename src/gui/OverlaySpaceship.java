@@ -2,7 +2,6 @@ package gui;
 
 import org.lwjgl.util.vector.Vector2f;
 import entity.vehicle.Rocketship;
-import font.fontMeshCreator.GUIText;
 import gui.element.*;
 
 public class OverlaySpaceship extends Overlay

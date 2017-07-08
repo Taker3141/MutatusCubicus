@@ -2,10 +2,8 @@ package renderer;
 
 import java.util.List;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL31;
 import org.lwjgl.util.vector.Matrix4f;
 import entity.Orbit;
 import renderer.shaders.OrbitShader;
@@ -30,11 +28,10 @@ public class OrbitRenderer
 			if(!o.visible) continue;
 			shader.loadProjectionMatrix(projectionMatrix);
 			prepareOrbit(o);
-			GL11.glDisable(GL11.GL_DEPTH_TEST);
-			GL11.glLineWidth(2);
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glDrawArrays(GL11.GL_LINE_STRIP, 0, o.getVertexCount());
-//			shader.loadProjectionMatrix(farProjectionMatrix);
-//			GL11.glDrawElements(GL11.GL_LINE_STRIP, o.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			shader.loadProjectionMatrix(farProjectionMatrix);
+			GL11.glDrawArrays(GL11.GL_LINE_STRIP, 0, o.getVertexCount());
 			unbindOrbit();
 		}
 	}

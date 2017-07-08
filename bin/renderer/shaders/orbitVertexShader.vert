@@ -12,6 +12,6 @@ uniform vec3 skyColor;
 
 void main(void)
 {
-	gl_Position = viewMatrix * projectionMatrix * vec4(position, 1.0);
+	gl_Position = projectionMatrix * viewMatrix * vec4(position, 1.0);
 	fragmentColor = lineColor;
 }

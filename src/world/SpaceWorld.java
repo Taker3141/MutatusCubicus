@@ -29,7 +29,7 @@ public class SpaceWorld extends World
 			Vector3f[] points = new Vector3f[100];
 			for(int i = 0; i < 100; i++)
 			{
-				points[i] = new Vector3f(i * 1000, 0, 0);
+				points[i] = Vector3f.add(ship.position, new Vector3f(1000 * i, 0, 0), null);
 				points[i] = Vector3f.add(points[i], getCoordinateOffset(), null);
 			}
 			Orbit testOrbit = loader.loadOrbitToVAO(points);
