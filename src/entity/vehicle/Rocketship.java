@@ -6,6 +6,7 @@ import objLoader.OBJLoader;
 import org.lwjgl.util.vector.Vector3f;
 import entity.Entity;
 import entity.Movable;
+import entity.Orbit;
 import entity.Player;
 import entity.SubEntity;
 import gui.OverlaySpaceship;
@@ -75,6 +76,22 @@ public class Rocketship extends Movable
 		info.update();
 		super.update(w, t);
 		if(passenger != null) {passenger.position = new Vector3f(position); passenger.position.y += 20;}
+	}
+	
+	public Orbit calculateOrbit()
+	{
+		Vector3f[] points = new Vector3f[100];
+		Vector3f cPosition = position;
+		Vector3f cV = v;
+		float dt = 20;
+		for(int i = 0; i < 100; i++)
+		{
+			dt = 100 * i;
+			points[i] = Vector3f.add(cPosition, w.getCoordinateOffset(), null);
+			cPosition = Vector3f.add(cPosition, (Vector3f)new Vector3f(cV).scale(dt), null);
+			cV = Vector3f.add(cV, (Vector3f)new Vector3f(w.getGravityVector(this)).scale(dt * getGravityFactor()), null);
+		}
+		return loader.loadOrbitToVAO(points);
 	}
 	
 	@Override
