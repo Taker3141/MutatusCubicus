@@ -9,11 +9,12 @@ uniform float height;
 uniform float width;
 uniform float offsetX;
 uniform float offsetY;
+uniform vec3 color;
 
 void main(void)
 {
 	vec4 textureColor = texture(guiTexture, vec2(textureCoords.x * width + offsetX, textureCoords.y * height + offsetY));
-	outColor = textureColor;
+	outColor = textureColor * vec4(color, 1);
 	if(textureColor.a < 0.5)
 	{
 		discard;
