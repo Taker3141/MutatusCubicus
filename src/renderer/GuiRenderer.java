@@ -36,6 +36,7 @@ public class GuiRenderer
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		for(GuiElement element : elements)
 		{
+			if(!element.isVisible) continue;
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, element.getTextureID());
 			Matrix4f matrix = createGuiTransformationMatrix(element.position, element.size);

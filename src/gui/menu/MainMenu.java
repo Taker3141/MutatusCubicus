@@ -8,21 +8,26 @@ import org.newdawn.slick.Input;
 import font.fontRendering.TextMaster;
 import gui.element.*;
 import gui.handler.HandlerChangeMenu;
+import gui.handler.IClickHandler;
 import gui.handler.MouseHandler;
 
 public class MainMenu extends Menu
 {
+	private WorldSelector selector;
+	private boolean freePlayVisible = false;
+	
 	@Override
 	public void doMenu()
 	{	
 		{
 			final int indention = 200;
 			guiElements.add(new Button(new Vector2f(indention, H - 200), buttonSize, this).setText("Story", font, 1));
-			guiElements.add(new Button(new Vector2f(indention, H - 250), buttonSize, this).setText("Freies Spiel", font, 1));
+			guiElements.add(new Button(new Vector2f(indention, H - 250), buttonSize, this).setText("Freies Spiel", font, 1).setClickHandler(new HandlerToggleFreePlayGui()));
 			guiElements.add(new Button(new Vector2f(indention, H - 300), buttonSize, this).setText("Einstellungen", font, 1).setClickHandler(new HandlerChangeMenu(MenuSettings.class)));
 			guiElements.add(new Button(new Vector2f(indention, H - 350), buttonSize, this).setText("Spiel Beenden", font, 1).setClickHandler(new HandlerChangeMenu(null)));
-			WorldSelector selector = new WorldSelector(new Vector2f(indention - 128, H - 700), new Vector2f(512, 256), this);
+			selector = new WorldSelector(new Vector2f(indention - 128, H - 700), new Vector2f(512, 256), this);
 			for(GuiElement e : selector.worldIcons) guiElements.add(e);
+			selector.setVisible(false);
 			guiElements.add(selector);
 		}
 		
@@ -53,5 +58,15 @@ public class MainMenu extends Menu
 			}
 		}
 		cleanUp();
+	}
+	
+	private class HandlerToggleFreePlayGui implements IClickHandler
+	{
+		@Override
+		public void click(Menu parent)
+		{
+			freePlayVisible = !freePlayVisible;
+			selector.setVisible(freePlayVisible);
+		}
 	}
 }

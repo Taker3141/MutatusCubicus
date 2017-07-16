@@ -17,6 +17,7 @@ public class GuiElement
 	public Menu parent;
 	public Vector3f color = new Vector3f(1, 1, 1);
 	protected FontType font = new FontType(loader.loadTexture("font/roboto"), new File("res/font/roboto.fnt"));
+	public boolean isVisible = true;
 	
 	public static Loader loader = MainManagerClass.loader;
 	

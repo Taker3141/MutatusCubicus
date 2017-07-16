@@ -10,11 +10,12 @@ import gui.menu.Menu;
 public class WorldSelector extends GuiElement implements IClickable
 {
 	public GuiElement[] worldIcons;
+	private GUIText text;
 	
 	public WorldSelector(Vector2f position, Vector2f size, Menu parent)
 	{
 		super(loader.loadTexture("texture/gui/box"), position, size, parent);
-		new GUIText("Ort auswählen:", 1, font, Vector2f.add(position, new Vector2f(30, size.y - 20), null), 1, false);
+		text = new GUIText("Ort auswählen:", 1, font, Vector2f.add(position, new Vector2f(30, size.y - 20), null), 1, false);
 		worldIcons = new GuiElement[2];
 		worldIcons[0] = new GuiElement(loader.loadTexture("texture/gui/moon_lab"), Vector2f.add(position, new Vector2f(30, size.y - 180), null), new Vector2f(128, 128), parent);
 		worldIcons[1] = new GuiElement(loader.loadTexture("texture/gui/moon_orbit"), Vector2f.add(position, new Vector2f(190, size.y - 180), null), new Vector2f(128, 128), parent);
@@ -37,10 +38,18 @@ public class WorldSelector extends GuiElement implements IClickable
 			}
 		}
 	}
+	
+	public void setVisible(boolean visible)
+	{
+		isVisible = visible;
+		for(GuiElement e : worldIcons) e.isVisible = visible;
+		text.isVisible = visible;
+	}
 
 	@Override
 	public boolean isOver(int x, int y)
 	{
+		if(!isVisible) return false;
 		boolean ret = x >= position.x && x <= position.x + size.x && y >= position.y && y <= position.y + size.y;
 		for(int i = 0; i < worldIcons.length; i++)
 		{
