@@ -1,7 +1,6 @@
 package main;
 
 import gui.menu.LoadingScreen;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import font.fontRendering.TextMaster;
 import renderer.*;

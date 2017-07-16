@@ -10,6 +10,7 @@ import renderer.models.TexturedModel;
 import renderer.textures.*;
 import terrain.Terrain;
 import entity.*;
+import entity.building.ReactorBuilding;
 import entity.vehicle.*;
 
 public class MoonLabWorld extends World
@@ -56,31 +57,7 @@ public class MoonLabWorld extends World
 				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.24F + r.nextFloat() * 0.08F, entities);
 			}
 			
-			Entity reactor = new Entity(createModel("reactor/reactor_building", "texture/concrete", 0), new Vector3f(1062, height(1062, 2004), 2004), 0, 90, 0, 50, entities);
-			new SubEntity(createModel("reactor/reactor_decoration", "texture/reactor_decoration", 0.5F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/plasma_chamber", "texture/plasma_chamber", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/turbine", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/electrolyse_chamber", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/isotope_generator", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/water_tube", "texture/color/blue", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/water_tube", "texture/color/blue", 0.2F), new Vector3f(-0.09F, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/water_tube", "texture/color/blue", 0.2F), new Vector3f(-0.18F, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/hydrogen_tube1", "texture/color/green", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/hydrogen_tube2", "texture/color/green", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/heavy_hydrogen_tube", "texture/color/green", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/helium_tube", "texture/color/yellow", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/steam_tube1", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			new SubEntity(createModel("reactor/steam_tube2", "texture/metal", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, reactor);
-			{
-				TexturedModel energyCell = createModel("reactor/energy_cell", "texture/color/red", 0);
-				for(int i = 0; i < 11; i++)
-				{
-					for(int j = 0; j < 6; j++)
-					{
-						new Entity(energyCell, hVector(1310 + i * 8, 1940 + j * 8), 0, 0, 0, 2, entities);
-					}
-				}
-			}
+			new ReactorBuilding(new Vector3f(1062, height(1062, 2004), 2004), 0, 90, 0, 50, entities, this);
 			{
 				FuelGenerator.init();
 				FuelGenerator fuelGenerator = new FuelGenerator(hVector(1510, 1936), 0, 0, 0, entities);
@@ -109,6 +86,7 @@ public class MoonLabWorld extends World
 				}
 			}
 			new Entity(createModel("antenna", "texture/metal", 0.4F), new Vector3f(1184, height(1184, 1224), 1224), 0, 45, 0, 50, entities);
+			new Entity(createModel("lab", "texture/concrete", 0), hVector(1577, 1421), 0, 0, 0, 54.8F, entities);
 			Entity biosphere = new Entity(createModel("biosphere_outside", "texture/glass", 0.2F), new Vector3f(1194, height(1194, 1436) - 10, 1436), 0, 0, 0, 120, entities);
 			biosphere.model.getTexture().setHasTransparency(true);
 			biosphere.model.transparencyNumber = 1;
