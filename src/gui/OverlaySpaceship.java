@@ -14,6 +14,8 @@ public class OverlaySpaceship extends Overlay
 	protected GuiElement engineLeft;
 	protected boolean visible = false;
 	private final int X = W - 1024;
+	protected final Vector3f OFF_COLOR = new Vector3f(0, 0, 1);
+	protected final Vector3f ON_COLOR = new Vector3f(1, 0, 0);
 	
 	public OverlaySpaceship(Rocketship s)
 	{
@@ -31,6 +33,10 @@ public class OverlaySpaceship extends Overlay
 	public void update()
 	{
 		if(verlocityLabel != null) verlocityLabel.setText("o!v = " + ship.v.length() + "m/s");
+		engineBack.color = ship.isAccelerating() ? ON_COLOR : OFF_COLOR;
+		engineRight.color = ship.rotating > 0 ? ON_COLOR : OFF_COLOR;
+		engineLeft.color = ship.rotating < 0 ? ON_COLOR : OFF_COLOR;
+		ship.rotating = 0;
 	}
 	
 	public void setVisible(boolean v)

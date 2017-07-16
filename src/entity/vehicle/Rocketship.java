@@ -29,6 +29,7 @@ public class Rocketship extends Movable
 	private boolean thrusting = false;
 	private float thrustingDistance = 0;
 	private SubEntity[] flames = new SubEntity[2];
+	public float rotating = 0;
 	public Player passenger;
 	public OverlaySpaceship info = new OverlaySpaceship(this);
 	
@@ -67,6 +68,11 @@ public class Rocketship extends Movable
 				float dx = v.x * dt, dz = v.z * dt;
 				thrustingDistance += Math.sqrt(dx * dx + dz * dz);
 			}
+			else
+			{
+				thrusting = false;
+				for(Entity flame : flames) flame.invisible = true;
+			}
 			for (int i = 0; i < flames.length; i++)
 			{
 				flames[i].rotX += 1000 * dt;
@@ -94,6 +100,17 @@ public class Rocketship extends Movable
 		return loader.loadOrbitToVAO(points);
 	}
 	
+	public void rotate(float yAngle)
+	{
+		rotating = yAngle;
+		rotY += yAngle;
+	}
+	
+	public boolean isAccelerating()
+	{
+		return thrusting;
+	}
+	
 	@Override
 	public void click()
 	{
@@ -102,6 +119,7 @@ public class Rocketship extends Movable
 	
 	public void launch()
 	{
+		thrustingDistance = 0;
 		thrusting = true;
 		collisionOff = true;
 		flames[0].invisible = false;
