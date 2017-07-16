@@ -1,5 +1,7 @@
 package gui.element;
 
+import java.io.File;
+import font.fontMeshCreator.FontType;
 import gui.menu.Menu;
 import main.MainManagerClass;
 import org.lwjgl.util.vector.Vector2f;
@@ -14,6 +16,7 @@ public class GuiElement
 	public boolean isEnabled = true;
 	public Menu parent;
 	public Vector3f color = new Vector3f(1, 1, 1);
+	protected FontType font = new FontType(loader.loadTexture("font/roboto"), new File("res/font/roboto.fnt"));
 	
 	public static Loader loader = MainManagerClass.loader;
 	

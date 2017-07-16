@@ -6,12 +6,9 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Input;
 import font.fontRendering.TextMaster;
-import gui.element.Button;
-import gui.element.GuiElement;
+import gui.element.*;
 import gui.handler.HandlerChangeMenu;
-import gui.handler.HandlerStartGame;
 import gui.handler.MouseHandler;
-import world.*;
 
 public class MainMenu extends Menu
 {
@@ -19,11 +16,14 @@ public class MainMenu extends Menu
 	public void doMenu()
 	{	
 		{
-			final int indention = W / 4;
-			guiElements.add(new Button(new Vector2f(indention + 200, H - 200), buttonSize, this).setText("o!Spiel Starten", font, 1).setClickHandler(new HandlerStartGame(MoonLabWorld.class)));
-			guiElements.add(new Button(new Vector2f(indention + 600, H - 200), buttonSize, this).setText("o!Weltraum", font, 1).setClickHandler(new HandlerStartGame(SpaceWorld.class)));
-			guiElements.add(new Button(new Vector2f(indention + 200, H - 250), buttonSize, this).setText("o!Einstellungen", font, 1).setClickHandler(new HandlerChangeMenu(MenuSettings.class)));
-			guiElements.add(new Button(new Vector2f(indention + 200, H - 300), buttonSize, this).setText("o!Spiel Beenden", font, 1).setClickHandler(new HandlerChangeMenu(null)));
+			final int indention = 200;
+			guiElements.add(new Button(new Vector2f(indention, H - 200), buttonSize, this).setText("Story", font, 1));
+			guiElements.add(new Button(new Vector2f(indention, H - 250), buttonSize, this).setText("Freies Spiel", font, 1));
+			guiElements.add(new Button(new Vector2f(indention, H - 300), buttonSize, this).setText("Einstellungen", font, 1).setClickHandler(new HandlerChangeMenu(MenuSettings.class)));
+			guiElements.add(new Button(new Vector2f(indention, H - 350), buttonSize, this).setText("Spiel Beenden", font, 1).setClickHandler(new HandlerChangeMenu(null)));
+			WorldSelector selector = new WorldSelector(new Vector2f(indention - 128, H - 700), new Vector2f(512, 256), this);
+			for(GuiElement e : selector.worldIcons) guiElements.add(e);
+			guiElements.add(selector);
 		}
 		
 		guiElements.add(new GuiElement(loader.loadTexture("texture/gui/main_menu_background"), new Vector2f(0, -H), new Vector2f(W, 2 * H), null));

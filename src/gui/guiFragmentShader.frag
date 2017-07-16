@@ -15,8 +15,8 @@ void main(void)
 {
 	vec4 textureColor = texture(guiTexture, vec2(textureCoords.x * width + offsetX, textureCoords.y * height + offsetY));
 	outColor = textureColor * vec4(color, 1);
-	if(textureColor.a < 0.5)
+	if(textureColor.a < 0.01)
 	{
-		//discard;
+		discard;
 	}
 }
