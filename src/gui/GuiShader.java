@@ -1,6 +1,7 @@
 package gui;
 
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 import renderer.shaders.ShaderProgram;
 
 public class GuiShader extends ShaderProgram
@@ -14,6 +15,7 @@ public class GuiShader extends ShaderProgram
 	private int locationOffsetY;
 	private int locationHeight;
 	private int locationWidth;
+	private int locationColor;
 	
 	public GuiShader()
 	{
@@ -45,6 +47,11 @@ public class GuiShader extends ShaderProgram
 	{
 		super.loadFloat(locationWidth, width);
 	}
+	
+	public void loadColor(Vector3f color)
+	{
+		super.loadVector(locationColor, color);
+	}
 
 	@Override
 	protected void getAllUniformLocations()
@@ -55,6 +62,7 @@ public class GuiShader extends ShaderProgram
 		locationOffsetY = super.getUniformLocation("offsetY");
 		locationHeight = super.getUniformLocation("height");
 		locationWidth = super.getUniformLocation("width");
+		locationColor = super.getUniformLocation("color");
 	}
 	
 	@Override

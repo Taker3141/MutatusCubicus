@@ -11,8 +11,12 @@ import org.lwjgl.util.vector.Matrix4f;
 import entity.Camera;
 import entity.Entity;
 import entity.Light;
+import entity.Orbit;
 import entity.Player;
+import font.fontRendering.TextMaster;
+import gui.Overlay;
 import renderer.models.TexturedModel;
+import renderer.shaders.OrbitShader;
 import renderer.shaders.StaticShader;
 import renderer.shaders.TerrainShader;
 import skybox.SkyboxRenderer;
@@ -33,6 +37,8 @@ public class MasterRenderer
 	private EntityRenderer renderer;
 	private TerrainShader terrainShader = new TerrainShader();
 	private TerrainRenderer terrainRenderer;
+	private OrbitShader orbitShader = new OrbitShader();
+	private OrbitRenderer orbitRenderer;
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	private SkyboxRenderer skyboxRenderer;
@@ -45,6 +51,7 @@ public class MasterRenderer
 		farProjection = createProjectionMatrix(FOV, VERY_FAR_PLANE, 500);
 		renderer = new EntityRenderer(shader, projection, farProjection);
 		terrainRenderer = new TerrainRenderer(terrainShader, projection);
+		orbitRenderer = new OrbitRenderer(orbitShader, projection, farProjection);
 		skyboxRenderer = new SkyboxRenderer(MainManagerClass.loader, projection);
 		guiRenderer = new GuiRenderer(MainManagerClass.loader);
 	}
@@ -60,7 +67,7 @@ public class MasterRenderer
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 	
-	public void render(List<Light> lights, Camera camera, Player p)
+	public void render(List<Light> lights, Camera camera, Player p, List<Overlay> overlays, List<Orbit> orbits)
 	{
 		prepare();
 		terrainShader.start();
@@ -84,9 +91,19 @@ public class MasterRenderer
 		shader.loadViewMatrix(camera);
 		renderer.render(entities, true);
 		shader.stop();
+		orbitShader.start();
+		orbitShader.loadLineColor(1, 0, 0);
+		orbitShader.loadViewMatrix(camera);
+		orbitShader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
+		orbitRenderer.render(orbits);
+		orbitShader.stop();
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		guiRenderer.render(p.organs.getElements(), false);
+		for(Overlay o : overlays)
+		{
+			guiRenderer.render(o.getElements(), false);
+		}
+		TextMaster.render();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		terrains.clear();
 		entities.clear();

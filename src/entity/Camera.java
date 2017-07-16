@@ -37,9 +37,9 @@ public class Camera
 		{
 			if(position.y - 0.5 < MainGameLoop.w.height(position.x, position.z) && !inSpace) 
 			{
-				float minHeight = ((MoonLabWorld)MainGameLoop.w).height(position.x, position.z) + 0.5F;
+				float minHeight = inSpace ? -10000000 : ((MoonLabWorld)MainGameLoop.w).height(position.x, position.z) + 0.5F;
 				float sin = (minHeight - player.position.y) / distanceFromPlayer;
-				if(sin > 1) sin = 1;
+				if(!inSpace && sin > 1) sin = 1;
 				pitch = (float)Math.toDegrees(Math.asin(sin));
 			}
 			calculateZoom();
@@ -82,7 +82,7 @@ public class Camera
 		float zoomLevel = Mouse.getDWheel() * 0.002F;
 		distanceFromPlayer -= zoomLevel;
 		if (distanceFromPlayer < 0.1F) distanceFromPlayer = 0.1F;
-		if (distanceFromPlayer > 40) distanceFromPlayer = 40;
+		if (distanceFromPlayer > 100) distanceFromPlayer = 100;
 	}
 	
 	private void calculatePitch()
@@ -90,7 +90,7 @@ public class Camera
 		if (Mouse.isButtonDown(2))
 		{
 			float pitchChange = Mouse.getDY() * 0.1F;
-			if(position.y - 1 < MainGameLoop.w.height(position.x, position.z) && pitchChange > 0 && !isFirstPerson) return;
+			if(!inSpace && position.y - 1 < MainGameLoop.w.height(position.x, position.z) && pitchChange > 0 && !isFirstPerson) return;
 			pitch -= pitchChange;
 			if (pitch < -90) pitch = -90;
 			if (pitch > 90) pitch = 90;

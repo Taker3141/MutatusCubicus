@@ -40,6 +40,7 @@ public class GuiRenderer
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, element.getTextureID());
 			Matrix4f matrix = createGuiTransformationMatrix(element.position, element.size);
 			shader.loadTransformationMatrix(matrix);
+			shader.loadColor(element.color);
 			if(element instanceof GuiBar)
 			{
 				shader.loadOffset(((GuiBar)element).offsetX, ((GuiBar)element).offsetY);

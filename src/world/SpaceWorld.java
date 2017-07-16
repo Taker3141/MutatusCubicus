@@ -4,15 +4,14 @@ import static org.lwjgl.input.Keyboard.*;
 import main.MainGameLoop;
 import org.lwjgl.util.vector.Vector3f;
 import renderer.fbo.PostProcessing;
-import entity.Camera;
-import entity.Entity;
-import entity.Light;
-import entity.Player;
+import entity.*;
 import entity.vehicle.Rocketship;
 
 public class SpaceWorld extends World
 {
 	private Entity moon;
+	private Orbit shipOrbit;
+	private Rocketship ship;
 	
 	@Override
 	public void loadEntities()
@@ -21,7 +20,9 @@ public class SpaceWorld extends World
 		
 		moon = new Entity(createModel("moon", "texture/moon_dust", 0), new Vector3f(), 0, 0, 0, 3476000, entities);
 		player = new Player(new Vector3f(0, 1739000, 0), 0, 180, 0, 0.02F, entities);
-		player.clickAt(new Rocketship(new Vector3f(1, 1739000, 0), 0, 0, 0, entities), new Vector3f());
+		overlays.add(player.organs);
+		ship = new Rocketship(new Vector3f(1, 1739000, 0), 0, 0, 0, entities);
+		player.clickAt(ship, new Vector3f());
 		c = new Camera(player, this, true);
 		lights.add(new Light(new Vector3f(0, 100000000, 100000000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
@@ -31,6 +32,9 @@ public class SpaceWorld extends World
 	@Override
 	public boolean tick()
 	{
+		orbitList.remove(shipOrbit);
+		shipOrbit = ship.calculateOrbit();
+		orbitList.add(shipOrbit);	
 		for(int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);
@@ -39,7 +43,7 @@ public class SpaceWorld extends World
 		}
 		super.tick();
 		MainGameLoop.fbo.bindFrameBuffer();
-		renderer.render(lights, c, player);
+		renderer.render(lights, c, player, overlays, orbitList);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
 

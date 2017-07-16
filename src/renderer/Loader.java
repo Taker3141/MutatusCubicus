@@ -15,9 +15,11 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.PNGDecoder;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+import entity.Orbit;
 import renderer.models.SimpleModel;
 import renderer.textures.TextureData;
 
@@ -53,6 +55,29 @@ public class Loader
 		storeDataInAttributeList(0, dimensions, positions);
 		unbindVAO();
 		return new SimpleModel(vaoID, positions.length / dimensions);
+	}
+	
+	public Orbit loadOrbitToVAO(Vector3f[] points)
+	{
+		int vaoID = createVAO();
+		float[] array = new float[points.length * 3];
+		float[] count = new float[points.length];
+		int[] indices = new int[points.length];
+		for(int i = 0; i < points.length; i++)
+		{
+			count[i] = i;
+			indices[i] = i;
+			array[i * 3 + 0] = points[i].x;
+			array[i * 3 + 1] = points[i].y;
+			array[i * 3 + 2] = points[i].z;
+		}
+		//bindIndicesBuffer(indices);
+		storeDataInAttributeList(0, 3, array);
+		storeDataInAttributeList(1, 1, count);
+		unbindVAO();
+		Orbit o = new Orbit(vaoID, points.length);
+		o.points = points;
+		return o;
 	}
 	
 	public int loadTexture(String fileName)

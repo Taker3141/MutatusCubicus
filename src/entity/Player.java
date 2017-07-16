@@ -99,9 +99,10 @@ public class Player extends Movable
 		}
 		if(ship != null)
 		{
-			if (isKeyDown(KEY_A)) {ship.rotY += dt * 20; rotY += dt * 20;}
-			else if (isKeyDown(KEY_D)) {ship.rotY -= dt * 20; rotY -= dt * 20;}
-			if(isKeyDown(KEY_E)) {ship.passenger = null; ship = null;}
+			if (isKeyDown(KEY_A)) {ship.rotate(dt * 20); rotY += dt * 20;}
+			else if (isKeyDown(KEY_D)) {ship.rotate(-dt * 20); rotY -= dt * 20;}
+			if(isKeyDown(KEY_E)) {ship.passenger = null; ship.info.setVisible(false); w.overlays.remove(ship.info); ship = null;}
+			if(isKeyDown(KEY_SPACE)) ship.launch();
 		}
 		for (int i = 0; i < 10; i++)
 		{
@@ -249,10 +250,12 @@ public class Player extends Movable
 			vehicle.passenger = this;
 			model.transparencyNumber = -1;
 		}
-		if(e instanceof Rocketship)
+		if(e instanceof Rocketship && ship == null)
 		{
 			ship = (Rocketship)e;
 			ship.passenger = this;
+			ship.info.setVisible(true);
+			w.overlays.add(ship.info);
 		}
 	}
 	
