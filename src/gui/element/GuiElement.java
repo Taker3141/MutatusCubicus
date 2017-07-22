@@ -33,4 +33,9 @@ public class GuiElement
 	{
 		return texture;
 	}
+	
+	public void setVisible(boolean visible)
+	{
+		isVisible = visible;
+	}
 }

@@ -1,5 +1,6 @@
 package gui.element;
 
+import java.util.List;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import world.*;
@@ -9,7 +10,7 @@ import gui.menu.Menu;
 
 public class WorldSelector extends GuiElement implements IClickable
 {
-	public GuiElement[] worldIcons;
+	private GuiElement[] worldIcons;
 	private GUIText text;
 	
 	public WorldSelector(Vector2f position, Vector2f size, Menu parent)
@@ -39,6 +40,7 @@ public class WorldSelector extends GuiElement implements IClickable
 		}
 	}
 	
+	@Override
 	public void setVisible(boolean visible)
 	{
 		isVisible = visible;
@@ -71,6 +73,12 @@ public class WorldSelector extends GuiElement implements IClickable
 			}
 		}
 		return ret;
+	}
+	
+	public void addComponents(List<GuiElement> list)
+	{
+		for(GuiElement e : worldIcons) list.add(e);
+		list.add(this);
 	}
 	
 	@Override public void leftClick(int mouseX, int mouseY) {}

@@ -28,12 +28,11 @@ public class MainMenu extends Menu
 			guiElements.add(new Button(new Vector2f(indention, H - 300), buttonSize, this).setText("Einstellungen", font, 1).setClickHandler(new HandlerChangeMenu(MenuSettings.class)));
 			guiElements.add(new Button(new Vector2f(indention, H - 350), buttonSize, this).setText("Spiel Beenden", font, 1).setClickHandler(new HandlerChangeMenu(null)));
 			selector = new WorldSelector(new Vector2f(indention - 128, H - 700), new Vector2f(512, 256), this);
-			for(GuiElement e : selector.worldIcons) guiElements.add(e);
+			selector.addComponents(guiElements);
 			selector.setVisible(false);
-			guiElements.add(selector);
 			levels = new LevelSelector(new Vector2f(W - 822 - 50, 50), new Vector2f(822, 411), this);
+			levels.addComponents(guiElements);
 			levels.setVisible(false);
-			guiElements.add(levels);
 		}
 		
 		guiElements.add(new GuiElement(loader.loadTexture("texture/gui/main_menu_background"), new Vector2f(0, -H), new Vector2f(W, 2 * H), null));
