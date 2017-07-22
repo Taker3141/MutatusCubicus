@@ -14,14 +14,16 @@ import gui.handler.MouseHandler;
 public class MainMenu extends Menu
 {
 	private WorldSelector selector;
+	private LevelSelector levels;
 	private boolean freePlayVisible = false;
+	private boolean storyVisible = false;
 	
 	@Override
 	public void doMenu()
 	{	
 		{
 			final int indention = 200;
-			guiElements.add(new Button(new Vector2f(indention, H - 200), buttonSize, this).setText("Story", font, 1));
+			guiElements.add(new Button(new Vector2f(indention, H - 200), buttonSize, this).setText("Story", font, 1).setClickHandler(new HandlerToggleStoryGui()));
 			guiElements.add(new Button(new Vector2f(indention, H - 250), buttonSize, this).setText("Freies Spiel", font, 1).setClickHandler(new HandlerToggleFreePlayGui()));
 			guiElements.add(new Button(new Vector2f(indention, H - 300), buttonSize, this).setText("Einstellungen", font, 1).setClickHandler(new HandlerChangeMenu(MenuSettings.class)));
 			guiElements.add(new Button(new Vector2f(indention, H - 350), buttonSize, this).setText("Spiel Beenden", font, 1).setClickHandler(new HandlerChangeMenu(null)));
@@ -29,6 +31,9 @@ public class MainMenu extends Menu
 			for(GuiElement e : selector.worldIcons) guiElements.add(e);
 			selector.setVisible(false);
 			guiElements.add(selector);
+			levels = new LevelSelector(new Vector2f(W - 822 - 50, 50), new Vector2f(822, 411), this);
+			levels.setVisible(false);
+			guiElements.add(levels);
 		}
 		
 		guiElements.add(new GuiElement(loader.loadTexture("texture/gui/main_menu_background"), new Vector2f(0, -H), new Vector2f(W, 2 * H), null));
@@ -66,7 +71,21 @@ public class MainMenu extends Menu
 		public void click(Menu parent)
 		{
 			freePlayVisible = !freePlayVisible;
+			storyVisible = false;
 			selector.setVisible(freePlayVisible);
+			levels.setVisible(storyVisible);
+		}
+	}
+	
+	private class HandlerToggleStoryGui implements IClickHandler
+	{
+		@Override
+		public void click(Menu parent)
+		{
+			freePlayVisible = false;
+			storyVisible = !storyVisible;
+			selector.setVisible(freePlayVisible);
+			levels.setVisible(storyVisible);
 		}
 	}
 }
