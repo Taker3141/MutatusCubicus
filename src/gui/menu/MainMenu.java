@@ -30,7 +30,7 @@ public class MainMenu extends Menu
 			selector = new WorldSelector(new Vector2f(indention - 128, H - 700), new Vector2f(512, 256), this);
 			selector.addComponents(guiElements);
 			selector.setVisible(false);
-			levels = new LevelSelector(new Vector2f(W - 822 - 50, 50), new Vector2f(822, 411), this);
+			levels = new LevelSelector(new Vector2f(W - 822 - 50, H - 579), new Vector2f(822, 411), this);
 			levels.addComponents(guiElements);
 			levels.setVisible(false);
 		}
