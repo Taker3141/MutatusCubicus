@@ -33,6 +33,15 @@ public class VerticalScrollBar extends GuiElement implements IClickable
 		return distance / maxDistance;
 	}
 	
+	public void setSlide(float slide)
+	{
+		slide = slide > 1 ? 1 : slide < 0 ? 0 : slide;
+		final float offsetTop = ((size.y / 4) / 64) * 16;
+		final float maxDistance = size.y - slider.size.y + offsetTop;
+		final float distance = slide * maxDistance;
+		slider.position.y = position.y + distance;
+	}
+	
 	@Override 
 	public void leftClick(int x, int y) 
 	{

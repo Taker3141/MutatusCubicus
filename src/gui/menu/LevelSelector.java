@@ -72,6 +72,7 @@ public class LevelSelector extends GuiElement implements IClickable
 			if(sectionIndex >= sectionNames.length) sectionIndex = 0;
 			if(sectionIndex < 0) sectionIndex = sectionNames.length - 1;
 			sectionText.setText(sectionNames[sectionIndex]);
+			scroll.setSlide(1);
 		}
 	}
 	
