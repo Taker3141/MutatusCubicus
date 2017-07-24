@@ -27,7 +27,7 @@ public class MainMenu extends Menu
 			guiElements.add(new Button(new Vector2f(indention, H - 250), buttonSize, this).setText("Freies Spiel", font, 1).setClickHandler(new HandlerToggleFreePlayGui()));
 			guiElements.add(new Button(new Vector2f(indention, H - 300), buttonSize, this).setText("Einstellungen", font, 1).setClickHandler(new HandlerChangeMenu(MenuSettings.class)));
 			guiElements.add(new Button(new Vector2f(indention, H - 350), buttonSize, this).setText("Spiel Beenden", font, 1).setClickHandler(new HandlerChangeMenu(null)));
-			selector = new WorldSelector(new Vector2f(indention - 128, H - 700), new Vector2f(512, 256), this);
+			selector = new WorldSelector(new Vector2f(W - 822 - 50, H - 424), new Vector2f(512, 256), this);
 			selector.addComponents(guiElements);
 			selector.setVisible(false);
 			levels = new LevelSelector(new Vector2f(W - 822 - 50, H - 579), new Vector2f(822, 411), this);

@@ -10,16 +10,18 @@ import gui.menu.Menu;
 
 public class WorldSelector extends GuiElement implements IClickable
 {
-	private GuiElement[] worldIcons;
+	private WorldIcon[] worldIcons;
 	private GUIText text;
+	private GUIText nameText;
 	
 	public WorldSelector(Vector2f position, Vector2f size, Menu parent)
 	{
 		super(loader.loadTexture("texture/gui/box"), position, size, parent);
-		text = new GUIText("Ort auswählen:", 1, font, Vector2f.add(position, new Vector2f(30, size.y - 20), null), 1, false);
-		worldIcons = new GuiElement[2];
-		worldIcons[0] = new GuiElement(loader.loadTexture("texture/gui/moon_lab"), Vector2f.add(position, new Vector2f(30, size.y - 180), null), new Vector2f(128, 128), parent);
-		worldIcons[1] = new GuiElement(loader.loadTexture("texture/gui/moon_orbit"), Vector2f.add(position, new Vector2f(190, size.y - 180), null), new Vector2f(128, 128), parent);
+		text = new GUIText("Ort auswählen:", 1.5F, font, Vector2f.add(position, new Vector2f(30, size.y - 10), null), 1, false);
+		nameText = new GUIText("", 2, font, new Vector2f(position.x + 30, position.y + 60), 1, false);
+		worldIcons = new WorldIcon[2];
+		worldIcons[0] = new WorldIcon("texture/gui/moon_lab", "Mond-Labor", new Vector2f(position.x + 30, position.y + size.y - 180), new Vector2f(128, 128), MoonLabWorld.class);
+		worldIcons[1] = new WorldIcon("texture/gui/moon_orbit", "Weltraum", new Vector2f(position.x + 190, position.y + size.y - 180), new Vector2f(128, 128), SpaceWorld.class);
 	}
 
 	@Override
@@ -28,14 +30,10 @@ public class WorldSelector extends GuiElement implements IClickable
 		float clickY = (Display.getHeight() - y) - position.y + 64;
 		for(int i = 0; i < worldIcons.length; i++)
 		{
-			GuiElement e = worldIcons[i];
+			GuiElement e = worldIcons[i].element;
 			if(x >= e.position.x && x <= e.position.x + e.size.x && clickY >= e.position.y && clickY <= e.position.y + e.size.y)
 			{
-				switch(i)
-				{
-					case 0: parent.requestGameStart(MoonLabWorld.class); break;
-					case 1: parent.requestGameStart(SpaceWorld.class); break;
-				}
+				parent.requestGameStart(worldIcons[i].startWorld); break;
 			}
 		}
 	}
@@ -44,7 +42,7 @@ public class WorldSelector extends GuiElement implements IClickable
 	public void setVisible(boolean visible)
 	{
 		isVisible = visible;
-		for(GuiElement e : worldIcons) e.isVisible = visible;
+		for(WorldIcon wi : worldIcons) wi.element.isVisible = visible;
 		text.isVisible = visible;
 	}
 
@@ -55,7 +53,7 @@ public class WorldSelector extends GuiElement implements IClickable
 		boolean ret = x >= position.x && x <= position.x + size.x && y >= position.y && y <= position.y + size.y;
 		for(int i = 0; i < worldIcons.length; i++)
 		{
-			GuiElement e = worldIcons[i];
+			GuiElement e = worldIcons[i].element;
 			if(x >= e.position.x && x <= e.position.x + e.size.x && y >= e.position.y && y <= e.position.y + e.size.y)
 			{
 				if(e.size.x < 150) 
@@ -63,6 +61,7 @@ public class WorldSelector extends GuiElement implements IClickable
 					e.size = new Vector2f(150, 150);
 					e.position.x -= 11;
 					e.position.y -= 11;
+					nameText.setText(worldIcons[i].name);
 				}
 			}
 			else if(e.size.x > 128) 
@@ -70,14 +69,29 @@ public class WorldSelector extends GuiElement implements IClickable
 				e.size = new Vector2f(128, 128);
 				e.position.x += 11;
 				e.position.y += 11;
+				nameText.setText("");
 			}
 		}
 		return ret;
 	}
 	
+	public class WorldIcon
+	{
+		public GuiElement element;
+		public final String name;
+		public Class<? extends World> startWorld;
+		
+		public WorldIcon(String textureName, String name, Vector2f position, Vector2f size, Class<? extends World> startWorld)
+		{
+			this.name = name;
+			element = new GuiElement(loader.loadTexture(textureName), position, size, parent);
+			this.startWorld = startWorld;
+		}
+	}
+	
 	public void addComponents(List<GuiElement> list)
 	{
-		for(GuiElement e : worldIcons) list.add(e);
+		for(WorldIcon wi : worldIcons) list.add(wi.element);
 		list.add(this);
 	}
 	
