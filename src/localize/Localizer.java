@@ -54,11 +54,12 @@ public class Localizer
 		{
 			return unlocalized.substring(2);
 		}
-		if (localized == null)
-		{
-			System.out.println("\"" + unlocalized + "\" could not be found in the \"" + name + "\" lang file!");
-			return unlocalized;
-		}
-		return localized;
+		else return unlocalized;
+//		if (localized == null)
+//		{
+//			System.out.println("\"" + unlocalized + "\" could not be found in the \"" + name + "\" lang file!");
+//			return unlocalized;
+//		}
+//		return localized;
 	}
 }

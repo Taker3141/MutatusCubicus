@@ -30,6 +30,7 @@ public class FontRenderer
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, font.getTextureAtlas());
 			for(GUIText text : texts.get(font))
 			{
+				if(!text.isVisible) continue;
 				renderText(text);
 			}
 		}

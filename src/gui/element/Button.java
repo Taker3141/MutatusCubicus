@@ -3,7 +3,6 @@ package gui.element;
 import java.util.List;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import renderer.Loader;
 import font.fontMeshCreator.FontType;
 import font.fontMeshCreator.GUIText;
 import font.fontRendering.TextMaster;
@@ -12,9 +11,9 @@ import gui.menu.Menu;
 
 public class Button extends GuiElement implements IClickable
 {
-	private static int textureButton;
-	private static int textureButtonClick;
-	private static int textureButtonHover;
+	protected int textureButton = loader.loadTexture("/texture/gui/button");
+	protected int textureButtonClick = loader.loadTexture("/texture/gui/button_clicked");
+	protected int textureButtonHover = loader.loadTexture("/texture/gui/button_hover");
 	
 	public GUIText text = null;
 	public Icon icon;
@@ -23,7 +22,8 @@ public class Button extends GuiElement implements IClickable
 	
 	public Button(Vector2f position, Vector2f size, Menu parent)
 	{
-		super(textureButton, position, size, parent);
+		super(0, position, size, parent);
+		texture = textureButton;
 	}
 	
 	public Button setText(String t, FontType f, float s, float r, float g, float b)
@@ -74,13 +74,6 @@ public class Button extends GuiElement implements IClickable
 	public boolean isOver(int x, int y)
 	{
 		return x >= position.x && x <= position.x + size.x && y >= position.y && y <= position.y + size.y;
-	}
-	
-	public static void loadAllTextures(Loader loader)
-	{
-		textureButton = loader.loadTexture("/texture/gui/button");
-		textureButtonClick = loader.loadTexture("/texture/gui/button_clicked");
-		textureButtonHover = loader.loadTexture("/texture/gui/button_hover");
 	}
 
 	@Override 

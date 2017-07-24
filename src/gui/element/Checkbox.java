@@ -3,7 +3,6 @@ package gui.element;
 import gui.handler.IClickHandler;
 import gui.menu.Menu;
 import org.lwjgl.util.vector.Vector2f;
-import renderer.Loader;
 
 public class Checkbox extends GuiElement implements IClickable
 {
@@ -59,7 +58,7 @@ public class Checkbox extends GuiElement implements IClickable
 		return isChecked;
 	}
 	
-	public static void loadAllTextures(Loader loader)
+	static
 	{
 		textureCheckbox = loader.loadTexture("/texture/gui/checkbox");
 		textureCheckboxHover = loader.loadTexture("/texture/gui/checkbox_hover");
