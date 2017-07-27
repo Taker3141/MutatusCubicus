@@ -22,10 +22,14 @@ public class AABB implements IHitBox
 	@Override
 	public CollisionData isInside(Vector3f point)
 	{
-		Vector3f corner = Vector3f.add(location, offset, null);
-		if(point.x < corner.x || point.x > corner.x + size.x) return null;
-		if(point.y < corner.y || point.y > corner.y + size.y) return null;
-		if(point.z < corner.z || point.z > corner.z + size.z) return null;
+		Vector3f corner1 = Vector3f.add(location, offset, null);
+		Vector3f corner2 = Vector3f.add(corner1, size, null);
+		if(corner1.x > corner2.x) {float x = corner1.x; corner1.x = corner2.x; corner2.x = x;}
+		if(corner1.y > corner2.y) {float y = corner1.y; corner1.y = corner2.y; corner2.y = y;}
+		if(corner1.z > corner2.z) {float z = corner1.z; corner1.z = corner2.z; corner2.z = z;}
+		if(point.x < corner1.x || point.x > corner2.x) return null;
+		if(point.y < corner1.y || point.y > corner2.y) return null;
+		if(point.z < corner1.z || point.z > corner2.z) return null;
 		return new CollisionData(location, findNormal(point), false, Type.OBJECT);
 	}
 	

@@ -20,7 +20,17 @@ public class ReactorBuilding extends Building
 	@Override
 	protected void initializeWalls()
 	{
-		walls = new AABB[0];
+		Vector3f[] wallData = {new Vector3f(-0.03F, 0, 0.03F), new Vector3f(-0.03F, 0, 2.09F)};
+		for(int i = 0; i < wallData.length; i++) wallData[i] = (Vector3f)wallData[i].scale(scale);
+		walls = new AABB[wallData.length / 2];
+		for (int i = 0; i < walls.length; i++)
+		{
+			int w1 = i * 2, w2 = i * 2 + 1;
+			Vector3f p = Vector3f.add(position, wallData[w1], null);
+			float dx = wallData[w1].x - wallData[w2].x; if(dx < 0.1F && dx > -0.1F) dx = 1F;
+			float dz = wallData[w1].z - wallData[w2].z; if(dz < 0.1F && dz > -0.1F) dz = 1F;
+			walls[0] = new AABB(p, new Vector3f(dx, 0.5F * scale, dz), new Vector3f(0, 0, 0));
+		}
 	}
 	
 	protected void loadEntities(MoonLabWorld w)

@@ -58,7 +58,7 @@ public class MoonLabWorld extends World
 				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.24F + r.nextFloat() * 0.08F, entities);
 			}
 			
-			new ReactorBuilding(new Vector3f(1062, height(1062, 2004), 2004), 0, 90, 0, 50, entities, this);
+			new ReactorBuilding(new Vector3f(1062, height(1062, 2004) - 1, 2004), 0, 90, 0, 50, entities, this);
 			{
 				FuelGenerator.init();
 				FuelGenerator fuelGenerator = new FuelGenerator(hVector(1510, 1936), 0, 0, 0, entities);

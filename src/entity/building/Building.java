@@ -4,7 +4,6 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
 import raycasting.IHitBox;
-import raycasting.IHitBox.CollisionData;
 import renderer.models.TexturedModel;
 import entity.Entity;
 
@@ -16,29 +15,52 @@ public abstract class Building extends Entity
 	{
 		super(model, position, rotX, rotY, rotZ, scale, list);
 		initializeWalls();
+		hitBox = new BuildingBox(this);
 	}
 	
 	protected abstract void initializeWalls();
 	
-	@Override
-	public CollisionData isInsideHitBox(Vector3f point)
+	public class BuildingBox implements IHitBox
 	{
-		for(AABB wall : walls)
+		public final Building building;
+		
+		public BuildingBox(Building b)
 		{
-			CollisionData data = wall.isInside(point);
-			if(data != null) return data;
+			building = b;
 		}
-		return null;
-	}
-	
-	@Override
-	public CollisionData isInsideHitBox(IHitBox box)
-	{
-		for(AABB wall : walls)
+
+		@Override
+		public CollisionData isInside(Vector3f point)
 		{
-			CollisionData data = wall.isInside(box);
-			if(data != null) return data;
+			for(AABB wall : walls)
+			{
+				CollisionData data = wall.isInside(point);
+				if(data != null) return data;
+			}
+			return null;
 		}
-		return null;
+
+		@Override
+		public CollisionData isInside(IHitBox box)
+		{
+			for(AABB wall : walls)
+			{
+				CollisionData data = wall.isInside(box);
+				if(data != null) return data;
+			}
+			return null;
+		}
+
+		@Override
+		public boolean isPlatform()
+		{
+			return true;
+		}
+
+		@Override
+		public Vector3f getCenter(Vector3f point)
+		{
+			return building.position;
+		}
 	}
 }

@@ -27,13 +27,13 @@ public class WorldSelector extends GuiElement implements IClickable
 	@Override
 	public void leftReleased(int x, int y)
 	{
-		float clickY = (Display.getHeight() - y) - position.y + 64;
+		float clickY = Display.getHeight() - y;
 		for(int i = 0; i < worldIcons.length; i++)
 		{
 			GuiElement e = worldIcons[i].element;
 			if(x >= e.position.x && x <= e.position.x + e.size.x && clickY >= e.position.y && clickY <= e.position.y + e.size.y)
 			{
-				parent.requestGameStart(worldIcons[i].startWorld); break;
+				parent.requestGameStart(worldIcons[i].startWorld);
 			}
 		}
 	}
