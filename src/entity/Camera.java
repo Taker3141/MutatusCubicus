@@ -102,7 +102,7 @@ public class Camera
 		if (Mouse.isButtonDown(2))
 		{
 			float angleChange = Mouse.getDX() * 0.3F;
-			player.rotY -= angleChange;
+			if(player.vehicle == null) player.rotY -= angleChange;
 		}
 	}
 	

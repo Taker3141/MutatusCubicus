@@ -25,7 +25,7 @@ public class Player extends Movable
 {
 	private static final float TURN_SPEED = 80;
 	private Organism organism = this.new Organism();
-	private Car vehicle = null;
+	public Car vehicle = null;
 	private Rocketship ship;
 	private float dyingAnimation = 0;
 	
@@ -83,6 +83,7 @@ public class Player extends Movable
 		}
 		if(vehicle != null)
 		{
+			rotY = vehicle.rotY;
 			if(isKeyDown(KEY_W) && (vehicle.v.x * vehicle.v.x + vehicle.v.z * vehicle.v.z) < 1000)
 			{
 				vehicle.v.x += (float) (5 * Math.sin(Math.toRadians(vehicle.rotY)));

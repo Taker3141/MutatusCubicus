@@ -50,13 +50,6 @@ public class Entity implements ICollidable
 	{
 		
 	}
-	
-	public void increaseRotation(float dx, float dy, float dz)
-	{
-		rotX += dx;
-		rotY += dy;
-		rotZ += dz;
-	}
 
 	@Override
 	public CollisionData isInsideHitBox(Vector3f point)
