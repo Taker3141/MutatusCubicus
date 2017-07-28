@@ -23,7 +23,7 @@ public class MoonLabWorld extends World
 		Particle.init();
 		Rocketship.init();
 		
-		player = new Player(new Vector3f(1164, 21, 1808), 0, 180, 0, 0.02F, entities);
+		player = new Player(new Vector3f(1059, 21, 1923), 0, 180, 0, 0.02F, entities);
 		overlays.add(player.organs);
 		lights.add(new Light(new Vector3f(0, 100000, 100000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
@@ -38,7 +38,7 @@ public class MoonLabWorld extends World
 					new TerrainTexture(loader.loadTexture((tx == 1 && tz == 1) ? "texture/terrain/blend_1_1" : "texture/terrain/blend_0_0")), 
 					"terrain/height_" + tx + "_" + tz);
 		}
-		new Car(hVector(player.position.x + 10, player.position.z), 0, 0, 0, 0.6F, entities, 1000);
+		new Car(hVector(player.position.x - 5, player.position.z), 0, 0, 0, 0.6F, entities, 1000);
 		new Rocketship(hVector(1135, 1700), 0, -90, 0, entities);
 		new Rocketship(hVector(1250, 1700), 0, 180, 0, entities);
 		{
