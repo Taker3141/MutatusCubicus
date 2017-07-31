@@ -1,6 +1,7 @@
 package world;
 
 import static org.lwjgl.input.Keyboard.*;
+import inventory.Item;
 import main.*;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.*;
@@ -23,6 +24,7 @@ public class MoonLabWorld extends World
 	{
 		Particle.init();
 		Rocketship.init();
+		Item.init(loader);
 		
 		player = new Player(new Vector3f(1059, 21, 1923), 0, 180, 0, 0.02F, entities);
 		overlays.add(player.organs);

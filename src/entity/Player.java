@@ -4,6 +4,7 @@ import entity.vehicle.Car;
 import entity.vehicle.Rocketship;
 import gui.OverlayOrgans;
 import inventory.Inventory;
+import inventory.Item;
 import java.util.List;
 import static org.lwjgl.input.Keyboard.*;
 import objLoader.OBJLoader;
@@ -31,14 +32,17 @@ public class Player extends Movable
 	
 	private float currentTurnSpeed = 0;
 	
-	public OverlayOrgans organs = new OverlayOrgans(this);
-	public Inventory inv = new Inventory(10);
+	public OverlayOrgans organs;
+	public Inventory inv;
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
 	
 	public Player(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
 		super(null, position, rotX, rotY, rotZ, scale, list, 20);
+		inv = new Inventory(10);
+		inv.setItem(2, new Item("Schleim", loader.loadTexture("texture/item/slime")));
+		organs = new OverlayOrgans(this);
 		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
 		NORMAL_SIZE = scale;

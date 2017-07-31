@@ -1,8 +1,10 @@
 package gui;
 
+import inventory.Item;
 import org.lwjgl.util.vector.Vector2f;
 import renderer.DisplayManager;
 import entity.Player;
+import font.fontMeshCreator.GUIText;
 import gui.element.*;
 
 public class OverlayOrgans extends Overlay
@@ -12,6 +14,8 @@ public class OverlayOrgans extends Overlay
 	protected final int Y = H / 2 - 128;
 	protected GuiBar digestion, energy, size, boost;
 	protected GuiElement selectedSlot;
+	protected GuiElement[] itemIcons;
+	protected GUIText itemText;
 	
 	public OverlayOrgans(Player p)
 	{
@@ -27,7 +31,15 @@ public class OverlayOrgans extends Overlay
 		elements.add(energy);
 		elements.add(size);
 		elements.add(boost);
+		itemIcons = new GuiElement[p.inv.size];
+		for(int i = 0; i < itemIcons.length; i++)
+		{
+			itemIcons[i] = new GuiElement(Item.nullTexture, new Vector2f(X + 8 + 62 * (i % 5), 71 - 62 * (i / 5)), new Vector2f(64, 64), null);
+			elements.add(itemIcons[i]);
+		}
 		elements.add(selectedSlot);
+		itemText = new GUIText("", 1, font, new Vector2f(X + 320, 110), 1, false);
+		itemText.setColour(0.4F, 1, 0.4F);
 	}
 	
 	public void update()
@@ -53,6 +65,15 @@ public class OverlayOrgans extends Overlay
 		boost.size.x = 198 * p.getBoost() / 100;
 		boost.offsetY -= DisplayManager.getFrameTimeSeconds() * 4;
 		if(boost.offsetY < 1) boost.offsetY += 1;
+		
+		for(int i = 0; i < itemIcons.length; i++)
+		{
+			Item item = p.inv.getItem(i);
+			if(item != null) itemIcons[i].setTextureID(item.texture);
+			else itemIcons[i].setTextureID(Item.nullTexture);
+		}
+		
+		itemText.setText(p.inv.getSelectedItem() != null ? p.inv.getSelectedItem().name : "");
 		
 		selectedSlot.position.x = X + 8 + 62 * (p.inv.getSelectedSlot() % 5);
 		selectedSlot.position.y = 71 - 62 * (p.inv.getSelectedSlot() / 5);
