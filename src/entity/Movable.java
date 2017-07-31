@@ -20,6 +20,7 @@ public class Movable extends Entity
 	public List<Vector3f> forces = new ArrayList<Vector3f>();
 	protected float terrainHeight = 0;
 	protected boolean collisionOff = false;
+	private boolean isOnFloor = false;
 	
 	public Movable(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
@@ -41,7 +42,7 @@ public class Movable extends Entity
 			v.y = 0;
 			v.z *= -1;
 		}
-		if(terrain != null && position.y < terrain.getHeight(position.x, position.z) + 0.2F) calculateFriction(delta);
+		if((terrain != null && position.y < terrain.getHeight(position.x, position.z) + 0.2F) || isOnFloor) calculateFriction(delta);
 		position.x += v.x * delta;
 		position.y += v.y * delta;
 		position.z += v.z * delta;
@@ -56,6 +57,7 @@ public class Movable extends Entity
 	
 	protected boolean noCollision()
 	{
+		isOnFloor = false;
 		for (ICollidable c : entityList)
 		{
 			if (c == this) continue;
@@ -81,13 +83,14 @@ public class Movable extends Entity
 					{
 						((Movable)this).v.y = 0;
 						((Movable)this).isInAir = false;
+						isOnFloor = true;
 					}
 					if(data.type == IHitBox.Type.WALL)
 					{
 //						Vector3f v = Vector3f.sub(position, c.getHitBox().getCenter(position), null).normalise(null);
 //						v.y = 0;
 //						((Movable)this).v = v;
-						((Movable)this).v = ((Movable)this).v.negate(null);
+						((Movable)this).v = data.normal.normalise(null);
 					}
 				}
 			}

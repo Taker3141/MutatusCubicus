@@ -136,7 +136,7 @@ public class Player extends Movable
 	{
 		private float digestion = 0;
 		private float energy = 110;
-		private float boost = 0;
+		private float boost = 100;
 		private boolean boosting;
 		private IEdible food;
 		private Entity eating;
@@ -188,7 +188,7 @@ public class Player extends Movable
 		public float getSpeed()
 		{
 			if(!boosting) return 5;
-			else return 10;
+			else return 50;
 		}
 		
 		public float getJumpPower()

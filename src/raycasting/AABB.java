@@ -11,12 +11,20 @@ import org.lwjgl.util.vector.Vector3f;
 public class AABB implements IHitBox
 {
 	public Vector3f location, size, offset;
+	private IHitBox.Type type;
 
 	public AABB(Vector3f location, Vector3f size, Vector3f offset)
 	{
 		this.location = location;
 		this.size = size;
 		this.offset = offset;
+		type = IHitBox.Type.OBJECT;
+	}
+	
+	public AABB(Vector3f location, Vector3f size, Vector3f offset, IHitBox.Type collisionType)
+	{
+		this(location, size, offset);
+		type = collisionType;
 	}
 	
 	@Override
@@ -30,7 +38,7 @@ public class AABB implements IHitBox
 		if(point.x < corner1.x || point.x > corner2.x) return null;
 		if(point.y < corner1.y || point.y > corner2.y) return null;
 		if(point.z < corner1.z || point.z > corner2.z) return null;
-		return new CollisionData(location, findNormal(point), false, Type.OBJECT);
+		return new CollisionData(location, findNormal(point), false, type);
 	}
 	
 	@Override

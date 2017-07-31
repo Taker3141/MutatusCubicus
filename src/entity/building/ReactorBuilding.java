@@ -3,6 +3,7 @@ package entity.building;
 import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
+import raycasting.IHitBox.Type;
 import renderer.models.TexturedModel;
 import world.MoonLabWorld;
 import world.World;
@@ -22,20 +23,27 @@ public class ReactorBuilding extends Building
 	{
 		Vector3f[] wallData = 
 			{
-				new Vector3f(-0.01F, 0, 0), new Vector3f(-0.01F, 0, 2.01F),
-				new Vector3f(-0.01F, 0, 0), new Vector3f(-5.01F, 0, 0),
-				new Vector3f(-0.01F, 0, -2.01F), new Vector3f(-5.01F, 0, -2.01F),
-				new Vector3f(5.01F, 0, -1.41F), new Vector3f(5.01F, 0, -0.81F),
+				new Vector3f(5.01F, 0.2F, 0), new Vector3f(1.6F, 0.01F, -1.4F),
+				new Vector3f(0, 0.2F, 0), new Vector3f(1.7F, 0.01F, -2),
+				new Vector3f(0, 0.3F, 0), new Vector3f(1.7F, 0.01F, -2),
+				new Vector3f(1.7F, 0.5F, 0), new Vector3f(3.3F, 0.01F, -2F),
+				
+				new Vector3f(-0.01F, 0, 0), new Vector3f(0.01F, 0.5F, -2.01F),
+				new Vector3f(-0.01F, 0, 0), new Vector3f(2.4F, 0.5F, 0.01F),
+				new Vector3f(2.6F, 0, 0), new Vector3f(2.4F, 0.5F, 0.01F),
+				new Vector3f(2.4F, 0.15F, 0), new Vector3f(0.2F, 0.35F, 0.01F),
+				new Vector3f(-0.01F, 0, -2.01F), new Vector3f(5.01F, 0.5F, 0.01F),
+				new Vector3f(5.01F, 0, -1.41F), new Vector3f(0.01F, 0.5F, -0.58F),
+				new Vector3f(5.01F, 0, 0), new Vector3f(1.6F, 0.2F, 0.01F),
+				new Vector3f(5.01F, 0, -1.4F), new Vector3f(1.6F, 0.2F, 0.01F),
 			};
 		for(int i = 0; i < wallData.length; i++) wallData[i] = (Vector3f)wallData[i].scale(scale);
 		walls = new AABB[wallData.length / 2];
 		for (int i = 0; i < walls.length; i++)
 		{
-			int w1 = i * 2, w2 = i * 2 + 1;
-			Vector3f p = Vector3f.add(position, wallData[w1], null);
-			float dx = wallData[w1].x - wallData[w2].x; if(dx < 0.1F && dx > -0.1F) dx = 1F;
-			float dz = wallData[w1].z - wallData[w2].z; if(dz < 0.1F && dz > -0.1F) dz = 1F;
-			walls[i] = new AABB(p, new Vector3f(dx, 0.5F * scale, dz), new Vector3f(0, 0, 0));
+			int pVector = i * 2, sVector = i * 2 + 1;
+			Vector3f p = Vector3f.add(position, (Vector3f)wallData[pVector], null);
+			walls[i] = new AABB(p, (Vector3f)wallData[sVector], new Vector3f(0, 0, 0), i < 4 ? Type.FLOOR : Type.WALL);
 		}
 	}
 	
