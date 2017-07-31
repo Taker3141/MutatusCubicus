@@ -10,6 +10,7 @@ import renderer.models.TexturedModel;
 import renderer.textures.*;
 import terrain.Terrain;
 import entity.*;
+import entity.building.LivingBuilding;
 import entity.building.ReactorBuilding;
 import entity.vehicle.*;
 
@@ -58,7 +59,8 @@ public class MoonLabWorld extends World
 				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.24F + r.nextFloat() * 0.08F, entities);
 			}
 			
-			new ReactorBuilding(new Vector3f(1062, height(1062, 2004) - 1, 2004), 0, 90, 0, 50, entities, this);
+			new ReactorBuilding(new Vector3f(1062, height(1062, 2004) - 1, 2004), 0, 90, 0, entities, this);
+			new LivingBuilding(new Vector3f(1361, height(1361, 1498) - 1, 1498), 0, 0, 0, entities);
 			{
 				FuelGenerator.init();
 				FuelGenerator fuelGenerator = new FuelGenerator(hVector(1510, 1936), 0, 0, 0, entities);

@@ -12,9 +12,9 @@ import entity.SubEntity;
 
 public class ReactorBuilding extends Building
 {
-	public ReactorBuilding(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, MoonLabWorld w)
+	public ReactorBuilding(Vector3f position, float rotX, float rotY, float rotZ, List<Entity> list, MoonLabWorld w)
 	{
-		super(World.createModel("reactor/reactor_building", "texture/concrete", 0), position, rotX, rotY, rotZ, scale, list);
+		super(World.createModel("reactor/reactor_building", "texture/concrete", 0), position, rotX, rotY, rotZ, 50, list);
 		loadEntities(w);
 	}
 
