@@ -130,6 +130,7 @@ public class MoonLabWorld extends World
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
 
 		if(isKeyDown(KEY_ESCAPE)) return false;
+		if(isKeyDown(KEY_DELETE) && isKeyDown(KEY_LSHIFT)) {int ohNo = 1 / 0;}
 		
 		return true;
 	}

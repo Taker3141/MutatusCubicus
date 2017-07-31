@@ -5,6 +5,7 @@ import main.MainManagerClass;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Input;
+import font.fontMeshCreator.GUIText;
 import font.fontRendering.TextMaster;
 import gui.element.*;
 import gui.handler.HandlerChangeMenu;
@@ -17,6 +18,7 @@ public class MainMenu extends Menu
 	private LevelSelector levels;
 	private boolean freePlayVisible = false;
 	private boolean storyVisible = false;
+	private static String error = "";
 	
 	@Override
 	public void doMenu()
@@ -36,7 +38,8 @@ public class MainMenu extends Menu
 		}
 		
 		guiElements.add(new GuiElement(loader.loadTexture("texture/gui/main_menu_background"), new Vector2f(0, -H), new Vector2f(W, 2 * H), null));
-
+		new GUIText(error, 2, font, new Vector2f(200, H - 400), 1, false).setColour(1, 0, 0);
+		
 		Input input = new Input(Display.getHeight());
 		MouseHandler mouse = new MouseHandler(guiElements);
 		input.addMouseListener(mouse);
@@ -57,7 +60,9 @@ public class MainMenu extends Menu
 			if (shouldStartGame)
 			{
 				shouldStartGame = false;
-				MainGameLoop.doGame(startWorld);
+				String errorMessage = MainGameLoop.doGame(startWorld);
+				if(errorMessage != null) error = "Das Spiel ist abgestürzt :O      " + errorMessage;
+				else error = "";
 				MainManagerClass.nextMenu = MainMenu.class;
 			}
 		}

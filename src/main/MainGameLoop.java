@@ -13,7 +13,7 @@ public class MainGameLoop
 	public static World w;
 	public static Fbo fbo;
 	
-	public static void doGame(Class<? extends World> world)
+	public static String doGame(Class<? extends World> world)
 	{
 		TextMaster.clear();
 		try
@@ -34,10 +34,12 @@ public class MainGameLoop
 			PostProcessing.cleanUp();
 			fbo.cleanUp();
 			w.cleanUp();
+			return null;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			return e.getMessage();
 		}
 	}
 }
