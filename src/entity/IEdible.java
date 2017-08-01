@@ -1,5 +1,7 @@
 package entity;
 
+import inventory.Item;
+
 public interface IEdible
 {
 	static enum FoodType
@@ -17,4 +19,5 @@ public interface IEdible
 	FoodType getType();
 	float getAmmount();
 	float getEnergy();
+	Item getItem();
 }

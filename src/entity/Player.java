@@ -41,7 +41,8 @@ public class Player extends Movable
 	{
 		super(null, position, rotX, rotY, rotZ, scale, list, 20);
 		inv = new Inventory(10);
-		inv.setItem(2, new Item("Schleim", loader.loadTexture("texture/item/slime")));
+		inv.setItem(2, Item.SLIME);
+		inv.setItem(4, Item.DISSOLVED_ROCK);
 		organs = new OverlayOrgans(this);
 		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
@@ -177,7 +178,12 @@ public class Player extends Movable
 					boost += (50 / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
 					if(boost > 100) boost = 100;
 				}
-				if(digestion < 0) {digestion = 0; food = null;}
+				if(digestion < 0) 
+				{
+					digestion = 0;
+					inv.addItem(food.getItem());
+					food = null;
+				}
 			}
 			organs.update();
 			if(eating != null)

@@ -21,11 +21,7 @@ public class MoonLabWorld extends World
 	
 	@Override
 	public void loadEntities()
-	{
-		Particle.init();
-		Rocketship.init();
-		Item.init(loader);
-		
+	{		
 		player = new Player(new Vector3f(1059, 21, 1923), 0, 180, 0, 0.02F, entities);
 		overlays.add(player.organs);
 		lights.add(new Light(new Vector3f(0, 100000, 100000), new Vector3f(1, 1, 1)));

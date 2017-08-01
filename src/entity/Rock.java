@@ -1,5 +1,6 @@
 package entity;
 
+import inventory.Item;
 import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
@@ -32,5 +33,10 @@ public class Rock extends Entity implements IEdible
 	public float getEnergy()
 	{
 		return normalSize * 125;
+	}
+	
+	public Item getItem()
+	{
+		return Item.DISSOLVED_ROCK;
 	}
 }

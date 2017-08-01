@@ -12,6 +12,19 @@ public class Inventory
 		items = new Item[size];
 	}
 	
+	public boolean addItem(Item item)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			if(items[i] == null)
+			{
+				items[i] = item;
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void selectSlot(int number)
 	{
 		selectedSlot = number < size ? number : 0;

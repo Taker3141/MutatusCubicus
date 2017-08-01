@@ -1,5 +1,6 @@
 package entity;
 
+import inventory.Item;
 import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import renderer.models.TexturedModel;
@@ -27,5 +28,10 @@ public class Octanitrocubane extends Movable implements IEdible
 	public float getEnergy()
 	{
 		return 0;
+	}
+	
+	public Item getItem()
+	{
+		return null;
 	}
 }

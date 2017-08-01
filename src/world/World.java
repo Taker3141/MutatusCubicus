@@ -1,5 +1,6 @@
 package world;
 
+import inventory.Item;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +15,7 @@ import renderer.MasterRenderer;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import entity.*;
+import entity.vehicle.Rocketship;
 import gui.Overlay;
 
 public abstract class World
@@ -32,6 +34,9 @@ public abstract class World
 	
 	public World()
 	{
+		Particle.init();
+		Rocketship.init();
+		Item.init();
 		Entity.w = this;
 		loadEntities();
 		ray = new Raycaster(player);
