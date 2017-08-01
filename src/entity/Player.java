@@ -114,9 +114,11 @@ public class Player extends Movable
 		{
 			if (isKeyDown(i + 2)) inv.selectSlot(i);
 		}
-		if(isKeyDown(KEY_NUMPAD7) && (scale + 0.001F * dt) < NORMAL_SIZE * MAX_SIZE_FACTOR) scale += 0.001F * dt;
-		if(isKeyDown(KEY_NUMPAD4) && scale > NORMAL_SIZE) scale -= 0.001F * dt;
-		
+		if(isKeyDown(KEY_SUBTRACT) && scale > NORMAL_SIZE) scale -= 0.01F * dt;
+		if(isKeyDown(KEY_RETURN) && inv.getSelectedItem() != null) 
+		{
+			if(useItem(inv.getSelectedItem())) inv.setItem(inv.getSelectedSlot(), null);
+		}
 		if(isKeyDown(KEY_F12)) System.out.println(position);
 		if(isKeyDown(KEY_Q) && organism.eating == null && organism.digestion == 0)
 		{
@@ -137,6 +139,16 @@ public class Player extends Movable
 		}
 	}
 	
+	public boolean useItem(Item item)
+	{
+		if(item == Item.SLIME)
+		{
+			organism.addSlime(0.005F);
+			return true;
+		}
+		return false;
+	}
+
 	private class Organism
 	{
 		private float digestion = 0;
@@ -145,6 +157,7 @@ public class Player extends Movable
 		private boolean boosting;
 		private IEdible food;
 		private Entity eating;
+		private float extraSlime = 0;
 		
 		public void eat(IEdible f)
 		{
@@ -162,6 +175,9 @@ public class Player extends Movable
 			if(energy > 200) energy = 200;
 			if(energy < 20) dyingAnimation = 1 - (energy / 20);
 			else dyingAnimation = 1.1F;
+			if(extraSlime > 0 && scale < NORMAL_SIZE * MAX_SIZE_FACTOR) {scale += 0.01F * delta; extraSlime -= 0.01F * delta;}
+			else extraSlime = 0;
+			System.out.println(scale);
 			boosting = boost && (this.boost > 0);
 			if(boosting) this.boost -= delta * 10;
 			if(this.boost < 0) this.boost = 0;
@@ -191,8 +207,13 @@ public class Player extends Movable
 				eating.position = new Vector3f(position);
 				eating.position.y = position.y + 10 * scale;
 				if(eating.scale > 0) eating.scale -= DisplayManager.getFrameTimeSeconds() * 0.1F;
-				else {eating.unregister(); eating = null;};
+				else {eating.unregister(); eating = null;}
 			}
+		}
+		
+		public void addSlime(float slime)
+		{
+			extraSlime += slime;
 		}
 		
 		public float getSpeed()
