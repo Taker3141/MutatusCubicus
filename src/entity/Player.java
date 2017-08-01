@@ -177,7 +177,6 @@ public class Player extends Movable
 			else dyingAnimation = 1.1F;
 			if(extraSlime > 0 && scale < NORMAL_SIZE * MAX_SIZE_FACTOR) {scale += 0.01F * delta; extraSlime -= 0.01F * delta;}
 			else extraSlime = 0;
-			System.out.println(scale);
 			boosting = boost && (this.boost > 0);
 			if(boosting) this.boost -= delta * 10;
 			if(this.boost < 0) this.boost = 0;
