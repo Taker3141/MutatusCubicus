@@ -225,14 +225,17 @@ public class Player extends Movable
 		
 		public float getSpeed()
 		{
-			if(!boosting) return 5;
-			else return 50;
+			float standardSpeed = 3 + scale * 100;
+			System.out.println(standardSpeed);
+			if(!boosting) return standardSpeed;
+			else return standardSpeed * 10;
 		}
 		
 		public float getJumpPower()
 		{
-			if(!boosting) return 10;
-			else return 25;
+			float standardJump = 3 + scale * 200;
+			if(!boosting) return standardJump;
+			else return standardJump * 2;
 		}
 		
 		public float getEnergy()
