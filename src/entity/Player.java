@@ -46,6 +46,7 @@ public class Player extends Movable
 		inv.addItem(Item.LIQUID_OXYGEN);
 		inv.addItem(Item.SILICON);
 		inv.addItem(Item.ALUMINIUM);
+		inv.addItem(Item.SLIME); inv.addItem(Item.SLIME); inv.addItem(Item.SLIME);
 		organs = new OverlayOrgans(this);
 		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
@@ -117,7 +118,11 @@ public class Player extends Movable
 		{
 			if (isKeyDown(i + 2)) inv.selectSlot(i);
 		}
-		if(isKeyDown(KEY_SUBTRACT) && scale > NORMAL_SIZE) scale -= 0.01F * dt;
+		if(isKeyDown(KEY_SUBTRACT) && scale > NORMAL_SIZE) 
+		{
+			scale -= 0.01F * dt;
+			if(dt * 1000 % 5 == 0) new Slime(this, entityList);
+		}
 		if(isKeyDown(KEY_RETURN) && inv.getSelectedItem() != null) 
 		{
 			if(useItem(inv.getSelectedItem())) inv.setItem(inv.getSelectedSlot(), null);
