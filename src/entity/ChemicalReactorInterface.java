@@ -2,7 +2,7 @@ package entity;
 
 import inventory.Inventory;
 import inventory.Item;
-import java.util.List;
+import java.util.*;
 import main.MainGameLoop;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
@@ -11,19 +11,49 @@ import terrain.Terrain;
 import world.World;
 import entity.Entity;
 import gui.OverlayChemicalReactor;
+import static inventory.Item.*;
 
 public class ChemicalReactorInterface extends Entity
 {
 	private OverlayChemicalReactor overlay;
 	private Inventory input;
+	public List<Reaction> reactions = new LinkedList<Reaction>();
 	
 	public ChemicalReactorInterface(Vector3f position, float scale, List<entity.Entity> list)
 	{
 		super(World.createModel("box", "texture/flames", 0), position, 0, 0, 0, scale, list);
 		hitBox = new AABB(position, new Vector3f(10, 10, 10), new Vector3f(-5, 0, -5));
 		input = new Inventory(5);
-		input.addItem(Item.DISSOLVED_ROCK); input.addItem(Item.DISSOLVED_ROCK); input.addItem(Item.DISSOLVED_ROCK);
+		input.addItem(DISSOLVED_ROCK); input.addItem(DISSOLVED_ROCK); input.addItem(DISSOLVED_ROCK);
 		overlay = new OverlayChemicalReactor(input);
+		
+		reactions.add(new Reaction(new Item[]{DISSOLVED_ROCK, DISSOLVED_ROCK, DISSOLVED_ROCK}, new Item[]{ALUMINIUM, SILICON, LIQUID_OXYGEN}, 10));
+	}
+	
+	public class Reaction
+	{
+		private Item[] input;
+		private Item[] output;
+		private float time;
+		
+		public Reaction(Item[] input, Item[] output, float time)
+		{
+			this.input = input;
+			this.output = output;
+			this.time = time;
+		}
+		
+		public boolean match(Inventory currentInput)
+		{
+			List<Item> itemList = new ArrayList<Item>();
+			for(int i = 0; i < currentInput.size; i++) itemList.add(currentInput.getItem(i));
+			for(int i = 0; i < input.length; i++)
+			{
+				if(itemList.contains(input[i])) itemList.remove(input[i]);
+				else return false;
+			}
+			return true;
+		}
 	}
 	
 	@Override
@@ -36,6 +66,7 @@ public class ChemicalReactorInterface extends Entity
 			overlay.setVisible(false);
 			MainGameLoop.w.player.transferInv = null;
 		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_R)) System.out.println(reactions.get(0).match(input));
 	}
 	
 	@Override
