@@ -66,7 +66,11 @@ public class ChemicalReactorInterface extends Entity
 			overlay.setVisible(false);
 			MainGameLoop.w.player.transferInv = null;
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_R)) System.out.println(reactions.get(0).match(input));
+		for(Reaction r : reactions)
+		{
+			if(r.match(input)) overlay.time = r.time;
+			else overlay.time = -1;
+		}
 	}
 	
 	@Override

@@ -13,15 +13,20 @@ public class OverlayChemicalReactor extends Overlay
 	protected GUIText[] texts;
 	protected Inventory in;
 	protected GuiElement[] itemIcons;
+	public float time = -1;
+	private boolean visible = false;
 	
 	public OverlayChemicalReactor(Inventory input)
 	{
 		in = input;
 		position = new Vector2f(W / 2 - 256, H / 2 - 128);
 		size = new Vector2f(512, 256);
-		texts = new GUIText[1];
+		texts = new GUIText[2];
 		texts[0] = new GUIText("Chemischer Reaktor", 2, font, new Vector2f(position.x + 10, position.y + size.y - 5), 1, false);
 		texts[0].setColour(0.6F, 0.6F, 0.6F);
+		texts[1] = new GUIText("Dauer: 0s", 1, font, new Vector2f(position.x + 303, position.y + 162), 1, false);
+		texts[1].setColour(0, 0.6F, 0);
+		texts[1].isVisible = false;
 		setVisible(false);
 		elements.add(new GuiElement(loader.loadTexture("texture/gui/chemistry/background"), new Vector2f(W / 2 - 256, H / 2 - 128), new Vector2f(512, 256), null));
 		itemIcons = new GuiElement[in.size];
@@ -61,6 +66,11 @@ public class OverlayChemicalReactor extends Overlay
 			if(item != null) itemIcons[i].setTextureID(item.texture);
 			else itemIcons[i].setTextureID(Item.nullTexture);
 		}
+		if(visible)
+		{
+			texts[1].isVisible = time > 0;
+			texts[1].setText("Dauer: " + time + "s");
+		}
 	}
 	
 	@Override
@@ -72,6 +82,7 @@ public class OverlayChemicalReactor extends Overlay
 	
 	public void setVisible(boolean v)
 	{
+		visible = v;
 		for(GUIText text : texts)
 		{
 			text.isVisible = v;

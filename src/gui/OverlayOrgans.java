@@ -1,8 +1,6 @@
 package gui;
 
-import inventory.Inventory;
 import inventory.Item;
-import main.MainGameLoop;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import renderer.DisplayManager;
