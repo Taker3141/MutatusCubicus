@@ -1,9 +1,13 @@
 package world;
 
 import static org.lwjgl.input.Keyboard.*;
+import gui.Overlay;
+import gui.handler.MouseHandler;
 import inventory.Item;
 import main.*;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.Input;
 import raycasting.*;
 import renderer.*;
 import renderer.fbo.PostProcessing;
@@ -19,11 +23,13 @@ import entity.vehicle.*;
 public class MoonLabWorld extends World
 {
 	private Terrain[] t;
+	private Input input;
+	private MouseHandler mouse;
 	
 	@Override
 	public void loadEntities()
 	{		
-		player = new Player(new Vector3f(1059, 21, 1923), 0, 180, 0, 0.02F, entities);
+		player = new Player(new Vector3f(1844, 21, 1623), 0, 180, 0, 0.02F, entities);
 		overlays.add(player.organs);
 		lights.add(new Light(new Vector3f(0, 100000, 100000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
@@ -60,7 +66,7 @@ public class MoonLabWorld extends World
 			
 			new ReactorBuilding(new Vector3f(1062, height(1062, 2004) - 1, 2004), 0, 90, 0, entities, this);
 			new LivingBuilding(new Vector3f(1361, height(1361, 1498) - 1, 1498), 0, 0, 0, entities);
-			new ChemicalReactorBuilding(new Vector3f(1824, height(1824, 1694), 1714), 0, 0, 0, entities);
+			new ChemicalReactorBuilding(new Vector3f(1824, height(1824, 1694) - 1, 1714), 0, 0, 0, entities);
 			{
 				FuelGenerator.init();
 				FuelGenerator fuelGenerator = new FuelGenerator(hVector(1510, 1936), 0, 0, 0, entities);
@@ -105,6 +111,10 @@ public class MoonLabWorld extends World
 			TexturedModel tree = createModel("tree", "texture/plant/tree", 0);
 			generateDecoration(tree, 40, biosphere.position.x, biosphere.position.z, 0.1F, 2, 110, false);
 		}
+		input = new Input(Display.getHeight());
+		mouse = new MouseHandler(overlays, true);
+		input.addMouseListener(mouse);
+		mouse.setInput(input);
 	}
 	
 	@Override
@@ -116,6 +126,9 @@ public class MoonLabWorld extends World
 			e.update(this, terrain(e.position.x, e.position.z));
 			if(!e.invisible) renderer.processEntities(e);
 		}
+		
+		mouse.updateList(overlays);
+		input.poll(Display.getWidth(), Display.getHeight());
 
 		super.tick();
 		MainGameLoop.fbo.bindFrameBuffer();

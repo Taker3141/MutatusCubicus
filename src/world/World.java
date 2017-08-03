@@ -30,7 +30,7 @@ public abstract class World
 	protected Camera c;
 	protected Raycaster ray;
 	protected List<Light> lights = new ArrayList<Light>();
-	protected Player player;
+	public Player player;
 	
 	public World()
 	{

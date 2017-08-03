@@ -1,5 +1,6 @@
 package gui.handler;
 
+import gui.Overlay;
 import gui.element.GuiElement;
 import gui.element.IClickable;
 import java.util.ArrayList;
@@ -21,6 +22,24 @@ public class MouseHandler implements MouseListener
 			{
 				elements.add((IClickable)e);
 			}
+		}
+	}
+	
+	public MouseHandler(List<Overlay> list, boolean b)
+	{
+		elements = new ArrayList<IClickable>();
+		for(Overlay e : list)
+		{
+			elements.add((IClickable)e);
+		}
+	}
+	
+	public void updateList(List<Overlay> list)
+	{
+		elements = new ArrayList<IClickable>();
+		for(Overlay e : list)
+		{
+			elements.add((IClickable)e);
 		}
 	}
 	

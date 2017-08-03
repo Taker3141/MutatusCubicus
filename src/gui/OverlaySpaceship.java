@@ -19,6 +19,8 @@ public class OverlaySpaceship extends Overlay
 	
 	public OverlaySpaceship(Rocketship s)
 	{
+		position = new Vector2f(W - 1024, H - 256);
+		size = new Vector2f(1024, 256);
 		elements.add(new GuiElement(loader.loadTexture("texture/gui/spaceship/background"), new Vector2f(W - 1024, H - 256), new Vector2f(1024, 256), null));
 		verlocityLabel = new Label("o!v = 0 m/s", new Vector2f(X + 20, H - 20), null);
 		verlocityLabel.setVisible(false);
