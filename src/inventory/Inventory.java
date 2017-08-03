@@ -25,6 +25,16 @@ public class Inventory
 		return false;
 	}
 	
+	public int getNumberOfItems()
+	{
+		int ret = 0;
+		for(int i = 0; i < size; i++)
+		{
+			if(items[i] != null) i++;
+		}
+		return ret;
+	}
+	
 	public void selectSlot(int number)
 	{
 		selectedSlot = number < size ? number : 0;
