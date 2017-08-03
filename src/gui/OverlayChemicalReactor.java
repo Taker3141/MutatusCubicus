@@ -14,7 +14,6 @@ public class OverlayChemicalReactor extends Overlay
 	protected GUIText[] texts;
 	protected Inventory in, out;
 	protected GuiElement[] itemIcons;
-	public float time = -1;
 	public String resultText = "";
 	private boolean visible = false;
 	private ChemicalReactorInterface reactor;
@@ -24,7 +23,6 @@ public class OverlayChemicalReactor extends Overlay
 		in = input;
 		this.reactor = reactor;
 		out = output;
-		out.addItem(Item.SLIME); out.addItem(Item.SILICON); out.addItem(Item.SLIME); out.addItem(Item.SILICON); out.addItem(Item.SLIME);
 		position = new Vector2f(W / 2 - 256, H / 2 - 128);
 		size = new Vector2f(512, 256);
 		texts = new GUIText[3];
@@ -51,7 +49,7 @@ public class OverlayChemicalReactor extends Overlay
 		int x = (int)(mouseX - position.x);
 		int y = (int)((int)(Display.getHeight() - mouseY) - position.y);
 		Inventory source = y > 116 && y < 161 ? in : (y > 11 && y < 59 ? out : null);
-		if(x > 450 && x < 504 && y > 116 && y < 161 && time > 0)
+		if(x > 450 && x < 504 && y > 116 && y < 161 && reactor.getTime() > 0)
 		{
 			reactor.startReaction();
 		}
@@ -81,8 +79,8 @@ public class OverlayChemicalReactor extends Overlay
 		}
 		if(visible)
 		{
-			texts[2].isVisible = texts[1].isVisible = time > 0;
-			texts[1].setText("Dauer: " + time + "s");
+			texts[2].isVisible = texts[1].isVisible = reactor.getTime() > 0;
+			texts[1].setText("Dauer: " + String.format("%.1f", reactor.getTime()) + "s");
 			texts[2].setText(resultText);
 		}
 	}

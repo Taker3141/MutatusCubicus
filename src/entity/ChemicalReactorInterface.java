@@ -7,6 +7,7 @@ import main.MainGameLoop;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
+import renderer.DisplayManager;
 import terrain.Terrain;
 import world.World;
 import entity.Entity;
@@ -19,13 +20,14 @@ public class ChemicalReactorInterface extends Entity
 	private Inventory input, output;
 	public List<Reaction> reactions = new LinkedList<Reaction>();
 	private Reaction currentReaction;
+	private boolean reactionRunning = false;
+	private float time = -1;
 	
 	public ChemicalReactorInterface(Vector3f position, float scale, List<entity.Entity> list)
 	{
 		super(World.createModel("box", "texture/flames", 0), position, 0, 0, 0, scale, list);
 		hitBox = new AABB(position, new Vector3f(10, 10, 10), new Vector3f(-5, 0, -5));
 		input = new Inventory(5);
-		input.addItem(DISSOLVED_ROCK); input.addItem(DISSOLVED_ROCK); input.addItem(DISSOLVED_ROCK);
 		output = new Inventory(5);
 		overlay = new OverlayChemicalReactor(input, output, this);
 		
@@ -62,14 +64,11 @@ public class ChemicalReactorInterface extends Entity
 	{
 		if(currentReaction != null && output.size - output.getNumberOfItems() >= currentReaction.output.length)
 		{
+			reactionRunning = true;
 			for(Item item : currentReaction.input) for(int i = 0; i < input.size; i++) if(input.getItem(i) == item)
 			{
 				input.setItem(i, null);
 				continue;
-			}
-			for(Item item : currentReaction.output)
-			{
-				output.addItem(item);
 			}
 		}
 	}
@@ -84,13 +83,13 @@ public class ChemicalReactorInterface extends Entity
 			overlay.setVisible(false);
 			MainGameLoop.w.player.transferInv = null;
 		}
-		for(Reaction r : reactions)
+		if(!reactionRunning) for(Reaction r : reactions)
 		{
 			if(r.match(input)) 
 			{
-				overlay.time = r.time;
 				overlay.resultText = r.output.length == 1 ? "Produkt: " : "Produkte: ";
 				currentReaction = r;
+				time = r.time;
 				for(Item item : r.output)
 				{
 					overlay.resultText += item.name + ", ";
@@ -98,9 +97,14 @@ public class ChemicalReactorInterface extends Entity
 			}
 			else 
 			{
-				overlay.time = -1;
 				currentReaction = null;
 			}
+		}
+		else if(time > 0) time -= DisplayManager.getFrameTimeSeconds();
+		else
+		{
+			time = -1; reactionRunning = false;
+			for(Item item : currentReaction.output) output.addItem(item);
 		}
 	}
 	
@@ -113,5 +117,10 @@ public class ChemicalReactorInterface extends Entity
 			overlay.setVisible(true);
 			MainGameLoop.w.player.transferInv = input;
 		}
+	}
+	
+	public float getTime()
+	{
+		return time;
 	}
 }

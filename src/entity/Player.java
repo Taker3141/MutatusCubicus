@@ -44,9 +44,9 @@ public class Player extends Movable
 		inv = new Inventory(10);
 		inv.setItem(2, Item.SLIME);
 		inv.setItem(4, Item.DISSOLVED_ROCK);
-		inv.addItem(Item.LIQUID_OXYGEN);
-		inv.addItem(Item.SILICON);
-		inv.addItem(Item.ALUMINIUM);
+		inv.addItem(Item.DISSOLVED_ROCK);
+		inv.addItem(Item.DISSOLVED_ROCK);
+		inv.addItem(Item.DISSOLVED_ROCK);
 		organs = new OverlayOrgans(this);
 		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
