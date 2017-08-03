@@ -92,11 +92,12 @@ public class OverlayOrgans extends Overlay
 			int shiftedX = x - 11;
 			if(shiftedX > 0 && shiftedX < 296 && shiftedX % 62 < 49)
 			{
-				Item item = p.inv.getItem(shiftedX / 59 + 5 * ((122 - y) / 48));
+				int index = shiftedX / 59 + 5 * ((122 - y) / 48);
+				Item item = p.inv.getItem(index);
 				if(item != null && p.transferInv != null && p.transferInv.getNumberOfItems() < p.transferInv.size) 
 				{
 					p.transferInv.addItem(item);
-					p.inv.setItem(shiftedX / 62, null);
+					p.inv.setItem(index, null);
 				}
 			}
 		}

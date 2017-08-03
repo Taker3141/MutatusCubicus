@@ -16,8 +16,9 @@ import static inventory.Item.*;
 public class ChemicalReactorInterface extends Entity
 {
 	private OverlayChemicalReactor overlay;
-	private Inventory input;
+	private Inventory input, output;
 	public List<Reaction> reactions = new LinkedList<Reaction>();
+	private Reaction currentReaction;
 	
 	public ChemicalReactorInterface(Vector3f position, float scale, List<entity.Entity> list)
 	{
@@ -25,7 +26,8 @@ public class ChemicalReactorInterface extends Entity
 		hitBox = new AABB(position, new Vector3f(10, 10, 10), new Vector3f(-5, 0, -5));
 		input = new Inventory(5);
 		input.addItem(DISSOLVED_ROCK); input.addItem(DISSOLVED_ROCK); input.addItem(DISSOLVED_ROCK);
-		overlay = new OverlayChemicalReactor(input);
+		output = new Inventory(5);
+		overlay = new OverlayChemicalReactor(input, output, this);
 		
 		reactions.add(new Reaction(new Item[]{DISSOLVED_ROCK, DISSOLVED_ROCK, DISSOLVED_ROCK}, new Item[]{ALUMINIUM, SILICON, LIQUID_OXYGEN}, 10));
 	}
@@ -56,6 +58,22 @@ public class ChemicalReactorInterface extends Entity
 		}
 	}
 	
+	public void startReaction()
+	{
+		if(currentReaction != null && output.size - output.getNumberOfItems() >= currentReaction.output.length)
+		{
+			for(Item item : currentReaction.input) for(int i = 0; i < input.size; i++) if(input.getItem(i) == item)
+			{
+				input.setItem(i, null);
+				continue;
+			}
+			for(Item item : currentReaction.output)
+			{
+				output.addItem(item);
+			}
+		}
+	}
+	
 	@Override
 	public void update(World w, Terrain t)
 	{
@@ -68,8 +86,21 @@ public class ChemicalReactorInterface extends Entity
 		}
 		for(Reaction r : reactions)
 		{
-			if(r.match(input)) overlay.time = r.time;
-			else overlay.time = -1;
+			if(r.match(input)) 
+			{
+				overlay.time = r.time;
+				overlay.resultText = r.output.length == 1 ? "Produkt: " : "Produkte: ";
+				currentReaction = r;
+				for(Item item : r.output)
+				{
+					overlay.resultText += item.name + ", ";
+				}
+			}
+			else 
+			{
+				overlay.time = -1;
+				currentReaction = null;
+			}
 		}
 	}
 	
