@@ -40,7 +40,7 @@ public class OverlayChemicalReactor extends Overlay
 		if(y > 116 && y < 161)
 		{
 			int shiftedX = x - 12;
-			if(shiftedX > 0 && shiftedX < 281 && shiftedX % 59 < 48)
+			if(shiftedX > 0 && shiftedX < 281 && shiftedX % 59 < 49)
 			{
 				Item item = in.getItem(shiftedX / 59);
 				Inventory inv = MainGameLoop.w.player.inv;

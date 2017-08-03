@@ -34,6 +34,7 @@ public class ChemicalReactorInterface extends Entity
 		{
 			MainGameLoop.w.overlays.remove(overlay);
 			overlay.setVisible(false);
+			MainGameLoop.w.player.transferInv = null;
 		}
 	}
 	
@@ -44,6 +45,7 @@ public class ChemicalReactorInterface extends Entity
 		{
 			MainGameLoop.w.overlays.add(overlay);
 			overlay.setVisible(true);
+			MainGameLoop.w.player.transferInv = input;
 		}
 	}
 }

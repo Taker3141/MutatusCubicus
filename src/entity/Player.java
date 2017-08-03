@@ -36,6 +36,7 @@ public class Player extends Movable
 	public Inventory inv;
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
+	public Inventory transferInv;
 	
 	public Player(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{

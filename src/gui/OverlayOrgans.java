@@ -1,6 +1,9 @@
 package gui;
 
+import inventory.Inventory;
 import inventory.Item;
+import main.MainGameLoop;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import renderer.DisplayManager;
 import entity.Player;
@@ -79,6 +82,26 @@ public class OverlayOrgans extends Overlay
 		
 		selectedSlot.position.x = X + 8 + 62 * (p.inv.getSelectedSlot() % 5);
 		selectedSlot.position.y = 71 - 62 * (p.inv.getSelectedSlot() / 5);
+	}
+	
+	@Override
+	public void leftClick(int mouseX, int mouseY)
+	{
+		int x = (int)(mouseX - position.x);
+		int y = (int)((int)(Display.getHeight() - mouseY) - position.y);
+		if((y > 13 && y < 61) || (y > 74 && y < 122))
+		{
+			int shiftedX = x - 11;
+			if(shiftedX > 0 && shiftedX < 296 && shiftedX % 62 < 49)
+			{
+				Item item = p.inv.getItem(shiftedX / 59 + 5 * ((122 - y) / 48));
+				if(item != null && p.transferInv != null && p.transferInv.getNumberOfItems() < p.transferInv.size) 
+				{
+					p.transferInv.addItem(item);
+					p.inv.setItem(shiftedX / 62, null);
+				}
+			}
+		}
 	}
 	
 	public void setDigestingTexture(int id)
