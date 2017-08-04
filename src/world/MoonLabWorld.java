@@ -51,7 +51,7 @@ public class MoonLabWorld extends World
 			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
 			for(int i = 0; i < 100; i++)
 			{
-				Vector3f position = new Vector3f(250 * r.nextFloat(), 0, 250 * r.nextFloat());
+				Vector3f position = new Vector3f(1024 * r.nextFloat() + 1024, 0, 1024 * r.nextFloat() + 1024);
 				position.y = height(position.x, position.z);
 				new Rock(rock, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.04F + r.nextFloat() / 2.5F, entities);
 			}

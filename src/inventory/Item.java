@@ -19,6 +19,7 @@ public class Item
 	public static final Item LIQUID_OXYGEN = new Item("Flüssiger Sauerstoff", "liquid_oxygen");
 	public static final Item SILICON = new Item("Silizium", "silicon");
 	public static final Item ALUMINIUM = new Item("Aluminium", "aluminium");
+	public static final Item GLASS = new Item("Glas", "glass");
 	
 	protected Item(String name, String textureName)
 	{

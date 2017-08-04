@@ -225,7 +225,6 @@ public class Player extends Movable
 		public float getSpeed()
 		{
 			float standardSpeed = 3 + scale * 100;
-			System.out.println(standardSpeed);
 			if(!boosting) return standardSpeed;
 			else return standardSpeed * 10;
 		}

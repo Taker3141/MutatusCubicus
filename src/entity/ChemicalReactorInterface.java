@@ -32,6 +32,7 @@ public class ChemicalReactorInterface extends Entity
 		overlay = new OverlayChemicalReactor(input, output, this);
 		
 		reactions.add(new Reaction(new Item[]{DISSOLVED_ROCK, DISSOLVED_ROCK, DISSOLVED_ROCK}, new Item[]{ALUMINIUM, SILICON, LIQUID_OXYGEN}, 10));
+		reactions.add(new Reaction(new Item[]{SILICON, LIQUID_OXYGEN}, new Item[]{GLASS}, 10));
 	}
 	
 	public class Reaction
@@ -65,10 +66,11 @@ public class ChemicalReactorInterface extends Entity
 		if(currentReaction != null && output.size - output.getNumberOfItems() >= currentReaction.output.length)
 		{
 			reactionRunning = true;
+			outerLoop:
 			for(Item item : currentReaction.input) for(int i = 0; i < input.size; i++) if(input.getItem(i) == item)
 			{
 				input.setItem(i, null);
-				continue;
+				continue outerLoop;
 			}
 		}
 	}
@@ -94,6 +96,7 @@ public class ChemicalReactorInterface extends Entity
 				{
 					overlay.resultText += item.name + ", ";
 				}
+				break;
 			}
 			else 
 			{
