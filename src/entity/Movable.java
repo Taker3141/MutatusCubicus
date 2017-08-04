@@ -84,6 +84,7 @@ public class Movable extends Entity
 						((Movable)this).v.y = 0;
 						((Movable)this).isInAir = false;
 						isOnFloor = true;
+						this.position.y = data.height;
 					}
 					if(data.type == IHitBox.Type.WALL)
 					{

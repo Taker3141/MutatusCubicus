@@ -15,6 +15,7 @@ public interface IHitBox
 		public final Vector3f normal;
 		public final boolean isPlatform;
 		public final Type type;
+		public final float height;
 		
 		protected CollisionData(Vector3f o, Vector3f n, boolean platform, Type t)
 		{
@@ -22,6 +23,16 @@ public interface IHitBox
 			normal = n;
 			isPlatform = platform;
 			type = t;
+			height = 0;
+		}
+		
+		protected CollisionData(Vector3f o, Vector3f n, boolean platform, Type t, float h)
+		{
+			origin = o;
+			normal = n;
+			isPlatform = platform;
+			type = t;
+			height = h;
 		}
 	}
 
