@@ -102,8 +102,17 @@ public class Player extends Movable
 				vehicle.v.x *= 0.9F;
 				vehicle.v.z *= 0.9F;
 			}
-			if (isKeyDown(KEY_A)) {vehicle.rotY += dt * 5 * vehicle.v.length(); rotY += dt * 5 * vehicle.v.length();}
-			else if (isKeyDown(KEY_D)) {vehicle.rotY -= dt * 5 * vehicle.v.length(); rotY -= dt * 5 * vehicle.v.length();}
+			if (isKeyDown(KEY_A)) 
+			{
+				vehicle.rotY += dt * 5 * vehicle.v.length(); 
+				rotY += dt * 5 * vehicle.v.length();
+			}
+			else if (isKeyDown(KEY_D)) 
+			{
+				vehicle.rotY -= dt * 5 * vehicle.v.length();
+				rotY -= dt * 5 * vehicle.v.length();
+			}
+			vehicle.curveTime = (isKeyDown(KEY_A) || isKeyDown(KEY_D) ? vehicle.curveTime + dt : 0);
 			if(isKeyDown(KEY_E)) {vehicle.passenger = null; vehicle = null; position.x += 1.5F; model.transparencyNumber = 1;}
 		}
 		if(ship != null)

@@ -16,10 +16,11 @@ import world.World;
 public class Car extends Movable
 {
 	public Player passenger;
-	SubEntity wheel1;
-	SubEntity wheel2;
-	SubEntity wheel3;
-	SubEntity wheel4;
+	protected SubEntity wheel1;
+	protected SubEntity wheel2;
+	protected SubEntity wheel3;
+	protected SubEntity wheel4;
+	public float curveTime = 0;
 	
 	public Car(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
@@ -75,7 +76,7 @@ public class Car extends Movable
 	@Override
 	protected void calculateFriction(float delta)
 	{
-		double factor = Math.pow(0.95F, delta * 50);
+		double factor = Math.pow(0.80F + (curveTime < 0.1F ? 0.15F : 0), delta * 50);
 		if (Math.abs(v.x) < 0.05F) v.x = 0;
 		else v.x *= factor;
 		if (Math.abs(v.z) < 0.05F) v.z = 0;
