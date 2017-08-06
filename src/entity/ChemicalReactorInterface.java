@@ -25,8 +25,8 @@ public class ChemicalReactorInterface extends Entity
 	
 	public ChemicalReactorInterface(Vector3f position, float scale, List<entity.Entity> list)
 	{
-		super(World.createModel("box", "texture/flames", 0), position, 0, 0, 0, scale, list);
-		hitBox = new AABB(position, new Vector3f(10, 10, 10), new Vector3f(-5, 0, -5));
+		super(World.createModel("chemical_reactor/interface", "texture/reactor_interface", 0), position, 0, 0, 0, scale, list);
+		hitBox = new AABB(position, new Vector3f(4, 2, 4), new Vector3f(-2, 0, -2));
 		input = new Inventory(5);
 		output = new Inventory(5);
 		overlay = new OverlayChemicalReactor(input, output, this);
