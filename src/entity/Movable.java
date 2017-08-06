@@ -57,6 +57,7 @@ public class Movable extends Entity
 	
 	protected boolean noCollision()
 	{
+		//if(this instanceof Player) System.out.println(position.y);
 		isOnFloor = false;
 		for (ICollidable c : entityList)
 		{
