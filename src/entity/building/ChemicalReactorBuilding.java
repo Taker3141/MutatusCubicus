@@ -25,5 +25,6 @@ public class ChemicalReactorBuilding extends Building
 	{
 		new ChemicalReactorInterface(Vector3f.add(new Vector3f(18, 0, -54), position, null), 10, entityList);
 		new Entity(World.createModel("chemical_reactor/screen", "texture/color/black", 0.1F), Vector3f.add(new Vector3f(10, 0, -50), position, null), 0, 0, 0, 10, entityList);
+		new Entity(World.createModel("chemical_reactor/decoration", "texture/reactor", 0.1F), Vector3f.add(new Vector3f(10, 8, -20), position, null), 0, 0, 0, 10, entityList);
 	}
 }
