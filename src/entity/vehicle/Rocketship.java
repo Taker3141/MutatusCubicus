@@ -62,7 +62,12 @@ public class Rocketship extends Movable
 	public void update(World w, Terrain t)
 	{
 		rotX += angularMomentum.x; rotY += angularMomentum.y; rotZ += angularMomentum.z;
-		passenger.rotX += angularMomentum.x; passenger.rotY += angularMomentum.y; passenger.rotZ += angularMomentum.z;
+		if(passenger != null) 
+		{
+			passenger.rotX += angularMomentum.x; 
+			passenger.rotY += angularMomentum.y; 
+			passenger.rotZ += angularMomentum.z;
+		}
 		float dt = DisplayManager.getFrameTimeSeconds();
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP) && thrustingPower < 1000) thrustingPower += dt * 100;
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) && thrustingPower > 1) thrustingPower -= dt * 100;

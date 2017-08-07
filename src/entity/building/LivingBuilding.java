@@ -11,7 +11,7 @@ public class LivingBuilding extends Building
 	
 	public LivingBuilding(Vector3f position, float rotX, float rotY, float rotZ, List<Entity> list)
 	{
-		super(World.createModel("living_building", "texture/concrete", 0), position, rotX, rotY, rotZ, 10, list);
+		super(World.createModel("living_building", "texture/building", 0), position, rotX, rotY, rotZ, 10, list);
 	}
 	
 	@Override
