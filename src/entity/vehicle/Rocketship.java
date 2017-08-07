@@ -35,6 +35,7 @@ public class Rocketship extends Movable
 	public OverlaySpaceship info = new OverlaySpaceship(this);
 	public float fuel = 1000;
 	public float thrustingPower = 1;
+	public Vector3f angularMomentum = new Vector3f();
 	
 	public static void init()
 	{
@@ -60,6 +61,8 @@ public class Rocketship extends Movable
 	@Override
 	public void update(World w, Terrain t)
 	{
+		rotX += angularMomentum.x; rotY += angularMomentum.y; rotZ += angularMomentum.z;
+		passenger.rotX += angularMomentum.x; passenger.rotY += angularMomentum.y; passenger.rotZ += angularMomentum.z;
 		float dt = DisplayManager.getFrameTimeSeconds();
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP) && thrustingPower < 1000) thrustingPower += dt * 100;
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) && thrustingPower > 1) thrustingPower -= dt * 100;
@@ -110,10 +113,15 @@ public class Rocketship extends Movable
 		return loader.loadOrbitToVAO(points);
 	}
 	
-	public void rotate(float yAngle)
+	public void stabilizeRotation()
 	{
-		rotating = yAngle;
-		rotY += yAngle;
+		float dt = DisplayManager.getFrameTimeSeconds();
+		if(angularMomentum.x < 0.01F) angularMomentum.x += dt * 10; 
+		if(angularMomentum.x > -0.01F) angularMomentum.x -= dt * 10;
+		if(angularMomentum.y < 0.01F) angularMomentum.y += dt * 10; 
+		if(angularMomentum.y > -0.01F) angularMomentum.y -= dt * 10;
+		if(angularMomentum.z < 0.01F) angularMomentum.z += dt * 10; 
+		if(angularMomentum.z > -0.01F) angularMomentum.z -= dt * 10;
 	}
 	
 	public boolean isAccelerating()

@@ -117,8 +117,13 @@ public class Player extends Movable
 		}
 		if(ship != null)
 		{
-			if (isKeyDown(KEY_A)) {ship.rotate(dt * 20); rotY += dt * 20;}
-			else if (isKeyDown(KEY_D)) {ship.rotate(-dt * 20); rotY -= dt * 20;}
+			if (isKeyDown(KEY_A)) {ship.angularMomentum.y += dt * 10; ship.rotating = 1;}
+			else if (isKeyDown(KEY_D)) {ship.angularMomentum.y -= dt * 10; ship.rotating = -1;}
+			if (isKeyDown(KEY_NUMPAD6)) {ship.angularMomentum.x += dt * 10; ship.rotating = 1;}
+			else if (isKeyDown(KEY_NUMPAD4)) {ship.angularMomentum.x -= dt * 10; ship.rotating = -1;}
+			if (isKeyDown(KEY_NUMPAD8)) {ship.angularMomentum.z += dt * 10; ship.rotating = 1;}
+			else if (isKeyDown(KEY_NUMPAD2)) {ship.angularMomentum.z -= dt * 10; ship.rotating = -1;}
+			if (isKeyDown(KEY_NUMPAD5)) {ship.stabilizeRotation();}
 			if(isKeyDown(KEY_E)) {ship.passenger = null; ship.info.setVisible(false); w.overlays.remove(ship.info); ship = null;}
 			if(isKeyDown(KEY_SPACE)) ship.launch();
 		}
