@@ -3,6 +3,7 @@ package entity.vehicle;
 import java.util.List;
 import main.MainManagerClass;
 import objLoader.OBJLoader;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 import entity.Entity;
 import entity.Movable;
@@ -32,6 +33,8 @@ public class Rocketship extends Movable
 	public float rotating = 0;
 	public Player passenger;
 	public OverlaySpaceship info = new OverlaySpaceship(this);
+	public float fuel = 1000;
+	public float thrustingPower = 1;
 	
 	public static void init()
 	{
@@ -57,16 +60,19 @@ public class Rocketship extends Movable
 	@Override
 	public void update(World w, Terrain t)
 	{
+		float dt = DisplayManager.getFrameTimeSeconds();
+		if(Keyboard.isKeyDown(Keyboard.KEY_UP) && thrustingPower < 1000) thrustingPower += dt * 100;
+		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) && thrustingPower > 1) thrustingPower -= dt * 100;
 		if(thrusting)
 		{
-			float dt = DisplayManager.getFrameTimeSeconds();
-			if (thrustingDistance < 200)
+			if (thrustingDistance < 200 && fuel > 0)
 			{
-				v = Vector3f.add(v, (Vector3f)w.getGravityVector(this).scale(-1.1F), null);
-				v.x += (float) (10000 * Math.cos(Math.toRadians(-rotY)) * dt);
-				v.z += (float) (10000 * Math.sin(Math.toRadians(-rotY)) * dt);
+				//v = Vector3f.add(v, (Vector3f)w.getGravityVector(this).scale(-1.1F), null);
+				v.x += (float) (10 * thrustingPower * Math.cos(Math.toRadians(-rotY)) * dt);
+				v.z += (float) (10 * thrustingPower * Math.sin(Math.toRadians(-rotY)) * dt);
 				float dx = v.x * dt, dz = v.z * dt;
 				thrustingDistance += Math.sqrt(dx * dx + dz * dz);
+				fuel -= thrustingPower / 10000;
 			}
 			else
 			{
@@ -80,6 +86,10 @@ public class Rocketship extends Movable
 			}
 		}
 		info.update();
+		if(position.length() < 1738000)
+		{
+			v = new Vector3f();
+		}
 		super.update(w, t);
 		if(passenger != null) {passenger.position = new Vector3f(position); passenger.position.y += 20;}
 	}
