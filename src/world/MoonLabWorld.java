@@ -46,12 +46,11 @@ public class MoonLabWorld extends World
 		new Rocketship(hVector(1135, 1700), 0, -90, 0, entities);
 		new Rocketship(hVector(1250, 1700), 0, 180, 0, entities);
 		{
-			TexturedModel rock = createModel("rock", "texture/moon_dust", 0.1F);
 			for(int i = 0; i < 100; i++)
 			{
 				Vector3f position = new Vector3f(1024 * r.nextFloat() + 1024, 0, 1024 * r.nextFloat() + 1024);
 				position.y = height(position.x, position.z);
-				new Rock(rock, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.04F + r.nextFloat() / 2.5F, entities);
+				new Rock(position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.04F + r.nextFloat() / 2.5F, entities);
 			}
 			
 			TexturedModel waste = createModel("waste", "texture/waste", 0.05F);
@@ -85,11 +84,15 @@ public class MoonLabWorld extends World
 				new SubEntity(box2.model, new Vector3f(2, 0, 1), 0, 0, 0, 1, entities, fuelGenerator2);
 				for(int i = 0; i < 10; i++)
 				{
-					new Rock(rock, hVector(1525 + r.nextFloat() * 20, 1967 + r.nextFloat() * 20), r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.3F + r.nextFloat() / 10F, entities);
+					new Rock(hVector(1525 + r.nextFloat() * 20, 1967 + r.nextFloat() * 20), r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.3F + r.nextFloat() / 10F, entities);
 					Entity b1 = new Entity(box1.model, hVector(1468 + r.nextFloat() * 20, 1949 + r.nextFloat() * 20), 0, r.nextFloat() * 360, 0, 2, entities);
 					b1.setHitBox(new AABB(b1.position, new Vector3f(2, 2, 2), new Vector3f(-1, 0, -1)));
 					Entity b2 = new Entity(box2.model, hVector(1480 + r.nextFloat() * 20, 1913 + r.nextFloat() * 20), 0, r.nextFloat() * 360, 0, 2, entities);
 					b2.setHitBox(new AABB(b2.position, new Vector3f(2, 2, 2), new Vector3f(-1, 0, -1)));
+				}
+				for(int i = 0; i < 100; i++)
+				{
+					new OreRock(hVector(1757 + r.nextFloat() * 164, 1915 + r.nextFloat() * 89), r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.1F + r.nextFloat() / 5F, entities);
 				}
 			}
 			new Entity(createModel("antenna", "texture/metal", 0.4F), new Vector3f(1184, height(1184, 1224), 1224), 0, 45, 0, 50, entities);

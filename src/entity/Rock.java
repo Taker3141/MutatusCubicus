@@ -5,14 +5,15 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
 import renderer.models.TexturedModel;
+import world.World;
 
 public class Rock extends Entity implements IEdible
 {
 	protected float normalSize;
 	
-	public Rock(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
+	public Rock(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
-		super(model, position, rotX, rotY, rotZ, scale, list);
+		super(World.createModel("rock", "texture/moon_dust", 0.1F), position, rotX, rotY, rotZ, scale, list);
 		normalSize = scale;
 		this.hitBox = new AABB(position, new Vector3f(scale * 4, scale * 2.0F, scale * 4), new Vector3f(-scale * 2.0F, 0, -scale * 2.0F));
 	}

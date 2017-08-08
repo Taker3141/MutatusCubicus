@@ -16,9 +16,11 @@ public class Item
 	
 	public static final Item SLIME = new Item("Schleim", "slime");
 	public static final Item DISSOLVED_ROCK = new Item("Zersetzter Stein", "dissolved_rock");
+	public static final Item DISSOLVED_ORE = new Item("Zersetztes Erz", "dissolved_ore");
 	public static final Item LIQUID_OXYGEN = new Item("Flüssiger Sauerstoff", "liquid_oxygen");
 	public static final Item SILICON = new Item("Silizium", "silicon");
 	public static final Item ALUMINIUM = new Item("Aluminium", "aluminium");
+	public static final Item IRON = new Item("Eisen", "iron");
 	public static final Item GLASS = new Item("Glas", "glass");
 	
 	protected Item(String name, String textureName)

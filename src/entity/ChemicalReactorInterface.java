@@ -32,6 +32,7 @@ public class ChemicalReactorInterface extends Entity
 		overlay = new OverlayChemicalReactor(input, output, this);
 		
 		reactions.add(new Reaction(new Item[]{DISSOLVED_ROCK, DISSOLVED_ROCK, DISSOLVED_ROCK}, new Item[]{ALUMINIUM, SILICON, LIQUID_OXYGEN}, 10));
+		reactions.add(new Reaction(new Item[]{DISSOLVED_ORE, DISSOLVED_ORE, DISSOLVED_ORE}, new Item[]{IRON, LIQUID_OXYGEN}, 20));
 		reactions.add(new Reaction(new Item[]{SILICON, LIQUID_OXYGEN}, new Item[]{GLASS}, 10));
 	}
 	
