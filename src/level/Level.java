@@ -1,6 +1,5 @@
 package level;
 
-import level.LevelManager.Section;
 import org.lwjgl.util.vector.Vector3f;
 import world.World;
 

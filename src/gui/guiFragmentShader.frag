@@ -14,7 +14,7 @@ uniform vec3 color;
 void main(void)
 {
 	vec4 textureColor = texture(guiTexture, vec2(textureCoords.x * width + offsetX, textureCoords.y * height + offsetY));
-	outColor = textureColor * vec4(color, 1);
+	outColor = textureColor;
 	if(textureColor.a < 0.01)
 	{
 		discard;

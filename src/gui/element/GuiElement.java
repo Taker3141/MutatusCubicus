@@ -16,10 +16,10 @@ public class GuiElement
 	public boolean isEnabled = true;
 	public Menu parent;
 	public Vector3f color = new Vector3f(1, 1, 1);
-	protected FontType font = new FontType(loader.loadTexture("font/roboto"), new File("res/font/roboto.fnt"));
 	public boolean isVisible = true;
 	
 	public static Loader loader = MainManagerClass.loader;
+	protected static FontType font = new FontType(loader.loadTexture("font/roboto"), new File("res/font/roboto.fnt"));
 	
 	public GuiElement(int texture, Vector2f position, Vector2f size, Menu parent)
 	{

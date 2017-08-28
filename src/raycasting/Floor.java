@@ -1,7 +1,6 @@
 package raycasting;
 
 import org.lwjgl.util.vector.Vector3f;
-import raycasting.IHitBox.CollisionData;
 
 public class Floor extends AABB
 {

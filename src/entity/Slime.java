@@ -2,9 +2,7 @@ package entity;
 
 import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
-import raycasting.IHitBox;
 import renderer.DisplayManager;
-import renderer.models.TexturedModel;
 import terrain.Terrain;
 import world.World;
 
