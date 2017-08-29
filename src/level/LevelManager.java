@@ -30,6 +30,14 @@ public class LevelManager
 	{
 		sections.add(new Section("Das Mond-Labor"));
 		sections.get(0).levels.add(new Level("Erstes Level", MoonLabWorld.class, new Vector3f(1844, 21, 1623), true));
+		sections.get(0).levels.add(new Level("Zweites Level", MoonLabWorld.class, new Vector3f(1844, 21, 1623), true));
+		sections.get(0).levels.add(new Level("Drittes Level", MoonLabWorld.class, new Vector3f(1844, 21, 1623), true));
+		sections.get(0).levels.add(new Level("Viertes Level", MoonLabWorld.class, new Vector3f(1844, 21, 1623), true));
+		sections.add(new Section("Irgendwas"));
+		sections.get(1).levels.add(new Level("1", MoonLabWorld.class, new Vector3f(1844, 21, 1623), true));
+		sections.get(1).levels.add(new Level("2", MoonLabWorld.class, new Vector3f(1844, 21, 1623), true));
+		sections.get(1).levels.add(new Level("3", MoonLabWorld.class, new Vector3f(1844, 21, 1623), true));
+		
 	}
 	
 	private void loadProgress()

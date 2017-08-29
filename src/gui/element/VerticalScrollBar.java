@@ -1,6 +1,7 @@
 package gui.element;
 
 import java.util.List;
+import gui.handler.IClickHandler;
 import gui.menu.Menu;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
@@ -12,6 +13,7 @@ public class VerticalScrollBar extends GuiElement implements IClickable
 	
 	protected GuiElement slider;
 	protected boolean mouseDown = false;
+	public IClickHandler handler;
 	
 	public VerticalScrollBar(Vector2f position, Vector2f size, Menu parent)
 	{
@@ -52,6 +54,7 @@ public class VerticalScrollBar extends GuiElement implements IClickable
 	public void leftReleased(int x, int y)
 	{
 		mouseDown = false;
+		if(handler != null) handler.click(parent);
 	}
 	
 	@Override
