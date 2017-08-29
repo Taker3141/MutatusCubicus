@@ -54,7 +54,6 @@ public class VerticalScrollBar extends GuiElement implements IClickable
 	public void leftReleased(int x, int y)
 	{
 		mouseDown = false;
-		if(handler != null) handler.click(parent);
 	}
 	
 	@Override
@@ -79,6 +78,7 @@ public class VerticalScrollBar extends GuiElement implements IClickable
 			if (newY < position.y) newY = position.y;
 			if (newY + slider.size.y - offsetTop > position.y + size.y) newY = position.y + size.y - slider.size.y + offsetTop;
 			slider.position.y = newY;
+			if(handler != null) handler.click(parent);
 		}
 		return ret;
 	}

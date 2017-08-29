@@ -14,6 +14,7 @@ public class LevelSelector extends GuiElement implements IClickable
 	private String sectionNames[];
 	private GUIText sectionText;
 	private int sectionIndex = 0;
+	private int scrollIndex = 3;
 	private LevelManager levelManager = new LevelManager();
 	private LevelSlot[] levelSlots = new LevelSlot[3];
 	private List<GuiElement> guiElements;
@@ -26,19 +27,23 @@ public class LevelSelector extends GuiElement implements IClickable
 		LevelManager.Section[] sections = levelManager.sections.toArray(new LevelManager.Section[0]);
 		sectionNames = new String[sections.length];
 		for(int i = 0; i < sections.length; i++) sectionNames[i] = sections[i].name;
-		LevelSlot.init();
-		updateSlots();
 		scroll = new VerticalScrollBar(new Vector2f(position.x + 977 * ratio, position.y + 15 * ratio), new Vector2f(32 * ratio, 354 * ratio), parent);
 		scroll.setSlide(1);
 		scroll.handler = new HandlerScrollChanged();
+		LevelSlot.init();
+		updateSlots(true);
 		leftButton = (ArrowButton)new ArrowButton(new Vector2f(position.x + 20, position.y + size.y - 84), new Vector2f(64, 64), ArrowButton.ButtonDirection.LEFT, parent).setClickHandler(new HandlerSwitchSection(-1));
 		rightButton = (ArrowButton)new ArrowButton(new Vector2f(position.x + size.x - 84, position.y + size.y - 84), new Vector2f(64, 64), ArrowButton.ButtonDirection.RIGHT, parent).setClickHandler(new HandlerSwitchSection(1));
 		sectionText = new GUIText(sectionNames[0], 2, font, new Vector2f(leftButton.position.x + 84, leftButton.position.y + 50), 1, false);
 	}
 	
-	public void updateSlots()
+	public void updateSlots(boolean forceReload)
 	{
 		Level[] currentLevels = levelManager.sections.get(sectionIndex).levels.toArray(new Level[0]);
+		int maxScroll = currentLevels.length < 4 ? 0 : currentLevels.length - 3;
+		int newScrollIndex = (int)(maxScroll * (1 - scroll.getSlide()) + 0.5F);
+		if(newScrollIndex == scrollIndex && !forceReload) return;
+		scrollIndex = newScrollIndex;
 		final float ratio = size.x / 1024;
 		for(int i = 0; i < levelSlots.length; i++)
 		{
@@ -48,9 +53,10 @@ public class LevelSelector extends GuiElement implements IClickable
 				guiElements.remove(levelSlots[i].lock);
 				levelSlots[i].numberText.remove(); levelSlots[i].name.remove();
 			}
-			if(i < currentLevels.length)
+			if((i + scrollIndex) < currentLevels.length)
 			{
-				levelSlots[i] = new LevelSlot(new Vector2f(position.x + 40 * ratio, position.y - (i * 116 * ratio) + 353 * ratio), i + 1, currentLevels[i].name, !currentLevels[i].available, ratio);
+				Level l = currentLevels[i + scrollIndex];
+				levelSlots[i] = new LevelSlot(new Vector2f(position.x + 40 * ratio, position.y - (i * 116 * ratio) + 353 * ratio), i + scrollIndex + 1, l.name, !l.available, ratio);
 				guiElements.add(levelSlots[i].lock);
 			}
 		}
@@ -89,7 +95,7 @@ public class LevelSelector extends GuiElement implements IClickable
 	
 	public void addComponents(List<GuiElement> list)
 	{
-		for(int i = 0; i < levelSlots.length; i++) list.add(levelSlots[i].lock);
+		for(int i = 0; i < levelSlots.length; i++) if(levelSlots[i] != null) list.add(levelSlots[i].lock);
 		scroll.addComponents(list);
 		list.add(leftButton);
 		list.add(rightButton);
@@ -144,7 +150,7 @@ public class LevelSelector extends GuiElement implements IClickable
 			if(sectionIndex < 0) sectionIndex = sectionNames.length - 1;
 			sectionText.setText(sectionNames[sectionIndex]);
 			scroll.setSlide(1);
-			updateSlots();
+			updateSlots(true);
 		}
 	}
 	
@@ -153,7 +159,7 @@ public class LevelSelector extends GuiElement implements IClickable
 		@Override
 		public void click(Menu parent)
 		{
-			updateSlots();
+			updateSlots(false);
 		}
 	}
 	
