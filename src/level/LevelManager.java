@@ -2,17 +2,13 @@ package level;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.lwjgl.util.vector.Vector3f;
-import world.MoonLabWorld;
+import world.World;
 
 public class LevelManager
 {
@@ -50,11 +46,44 @@ public class LevelManager
 			List<String> levelNames = sectionNames.get(n);
 			for(String l : levelNames)
 			{
-				sec.levels.add(new Level(l, MoonLabWorld.class, new Vector3f(1844, 21, 1623), true));
+				sec.levels.add(loadLevelInfo(levelPath + n.split(":")[1] + "/" + l + ".lvl"));
 			}
 		}
 	}
 
+	private Level loadLevelInfo(String levelPath)
+	{
+		String name = null;
+		Class<? extends World> startWorld = null;
+		try (FileReader r = new FileReader(levelPath); BufferedReader reader = new BufferedReader(r))
+		{
+			String line = reader.readLine();
+			boolean foundInfoSection = false;
+			while(line != null)
+			{
+				if(!foundInfoSection && line.startsWith("info:")) foundInfoSection = true;
+				if(foundInfoSection)
+				{
+					if(line.trim().startsWith("name:")) name = line.split(":")[1].trim();
+					if(line.trim().startsWith("world:")) 
+					{
+						@SuppressWarnings("unchecked")
+						Class<? extends World> c = (Class<? extends World>) Class.forName("world." + line.split(":")[1].trim());
+						startWorld = c;
+					}
+					if(line.trim().startsWith("}")) break;
+				}
+				line = reader.readLine();
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Could not read level information for level \'" + levelPath + "\'");
+			e.printStackTrace();
+		}
+		return new Level(name, startWorld, true, levelPath);
+	}
+	
 	private void loadLevelNames(Map<String, List<String>> sectionNames, String levelPath)
 	{
 		String[] nameArray = sectionNames.keySet().toArray(new String[0]);

@@ -1,21 +1,20 @@
 package level;
 
-import org.lwjgl.util.vector.Vector3f;
 import world.World;
 
 public class Level
 {
 	public final String name;
 	public final Class<? extends World> startWorld;
-	public final Vector3f startPosition;
+	public final String levelFile;
 	public boolean available;
 	
-	public Level(String name, Class<? extends World> startWorld, Vector3f startPosition, boolean available)
+	public Level(String name, Class<? extends World> startWorld, boolean available, String levelFile)
 	{
 		this.name = name;
 		this.startWorld = startWorld;
-		this.startPosition = startPosition;
 		this.available = available;
+		this.levelFile = levelFile;
 	}
 	
 	public World loadLevel()
@@ -23,7 +22,6 @@ public class Level
 		try
 		{
 			World w = startWorld.newInstance();
-			w.player.position = startPosition;
 			return w;
 		}
 		catch (Exception e)

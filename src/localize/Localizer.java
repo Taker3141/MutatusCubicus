@@ -49,6 +49,7 @@ public class Localizer
 	
 	public String localizeString(String unlocalized)
 	{
+		if(unlocalized == null) return "";
 		String localized = map.get(unlocalized);
 		if(unlocalized.startsWith("o!"))
 		{
