@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,24 +39,28 @@ public class LevelManager
 	{
 		String levelPath = "res/level/";
 		File sectionIndexFile = new File(levelPath + "sections");
-		List<String> sectionNames = new ArrayList<>();
-		try (FileReader r = new FileReader(sectionIndexFile); BufferedReader reader = new BufferedReader(r))
+		Map<String, List<String>> sectionNames = loadSections(sectionIndexFile);
+		loadLevelNames(sectionNames, levelPath);
+		String[] names = sectionNames.keySet().toArray(new String[0]);
+		Arrays.sort(names);
+		for(String n : names)
 		{
-			String line = reader.readLine();
-			while (line != null)
+			Section sec = new Section(n.split(":")[1]);
+			sections.add(sec);
+			List<String> levelNames = sectionNames.get(n);
+			for(String l : levelNames)
 			{
-				sectionNames.add(line);
-				line = reader.readLine();
+				sec.levels.add(new Level(l, MoonLabWorld.class, new Vector3f(1844, 21, 1623), true));
 			}
 		}
-		catch (Exception e)
+	}
+
+	private void loadLevelNames(Map<String, List<String>> sectionNames, String levelPath)
+	{
+		String[] nameArray = sectionNames.keySet().toArray(new String[0]);
+		for (int i = 0; i < sectionNames.size(); i++)
 		{
-			System.out.println("Could not read level section index file");
-			e.printStackTrace();
-		}
-		for (String n : sectionNames)
-		{
-			sections.add(new Section(n));
+			String n = nameArray[i].split(":")[1];
 			try (FileReader r = new FileReader(levelPath + n + "/section_info"); BufferedReader reader = new BufferedReader(r))
 			{
 				String line = reader.readLine();
@@ -63,7 +68,7 @@ public class LevelManager
 				{
 					if(line.startsWith("level:"))
 					{
-						sections.get(sections.size() - 1).levels.add(new Level(line.split(":")[1].trim(), MoonLabWorld.class, new Vector3f(1844, 21, 1623), true));
+						sectionNames.get(nameArray[i]).add(line.split(":")[1].trim());
 					}
 					line = reader.readLine();
 				}
@@ -75,7 +80,29 @@ public class LevelManager
 			}
 		}
 	}
-	
+
+	private Map<String, List<String>> loadSections(File sectionIndexFile)
+	{
+		Map<String, List<String>> sectionNames = new HashMap<>();
+		try (FileReader r = new FileReader(sectionIndexFile); BufferedReader reader = new BufferedReader(r))
+		{
+			String line = reader.readLine();
+			int lineCounter = 0;
+			while (line != null)
+			{
+				sectionNames.put(lineCounter + ":" + line, new ArrayList<String>());
+				lineCounter++;
+				line = reader.readLine();
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("Could not read level section index file");
+			e.printStackTrace();
+		}
+		return sectionNames;
+	}
+
 	private void loadProgress()
 	{	
 		
