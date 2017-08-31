@@ -30,7 +30,6 @@ public class LevelSelector extends GuiElement implements IClickable
 		scroll = new VerticalScrollBar(new Vector2f(position.x + 977 * ratio, position.y + 15 * ratio), new Vector2f(32 * ratio, 354 * ratio), parent);
 		scroll.setSlide(1);
 		scroll.handler = new HandlerScrollChanged();
-		LevelSlot.init();
 		updateSlots(true);
 		leftButton = (ArrowButton)new ArrowButton(new Vector2f(position.x + 20, position.y + size.y - 84), new Vector2f(64, 64), ArrowButton.ButtonDirection.LEFT, parent).setClickHandler(new HandlerSwitchSection(-1));
 		rightButton = (ArrowButton)new ArrowButton(new Vector2f(position.x + size.x - 84, position.y + size.y - 84), new Vector2f(64, 64), ArrowButton.ButtonDirection.RIGHT, parent).setClickHandler(new HandlerSwitchSection(1));
@@ -56,16 +55,10 @@ public class LevelSelector extends GuiElement implements IClickable
 			if((i + scrollIndex) < currentLevels.length)
 			{
 				Level l = currentLevels[i + scrollIndex];
-				levelSlots[i] = new LevelSlot(new Vector2f(position.x + 40 * ratio, position.y - (i * 116 * ratio) + 353 * ratio), i + scrollIndex + 1, l.name, !l.available, ratio);
+				levelSlots[i] = new LevelSlot(new Vector2f(position.x + 31 * ratio, position.y - (i * 116 * ratio) + 353 * ratio), i + scrollIndex + 1, l.name, !l.available, ratio);
 				guiElements.add(levelSlots[i].lock);
 			}
 		}
-	}
-	
-	@Override
-	public void leftReleased(int x, int y)
-	{
-		
 	}
 	
 	@Override
@@ -95,27 +88,28 @@ public class LevelSelector extends GuiElement implements IClickable
 	
 	public void addComponents(List<GuiElement> list)
 	{
-		for(int i = 0; i < levelSlots.length; i++) if(levelSlots[i] != null) list.add(levelSlots[i].lock);
+		for(int i = 0; i < levelSlots.length; i++) if(levelSlots[i] != null) {list.add(levelSlots[i].hover); list.add(levelSlots[i].lock);}
 		scroll.addComponents(list);
 		list.add(leftButton);
 		list.add(rightButton);
 		list.add(this);
 	}
 	
-	private static class LevelSlot
+	private class LevelSlot
 	{
 		public Vector2f p;
 		public GUIText numberText;
 		public GUIText name;
 		public GuiElement lock;
+		public LevelSlotHover hover;
 		public boolean locked;
 		
-		public static int lockTexture;
+		public int lockTexture;
 		
 		public LevelSlot(Vector2f position, int number, String n, boolean locked, float ratio)
 		{
 			p = position;
-			numberText = new GUIText("Level " + number, 1, font, position, 1, false);
+			numberText = new GUIText("Level " + number, 1, font, new Vector2f(position.x + 10 * ratio, position.y), 1, false);
 			name = new GUIText(n, 3, font, new Vector2f(p.x + 100 * ratio, p.y), 1, false);
 			this.locked = locked;
 			if(locked)
@@ -123,13 +117,44 @@ public class LevelSelector extends GuiElement implements IClickable
 				numberText.setColour(0.6F, 0.6F, 0.6F);
 				name.setColour(0.6F, 0.6F, 0.6F);
 			}
+			lockTexture = loader.loadTexture("texture/gui/lock");
 			lock = new GuiElement(lockTexture, new Vector2f(position.x + 835 * ratio, position.y - 85 * ratio), new Vector2f(64, 64), null);
 			lock.isVisible = locked;
+			hover = new LevelSlotHover(new Vector2f(position.x, position.y - 90 * ratio), new Vector2f(923 * ratio, 88 * ratio), this);
 		}
+	}
+	
+	private class LevelSlotHover extends GuiElement implements IClickable
+	{
+		private int hoverTexture;
+		private float clickTimer = 0;
+		private LevelSlot slot;
 		
-		public static void init()
+		public LevelSlotHover(Vector2f position, Vector2f size, LevelSlot slot)
 		{
-			lockTexture = loader.loadTexture("texture/gui/lock");
+			super(0, position, size, LevelSelector.this.parent);
+			hoverTexture = loader.loadTexture("texture/gui/hover");
+			this.slot = slot;
+			texture = hoverTexture;
+			isVisible = false;
+		}
+
+		@Override
+		public void leftClick(int mouseX, int mouseY)
+		{
+			
+		}
+
+		@Override public void leftReleased(int mouseX, int mouseY) {}
+		@Override public void rightClick(int mouseX, int mouseY) {}
+		@Override public void rightReleased(int mouseX, int mouseY) {}
+		@Override public void entered(int mouseX, int mouseY) {isVisible = LevelSelector.this.isVisible;}
+		@Override public void left(int mouseX, int mouseY) {isVisible = false;}
+
+		@Override
+		public boolean isOver(int x, int y)
+		{
+			return x >= position.x && x <= position.x + size.x && y >= position.y && y <= position.y + size.y;
 		}
 	}
 	
@@ -164,6 +189,7 @@ public class LevelSelector extends GuiElement implements IClickable
 	}
 	
 	@Override public void leftClick(int mouseX, int mouseY) {}
+	@Override public void leftReleased(int x, int y) {}
 	@Override public void rightClick(int mouseX, int mouseY) {}
 	@Override public void rightReleased(int mouseX, int mouseY) {}
 	@Override public void entered(int mouseX, int mouseY) {}
