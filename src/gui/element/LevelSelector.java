@@ -3,6 +3,7 @@ package gui.element;
 import java.util.List;
 import level.*;
 import org.lwjgl.util.vector.Vector2f;
+import renderer.DisplayManager;
 import font.fontMeshCreator.GUIText;
 import gui.handler.IClickHandler;
 import gui.menu.Menu;
@@ -55,7 +56,10 @@ public class LevelSelector extends GuiElement implements IClickable
 			if((i + scrollIndex) < currentLevels.length)
 			{
 				Level l = currentLevels[i + scrollIndex];
-				levelSlots[i] = new LevelSlot(new Vector2f(position.x + 31 * ratio, position.y - (i * 116 * ratio) + 353 * ratio), i + scrollIndex + 1, l.name, !l.available, ratio);
+				LevelSlotHover hover = levelSlots[i] != null ? levelSlots[i].hover : null;
+				levelSlots[i] = new LevelSlot(new Vector2f(position.x + 31 * ratio, position.y - (i * 116 * ratio) + 353 * ratio), i + scrollIndex + 1, l.name, !l.available, ratio, currentLevels[i + scrollIndex]);
+				levelSlots[i].level = l;
+				if(hover != null) {hover.slot = levelSlots[i]; levelSlots[i].hover = hover;}
 				guiElements.add(levelSlots[i].lock);
 			}
 		}
@@ -102,12 +106,14 @@ public class LevelSelector extends GuiElement implements IClickable
 		public GUIText name;
 		public GuiElement lock;
 		public LevelSlotHover hover;
+		public Level level;
 		public boolean locked;
 		
 		public int lockTexture;
 		
-		public LevelSlot(Vector2f position, int number, String n, boolean locked, float ratio)
+		public LevelSlot(Vector2f position, int number, String n, boolean locked, float ratio, Level level)
 		{
+			this.level = level;
 			p = position;
 			numberText = new GUIText("Level " + number, 1, font, new Vector2f(position.x + 10 * ratio, position.y), 1, false);
 			name = new GUIText(n, 3, font, new Vector2f(p.x + 100 * ratio, p.y), 1, false);
@@ -142,7 +148,12 @@ public class LevelSelector extends GuiElement implements IClickable
 		@Override
 		public void leftClick(int mouseX, int mouseY)
 		{
-			
+			if(clickTimer > 0 && clickTimer < 0.5F) 
+			{
+				clickTimer = 0;
+				parent.requestGameStart(slot.level);
+			}
+			else clickTimer = 0.5F;
 		}
 
 		@Override public void leftReleased(int mouseX, int mouseY) {}
@@ -155,6 +166,12 @@ public class LevelSelector extends GuiElement implements IClickable
 		public boolean isOver(int x, int y)
 		{
 			return x >= position.x && x <= position.x + size.x && y >= position.y && y <= position.y + size.y;
+		}
+		
+		@Override
+		public void update()
+		{
+			if(clickTimer > 0) clickTimer -= DisplayManager.getFrameTimeSeconds(); else clickTimer = 0;
 		}
 	}
 	

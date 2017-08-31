@@ -15,6 +15,11 @@ public class HandlerStartGame implements IClickHandler
 	@Override
 	public void click(Menu parent)
 	{
-		parent.requestGameStart(startWorld);
+		parent.requestGameStart(
+		() ->
+		{
+			try{return startWorld.newInstance();}
+			catch(Exception e) {e.printStackTrace(); return null;}
+		});
 	}
 }

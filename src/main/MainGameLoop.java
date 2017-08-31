@@ -1,5 +1,6 @@
 package main;
 
+import level.Level;
 import gui.menu.LoadingScreen;
 import org.lwjgl.opengl.Display;
 import font.fontRendering.TextMaster;
@@ -13,14 +14,14 @@ public class MainGameLoop
 	public static World w;
 	public static Fbo fbo;
 	
-	public static String doGame(Class<? extends World> world)
+	public static String doGame(WorldCreator creator)
 	{
 		TextMaster.clear();
 		try
 		{
 			LoadingScreen loading = new LoadingScreen();
 			loading.doMenu();
-			w = world.newInstance();
+			w = creator.createWorld();
 			Loader loader = MainManagerClass.loader;
 			w.updateRaycaster();
 			
@@ -41,5 +42,15 @@ public class MainGameLoop
 			e.printStackTrace();
 			return e.getMessage();
 		}
+	}
+	
+	public static String startLevel(Level level)
+	{
+		return doGame(level);
+	}
+	
+	public static interface WorldCreator
+	{
+		public abstract World createWorld();
 	}
 }

@@ -1,8 +1,9 @@
 package level;
 
+import main.MainGameLoop.WorldCreator;
 import world.World;
 
-public class Level
+public class Level implements WorldCreator
 {
 	public final String name;
 	public final Class<? extends World> startWorld;
@@ -17,7 +18,7 @@ public class Level
 		this.levelFile = levelFile;
 	}
 	
-	public World loadLevel()
+	public World createWorld()
 	{
 		try
 		{

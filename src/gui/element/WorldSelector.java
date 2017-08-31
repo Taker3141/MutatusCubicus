@@ -30,10 +30,16 @@ public class WorldSelector extends GuiElement implements IClickable
 		float clickY = Display.getHeight() - y;
 		for(int i = 0; i < worldIcons.length; i++)
 		{
-			GuiElement e = worldIcons[i].element;
+			WorldIcon icon = worldIcons[i];
+			GuiElement e = icon.element;
 			if(x >= e.position.x && x <= e.position.x + e.size.x && clickY >= e.position.y && clickY <= e.position.y + e.size.y)
 			{
-				parent.requestGameStart(worldIcons[i].startWorld);
+				parent.requestGameStart(
+				() ->
+				{
+					try{return icon.startWorld.newInstance();}
+					catch(Exception ex) {ex.printStackTrace(); return null;}
+				});
 			}
 		}
 	}

@@ -22,7 +22,7 @@ public class MainMenu extends Menu
 	
 	@Override
 	public void doMenu()
-	{	
+	{
 		{
 			final int indention = 200;
 			guiElements.add(new Button(new Vector2f(indention, H - 200), buttonSize, this).setText("Story", font, 1).setClickHandler(new HandlerToggleStoryGui()));
@@ -60,8 +60,9 @@ public class MainMenu extends Menu
 			if (shouldStartGame)
 			{
 				shouldStartGame = false;
-				String errorMessage = MainGameLoop.doGame(startWorld);
-				if(errorMessage != null) error = "Das Spiel ist abgestürzt :O      " + errorMessage;
+				String errorMessage;
+				errorMessage = MainGameLoop.doGame(worldCreator);
+				if (errorMessage != null) error = "Das Spiel ist abgestürzt :O      " + errorMessage;
 				else error = "";
 				MainManagerClass.nextMenu = MainMenu.class;
 			}

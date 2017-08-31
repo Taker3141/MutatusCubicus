@@ -3,6 +3,7 @@ package gui.menu;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import main.MainGameLoop.WorldCreator;
 import main.MainManagerClass;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -10,6 +11,7 @@ import org.lwjgl.util.vector.Vector2f;
 import font.fontMeshCreator.FontType;
 import font.fontRendering.TextMaster;
 import gui.element.GuiElement;
+import renderer.DisplayManager;
 import renderer.GuiRenderer;
 import renderer.Loader;
 import world.World;
@@ -30,7 +32,7 @@ public abstract class Menu
 	protected GuiRenderer gRenderer = new GuiRenderer(loader);
 	protected boolean isCloseRequested = false;
 	protected boolean shouldStartGame = false;
-	protected Class<? extends World> startWorld;
+	protected WorldCreator worldCreator;
 	
 	public Menu()
 	{
@@ -48,9 +50,10 @@ public abstract class Menu
 		renderList.addAll(guiElementsForeground);
 		renderList.addAll(guiElements);
 		renderList.addAll(guiElementsBackground);
+		for(GuiElement e : renderList) e.update();
 		gRenderer.render(renderList, true);
 		TextMaster.render();
-		Display.update();
+		DisplayManager.updateDisplay();
 	}
 	
 	protected void cleanUp()
@@ -65,9 +68,9 @@ public abstract class Menu
 		MainManagerClass.nextMenu = next;
 	}
 	
-	public void requestGameStart(Class<? extends World> world)
+	public void requestGameStart(WorldCreator creator)
 	{
-		startWorld = world;
+		worldCreator = creator;
 		isCloseRequested = true;
 		shouldStartGame = true;
 	}

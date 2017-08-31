@@ -43,4 +43,9 @@ public class GuiElement
 	{
 		isVisible = visible;
 	}
+	
+	public void update()
+	{
+		
+	}
 }
