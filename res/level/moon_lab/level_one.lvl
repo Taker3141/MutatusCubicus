@@ -6,10 +6,12 @@ info:
 
 init:
 {
-	#Entity modelName, texturePath, position, rotation, size
-	Entity "tree", "texture/plant/tree", "1600, 1600", "0, 0, 0", 1
-	#Decoration modelName, texturePath, center, radius, amount, size
-	Decoration "grass", "texture/plant/grass", "1600, 1600", 10, 20, "1, 1.2"
-	#Player position, rotation
-	Player "1602, 1602", "0, 0, 0"
+	#Entity modelName, 	texturePath, 			position, 		rotation, 	size
+	Entity 	"tree", 	"texture/plant/tree", 	"1600, 1600", 	"90, 0, 0", 1
+	
+	#Decoration modelName, 	texturePath, 			center, 		radius, amount, size
+	Decoration "grass", 	"texture/plant/grass", 	"1600, 1600", 	10, 	20, 	"1, 1.2"
+	
+	#Player position, 		rotation
+	Player 	"1602, 1602", 	"0, -150, 0"
 }
