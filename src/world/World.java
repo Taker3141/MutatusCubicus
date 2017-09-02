@@ -57,6 +57,24 @@ public abstract class World
 		return true;
 	}
 	
+	public void generateDecoration(TexturedModel model, int number, float x, float z, float scaleMin, float scaleMax, float rad, boolean duplicate)
+	{
+		for(int i = 0; i < number; i++)
+		{
+			float angle = r.nextFloat() * 360;
+			float radius = r.nextFloat() * rad;
+			float rotation = r.nextFloat() * 90;
+			float size = scaleMin + r.nextFloat() * (scaleMax - scaleMin);
+			new Entity(model, hVector((float)(x + radius * Math.cos(angle)), (float)(z + radius * Math.sin(angle))), 0, rotation, 0, size, entities);
+			if(duplicate) new Entity(model, hVector((float)(x + radius * Math.cos(angle)), (float)(z + radius * Math.sin(angle))), 0, rotation + 180, 0, size, entities);
+		}
+	}
+	
+	public Vector3f hVector(float x, float z)
+	{
+		return new Vector3f(x, height(x, z), z);
+	}
+	
 	public void cleanUp()
 	{
 		renderer.cleanUp();
