@@ -3,6 +3,9 @@ package level;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
@@ -97,7 +100,7 @@ public class LevelParser
 			}
 		}
 		
-		public void execute(World w) throws UnknownFunctionException
+		public void execute(World w) throws UnknownFunctionException, EntityInstanciationException, ClassNotFoundException
 		{
 			switch(functionName)
 			{
@@ -121,6 +124,35 @@ public class LevelParser
 							((Vector2f)arguments[5]).x, ((Vector2f)arguments[5]).x, 
 							(float)arguments[3], false);
 					return;
+				case "SpecialEntity":
+					String entityName = (String)arguments[0];
+					Class<?> targetClass = Class.forName("entity." + entityName);
+					Constructor<?>[] constructors = targetClass.getConstructors();
+					constructorLoop:
+					for(Constructor<?> c : constructors)
+					{
+						Parameter[] parameters = c.getParameters();
+						for(int i = 0; i < parameters.length - 1; i++)
+						{
+							Class<?> cType = parameters[i].getType();
+							Class<?> pType = arguments[i + 1].getClass();
+							if(cType.isPrimitive()) cType = Array.get(Array.newInstance(cType, 1), 0).getClass();
+							if(cType != pType) continue constructorLoop;
+						}
+						try
+						{
+							Object[] instanceParameters = new Object[arguments.length];
+							for(int i = 0; i < instanceParameters.length; i++)
+							{
+								if(i < instanceParameters.length - 1) instanceParameters[i] = arguments[i + 1];
+								else instanceParameters[i] = w.entities;
+							}
+							c.newInstance(instanceParameters);
+							return;
+						}
+						catch (Exception e) {throw new EntityInstanciationException(entityName);}
+					}
+					throw new EntityInstanciationException(entityName);
 				default: throw new UnknownFunctionException(functionName);
 			}
 		}
@@ -133,6 +165,16 @@ public class LevelParser
 		public UnknownFunctionException(String function)
 		{
 			super("Unknown function: " + function);
+		}
+	}
+	
+	private static class EntityInstanciationException extends Exception
+	{
+		private static final long serialVersionUID = -8363620836452481998L;
+
+		public EntityInstanciationException(String entityName)
+		{
+			super("Unable to instanciate entity: " + entityName);
 		}
 	}
 }

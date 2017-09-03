@@ -22,9 +22,9 @@ public class Car extends Movable
 	protected SubEntity wheel4;
 	public float curveTime = 0;
 	
-	public Car(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
+	public Car(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
-		super(MoonLabWorld.createModel("car/car", "texture/metal", 0.2F), position, rotX, rotY, rotZ, scale, list, mass);
+		super(MoonLabWorld.createModel("car/car", "texture/metal", 0.2F), position, rotX, rotY, rotZ, scale, list, 1000);
 		Entity roof = new SubEntity(MoonLabWorld.createModel("car/roof", "texture/glass", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, list, this);
 		roof.model.getTexture().setHasTransparency(true);
 		new SubEntity(MoonLabWorld.createModel("car/door", "texture/metal", 0.2F), new Vector3f(0.86F, 0.7F, 1.03F), 0, 0, 0, 1, list, this);

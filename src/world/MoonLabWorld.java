@@ -42,7 +42,7 @@ public class MoonLabWorld extends World
 					new TerrainTexture(loader.loadTexture((tx == 1 && tz == 1) ? "texture/terrain/blend_1_1" : "texture/terrain/blend_0_0")), 
 					"terrain/height_" + tx + "_" + tz);
 		}
-		new Car(hVector(player.position.x - 5, player.position.z), 0, 0, 0, 0.6F, entities, 1000);
+		new Car(hVector(player.position.x - 5, player.position.z), 0, 0, 0, 0.6F, entities);
 		new Rocketship(hVector(1135, 1700), 0, -90, 0, entities);
 		new Rocketship(hVector(1250, 1700), 0, 180, 0, entities);
 		{

@@ -3,7 +3,6 @@ package entity;
 import inventory.Item;
 import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
-import renderer.models.TexturedModel;
 import world.World;
 
 public class OreRock extends Rock
