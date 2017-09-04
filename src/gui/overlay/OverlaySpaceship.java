@@ -1,4 +1,4 @@
-package gui;
+package gui.overlay;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;

@@ -1,4 +1,4 @@
-package gui;
+package gui.overlay;
 
 import inventory.Item;
 import org.lwjgl.opengl.Display;

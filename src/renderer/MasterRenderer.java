@@ -14,7 +14,7 @@ import entity.Light;
 import entity.Orbit;
 import entity.Player;
 import font.fontRendering.TextMaster;
-import gui.Overlay;
+import gui.overlay.Overlay;
 import renderer.models.TexturedModel;
 import renderer.shaders.OrbitShader;
 import renderer.shaders.StaticShader;

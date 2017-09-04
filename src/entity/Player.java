@@ -1,21 +1,15 @@
 package entity;
 
-import entity.vehicle.Car;
-import entity.vehicle.Rocketship;
-import gui.OverlayOrgans;
-import inventory.Inventory;
-import inventory.Item;
+import entity.vehicle.*;
+import gui.overlay.*;
+import inventory.*;
 import java.util.List;
 import static org.lwjgl.input.Keyboard.*;
 import objLoader.OBJLoader;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.*;
 import animation.KeyframeAnimation;
 import animation.KeyframeAnimation.Keyframe;
-import raycasting.AABB;
-import raycasting.ICollidable;
-import raycasting.IHitBox;
-import raycasting.NoHitbox;
+import raycasting.*;
 import renderer.DisplayManager;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
@@ -32,6 +26,7 @@ public class Player extends Movable
 	
 	private float currentTurnSpeed = 0;
 	
+	public OverlayCommunication com;
 	public OverlayOrgans organs;
 	public Inventory inv;
 	public final float NORMAL_SIZE;
@@ -47,6 +42,7 @@ public class Player extends Movable
 		inv.addItem(Item.SLIME); inv.addItem(Item.SLIME); inv.addItem(Item.SLIME);
 		inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK);
 		organs = new OverlayOrgans(this);
+		com = new OverlayCommunication();
 		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
 		NORMAL_SIZE = scale;
@@ -61,6 +57,7 @@ public class Player extends Movable
 		
 		rotY += currentTurnSpeed * delta;
 		organism.update(delta, isKeyDown(KEY_LSHIFT));
+		com.update();
 		super.update(w, terrain);
 	}
 	

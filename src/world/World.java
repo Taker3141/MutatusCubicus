@@ -16,7 +16,7 @@ import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import entity.*;
 import entity.vehicle.Rocketship;
-import gui.Overlay;
+import gui.overlay.Overlay;
 
 public abstract class World
 {

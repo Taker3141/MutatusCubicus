@@ -11,7 +11,7 @@ import renderer.DisplayManager;
 import terrain.Terrain;
 import world.World;
 import entity.Entity;
-import gui.OverlayChemicalReactor;
+import gui.overlay.OverlayChemicalReactor;
 import static inventory.Item.*;
 
 public class ChemicalReactorInterface extends Entity

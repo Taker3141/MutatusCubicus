@@ -1,4 +1,4 @@
-package gui;
+package gui.overlay;
 
 import font.fontMeshCreator.FontType;
 import gui.element.GuiElement;
