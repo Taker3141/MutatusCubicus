@@ -40,7 +40,7 @@ public class MainGameLoop
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			return e.getMessage();
+			return e.getCause() + " at " + e.getStackTrace()[0].toString();
 		}
 	}
 	

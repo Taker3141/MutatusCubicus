@@ -13,6 +13,8 @@ import raycasting.*;
 import renderer.DisplayManager;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
+import talk.ConversationManager;
+import talk.ConversationManager.Conversation;
 import terrain.Terrain;
 import world.World;
 
@@ -23,8 +25,8 @@ public class Player extends Movable
 	public Car vehicle = null;
 	private Rocketship ship;
 	private float dyingAnimation = 0;
-	
 	private float currentTurnSpeed = 0;
+	private boolean talkFlag = true;
 	
 	public OverlayCommunication com;
 	public OverlayOrgans organs;
@@ -32,6 +34,7 @@ public class Player extends Movable
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
 	public Inventory transferInv;
+	public ConversationManager conversation;
 	
 	public Player(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
@@ -43,6 +46,7 @@ public class Player extends Movable
 		inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK);
 		organs = new OverlayOrgans(this);
 		com = new OverlayCommunication();
+		conversation = new ConversationManager(com);
 		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
 		NORMAL_SIZE = scale;
@@ -57,6 +61,7 @@ public class Player extends Movable
 		
 		rotY += currentTurnSpeed * delta;
 		organism.update(delta, isKeyDown(KEY_LSHIFT));
+		conversation.update();
 		com.update();
 		super.update(w, terrain);
 	}
@@ -126,7 +131,7 @@ public class Player extends Movable
 		}
 		for (int i = 0; i < 10; i++)
 		{
-			if (isKeyDown(i + 2)) inv.selectSlot(i);
+			if(isKeyDown(i + 2)) inv.selectSlot(i);
 		}
 		if(isKeyDown(KEY_SUBTRACT) && scale > NORMAL_SIZE) 
 		{
@@ -138,6 +143,9 @@ public class Player extends Movable
 			if(useItem(inv.getSelectedItem())) inv.setItem(inv.getSelectedSlot(), null);
 		}
 		if(isKeyDown(KEY_F12)) System.out.println(position);
+		if(isKeyDown(KEY_F2)) conversation.startConversation(new Conversation(new String[]{"Line 1", "Line 2", "Line 3", "Line 4", "Line 5"}));
+		if(isKeyDown(KEY_F3) && talkFlag) {conversation.next(); talkFlag = false;}
+		if(!isKeyDown(KEY_F3) && !talkFlag) talkFlag = true;
 		if(isKeyDown(KEY_Q) && organism.eating == null && organism.digestion == 0)
 		{
 			final float distanceSq = 1;

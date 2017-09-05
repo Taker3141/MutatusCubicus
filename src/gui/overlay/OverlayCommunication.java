@@ -21,6 +21,9 @@ public class OverlayCommunication extends Overlay
 			textLines[i].setColour(0, 0.812F, 0.38F);
 		}
 		elements.add(background);
+		
+		position.y = H;
+		update();
 	}
 	
 	public boolean hidden()
