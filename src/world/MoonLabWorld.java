@@ -23,13 +23,16 @@ public class MoonLabWorld extends World
 	private Terrain[] t;
 	private Input input;
 	private MouseHandler mouse;
+	private static final Vector3f SUN_START = new Vector3f(0.866F, 0, -0.5F);
+	private static final float SUN_DISTANCE = 10000;
 	
 	@Override
 	public void loadEntities()
 	{		
 		player = new Player(new Vector3f(1844, 21, 1623), 0, 180, 0, 0.02F, entities);
 		overlays.add(player.organs);
-		lights.add(new Light(new Vector3f(0, 100000, 100000), new Vector3f(1, 1, 1)));
+		timeOfDay = 0.25F;
+		lights.add(new Light(new Vector3f(SUN_START.x * SUN_DISTANCE, 0, SUN_START.z * SUN_DISTANCE), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new PulsatingLight(new Vector3f(1261, 40, 1955), new Vector3f(2F, 0.1F, 1.8F), new Vector3f(1, 0.01F, 0.002F), 2));
 		c = new Camera(player, this, false);
@@ -130,14 +133,18 @@ public class MoonLabWorld extends World
 		
 		mouse.updateList(overlays);
 		input.poll(Display.getWidth(), Display.getHeight());
-
+		float lightCosine = (float)Math.cos(timeOfDay * 2 * 3.14159265358F); 
+		float lightSine = (float)Math.sin(timeOfDay * 2 * 3.14159265358F);
+		float lightBrightness = (lightSine > 0 ? lightSine : 0) + 0.2F;
+		lights.get(0).color = (Vector3f)new Vector3f(1, 1, 1).scale(lightBrightness);
+		lights.get(0).position = new Vector3f(SUN_DISTANCE * SUN_START.x, SUN_DISTANCE * lightSine, SUN_DISTANCE * lightCosine * SUN_START.z);
 		super.tick();
 		MainGameLoop.fbo.bindFrameBuffer();
 		renderer.processTerrain(terrain(player.position.x + 200, player.position.z + 200));
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z + 200));
 		renderer.processTerrain(terrain(player.position.x + 200, player.position.z - 200));
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z - 200));
-		renderer.render(lights, c, player, overlays, orbitList);
+		renderer.render(this);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
 

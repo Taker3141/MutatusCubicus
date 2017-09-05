@@ -24,9 +24,8 @@ public class SkyboxShader extends ShaderProgram
 		super.loadMatrix(location_projectionMatrix, matrix);
 	}
 	
-	public void loadViewMatrix(Camera camera)
+	public void loadViewMatrix(Matrix4f matrix)
 	{
-		Matrix4f matrix = Maths.createViewMatrix(camera);
 		matrix.m30 = 0;
 		matrix.m31 = 0;
 		matrix.m32 = 0;

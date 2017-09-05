@@ -14,7 +14,6 @@ import gui.element.GuiElement;
 import renderer.DisplayManager;
 import renderer.GuiRenderer;
 import renderer.Loader;
-import world.World;
 
 public abstract class Menu
 {

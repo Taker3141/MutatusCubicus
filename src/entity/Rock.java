@@ -4,7 +4,6 @@ import inventory.Item;
 import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
-import renderer.models.TexturedModel;
 import world.World;
 
 public class Rock extends Entity implements IEdible

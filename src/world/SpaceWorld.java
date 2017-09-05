@@ -43,7 +43,7 @@ public class SpaceWorld extends World
 		}
 		super.tick();
 		MainGameLoop.fbo.bindFrameBuffer();
-		renderer.render(lights, c, player, overlays, orbitList);
+		renderer.render(this);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
 

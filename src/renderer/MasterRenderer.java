@@ -1,26 +1,17 @@
 package renderer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import main.MainManagerClass;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.Matrix4f;
-import entity.Camera;
 import entity.Entity;
-import entity.Light;
-import entity.Orbit;
-import entity.Player;
 import font.fontRendering.TextMaster;
 import gui.Overlay;
 import renderer.models.TexturedModel;
-import renderer.shaders.OrbitShader;
-import renderer.shaders.StaticShader;
-import renderer.shaders.TerrainShader;
+import renderer.shaders.*;
 import skybox.SkyboxRenderer;
 import terrain.Terrain;
+import world.World;
 
 public class MasterRenderer
 {
@@ -67,39 +58,39 @@ public class MasterRenderer
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 	
-	public void render(List<Light> lights, Camera camera, Player p, List<Overlay> overlays, List<Orbit> orbits)
+	public void render(World w)
 	{
 		prepare();
 		terrainShader.start();
-		terrainShader.loadLight(lights);
-		terrainShader.loadViewMatrix(camera);
+		terrainShader.loadLight(w.lights);
+		terrainShader.loadViewMatrix(w.c);
 		terrainShader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
-		skyboxRenderer.render(camera);
+		skyboxRenderer.render(w.c, w.timeOfDay);
 		shader.start();
 		shader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
-		shader.loadLight(lights);
-		shader.loadViewMatrix(camera);
+		shader.loadLight(w.lights);
+		shader.loadViewMatrix(w.c);
 		renderer.render(entities, false);
 		shader.stop();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		shader.start();
 		shader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
-		shader.loadLight(lights);
-		shader.loadViewMatrix(camera);
+		shader.loadLight(w.lights);
+		shader.loadViewMatrix(w.c);
 		renderer.render(entities, true);
 		shader.stop();
 		orbitShader.start();
 		orbitShader.loadLineColor(1, 0, 0);
-		orbitShader.loadViewMatrix(camera);
+		orbitShader.loadViewMatrix(w.c);
 		orbitShader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
-		orbitRenderer.render(orbits);
+		orbitRenderer.render(w.orbitList);
 		orbitShader.stop();
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		for(Overlay o : overlays)
+		for(Overlay o : w.overlays)
 		{
 			guiRenderer.render(o.getElements(), false);
 		}

@@ -24,12 +24,13 @@ public abstract class World
 	public List<Entity> entities = new ArrayList<Entity>();
 	public List<Overlay> overlays = new ArrayList<Overlay>();
 	public List<Orbit> orbitList = new ArrayList<Orbit>();
+	public List<Light> lights = new ArrayList<Light>();
+	public float timeOfDay = 0;
 	protected MasterRenderer renderer = new MasterRenderer();
 	protected Loader loader = MainManagerClass.loader;
 	protected Input input = new Input(Display.getHeight());
-	protected Camera c;
+	public Camera c;
 	protected Raycaster ray;
-	protected List<Light> lights = new ArrayList<Light>();
 	public Player player;
 	
 	public World()

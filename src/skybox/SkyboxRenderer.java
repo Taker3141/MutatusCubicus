@@ -5,13 +5,15 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 import entity.Camera;
 import renderer.Loader;
 import renderer.models.SimpleModel;
+import toolbox.Maths;
 
 public class SkyboxRenderer
 {
-private static final float SIZE = 500F;
+	private static final float SIZE = 500;
 	
 	private static final float[] VERTICES = 
 	{
@@ -74,10 +76,10 @@ private static final float SIZE = 500F;
 		shader.stop();
 	}
 	
-	public void render(Camera camera)
+	public void render(Camera camera, float timeOfDay)
 	{
 		shader.start();
-		shader.loadViewMatrix(camera);
+		shader.loadViewMatrix(Matrix4f.mul(Maths.createViewMatrix(camera), getRotationMatrix(timeOfDay), null));
 		GL30.glBindVertexArray(cube.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -86,5 +88,12 @@ private static final float SIZE = 500F;
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
 		shader.stop();
+	}
+	
+	private static Matrix4f getRotationMatrix(float t)
+	{
+		Matrix4f m = new Matrix4f();
+		m.setIdentity();
+		return m.rotate((t - 0.27F) * 2 * 3.14159265358F, new Vector3f(1, 0, 0));
 	}
 }
