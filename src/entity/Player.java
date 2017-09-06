@@ -62,7 +62,7 @@ public class Player extends Movable
 		rotY += currentTurnSpeed * delta;
 		organism.update(delta, isKeyDown(KEY_LSHIFT));
 		conversation.update();
-		com.update();
+		com.update(false);
 		super.update(w, terrain);
 	}
 	
@@ -143,7 +143,7 @@ public class Player extends Movable
 			if(useItem(inv.getSelectedItem())) inv.setItem(inv.getSelectedSlot(), null);
 		}
 		if(isKeyDown(KEY_F12)) System.out.println(position);
-		if(isKeyDown(KEY_F2)) conversation.startConversation(new Conversation(new String[]{"Line 1", "Line 2", "Line 3", "Line 4", "Line 5"}));
+		if(isKeyDown(KEY_F2)) conversation.startConversation(new Conversation("Line 1", "Line 2", "Line 3", "Line 4", "Line 5"));
 		if(isKeyDown(KEY_F3) && talkFlag) {conversation.next(); talkFlag = false;}
 		if(!isKeyDown(KEY_F3) && !talkFlag) talkFlag = true;
 		if(isKeyDown(KEY_Q) && organism.eating == null && organism.digestion == 0)

@@ -53,23 +53,27 @@ public class ConversationManager
 	
 	public static class Conversation
 	{
-		protected final String[] lines;
+		protected final ConversationLine[] lines;
 		protected int state = 0;
 
-		public Conversation(String[] lines)
+		public Conversation(String... lines)
 		{
-			this.lines = lines;
+			this.lines = new ConversationLine[lines.length];
+			for(int i = 0; i < lines.length; i++)
+			{
+				this.lines[i] = new ConversationLine(lines[i]);
+			}
 		}
 		
 		public String getCurrentLine()
 		{
-			return lines[state];
+			return lines[state].getText();
 		}
 		
 		public String getNextLine()
 		{
 			state++;
-			return state < lines.length ? lines[state] : null;
+			return state < lines.length ? lines[state].getText() : null;
 		}
 	}
 }
