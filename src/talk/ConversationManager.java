@@ -6,8 +6,7 @@ import gui.overlay.OverlayCommunication;
 public class ConversationManager
 {
 	public OverlayCommunication gui;
-	protected Conversation conversation = null;
-	protected String currentLine;
+	protected ConversationLine currentLine;
 	protected float characterCounter = 0;
 	
 	public ConversationManager(OverlayCommunication gui)
@@ -15,11 +14,10 @@ public class ConversationManager
 		this.gui = gui;
 	}
 	
-	public boolean startConversation(Conversation c)
+	public boolean startConversation(ConversationLine startLine)
 	{
 		if(isRunning()) return false;
-		conversation = c;
-		currentLine = conversation.getCurrentLine();
+		currentLine = startLine;
 		gui.show();
 		characterCounter = 0;
 		return true;
@@ -28,10 +26,9 @@ public class ConversationManager
 	public void next()
 	{
 		if(!isRunning()) return;
-		currentLine = conversation.getNextLine();
+		currentLine = currentLine.getNext(null);
 		if(currentLine == null) 
 		{
-			conversation = null;
 			gui.setText("", 0);
 			gui.hide();
 		}
@@ -42,38 +39,13 @@ public class ConversationManager
 	{
 		if(!isRunning()) return;
 		characterCounter += DisplayManager.getFrameTimeSeconds() * 10;
-		String substring = currentLine.substring(0, (int) (characterCounter > currentLine.length() ? currentLine.length() : characterCounter));
+		int length = currentLine.getText().length();
+		String substring = currentLine.getText().substring(0, (int)(characterCounter > length ? length : characterCounter));
 		gui.setText(substring == null ? "" : substring, 0);
 	}
 	
 	public boolean isRunning()
 	{
-		return conversation != null;
-	}
-	
-	public static class Conversation
-	{
-		protected final ConversationLine[] lines;
-		protected int state = 0;
-
-		public Conversation(String... lines)
-		{
-			this.lines = new ConversationLine[lines.length];
-			for(int i = 0; i < lines.length; i++)
-			{
-				this.lines[i] = new ConversationLine(lines[i]);
-			}
-		}
-		
-		public String getCurrentLine()
-		{
-			return lines[state].getText();
-		}
-		
-		public String getNextLine()
-		{
-			state++;
-			return state < lines.length ? lines[state].getText() : null;
-		}
+		return currentLine != null;
 	}
 }

@@ -12,6 +12,17 @@ public class ConversationLine
 		this.message = message;
 	}
 	
+	public static ConversationLine fromStringArray(String... textLines)
+	{
+		ConversationLine[] lines = new ConversationLine[textLines.length];
+		for(int i = 0; i < lines.length; i++)
+		{
+			lines[i] = new ConversationLine(textLines[i]);
+			if(i != 0) lines[i - 1].next = lines[i];
+		}
+		return lines[0];
+	}
+	
 	public ConversationLine getNext(Option o)
 	{
 		chosenOption = o;
