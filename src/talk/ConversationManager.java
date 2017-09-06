@@ -26,7 +26,9 @@ public class ConversationManager
 	public void next()
 	{
 		if(!isRunning()) return;
-		currentLine = currentLine.getNext(null);
+		if(currentLine.options == null) currentLine = currentLine.getNext(null);
+		else currentLine = currentLine.getNext(currentLine.getOptions()[gui.getSelectedIndex()]);
+		gui.reset();
 		if(currentLine == null) 
 		{
 			gui.setText("", 0);
@@ -42,6 +44,13 @@ public class ConversationManager
 		int length = currentLine.getText().length();
 		String substring = currentLine.getText().substring(0, (int)(characterCounter > length ? length : characterCounter));
 		gui.setText(substring == null ? "" : substring, 0);
+		if(currentLine.getOptions() != null && characterCounter > length)
+		{
+			for(int i = 0; i < currentLine.getOptions().length; i++)
+			{
+				gui.setText("> " + currentLine.getOptions()[i].getText(), i + 1);
+			}
+		}
 	}
 	
 	public boolean isRunning()

@@ -48,16 +48,19 @@ public class ConversationLine
 		return options;
 	}
 	
+	public void setOptions(Option[] o)
+	{
+		options = o;
+	}
+	
 	public static class Option
 	{
 		protected String text;
-		public final int id;
 		public final ConversationLine next;
 
-		public Option(String text, int id, ConversationLine next)
+		public Option(String text, ConversationLine next)
 		{
 			this.text = text;
-			this.id = id;
 			this.next = next;
 		}
 		
