@@ -10,7 +10,7 @@ import entity.Movable;
 import entity.Orbit;
 import entity.Player;
 import entity.SubEntity;
-import gui.OverlaySpaceship;
+import gui.overlay.OverlaySpaceship;
 import raycasting.AABB;
 import renderer.DisplayManager;
 import renderer.Loader;

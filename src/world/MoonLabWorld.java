@@ -2,6 +2,7 @@ package world;
 
 import static org.lwjgl.input.Keyboard.*;
 import gui.handler.MouseHandler;
+import gui.overlay.OverlayCommunication;
 import main.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -13,9 +14,7 @@ import renderer.models.TexturedModel;
 import renderer.textures.*;
 import terrain.Terrain;
 import entity.*;
-import entity.building.ChemicalReactorBuilding;
-import entity.building.LivingBuilding;
-import entity.building.ReactorBuilding;
+import entity.building.*;
 import entity.vehicle.*;
 
 public class MoonLabWorld extends World
@@ -33,6 +32,7 @@ public class MoonLabWorld extends World
 		overlays.add(player.organs);
 		timeOfDay = 0.25F;
 		lights.add(new Light(new Vector3f(SUN_START.x * SUN_DISTANCE, 0, SUN_START.z * SUN_DISTANCE), new Vector3f(1, 1, 1)));
+		overlays.add(player.com);
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new PulsatingLight(new Vector3f(1261, 40, 1955), new Vector3f(2F, 0.1F, 1.8F), new Vector3f(1, 0.01F, 0.002F), 2));
 		c = new Camera(player, this, false);
@@ -150,6 +150,9 @@ public class MoonLabWorld extends World
 
 		if(isKeyDown(KEY_ESCAPE)) return false;
 		if(isKeyDown(KEY_DELETE) && isKeyDown(KEY_LSHIFT)) {@SuppressWarnings("unused") int ohNo = 1 / 0;}
+		
+		if(isKeyDown(KEY_F1) && player.com.hidden()) player.com.show(); 
+		else if(isKeyDown(KEY_F1) && !player.com.hidden()) player.com.hide();
 		
 		return true;
 	}

@@ -6,7 +6,7 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.Matrix4f;
 import entity.Entity;
 import font.fontRendering.TextMaster;
-import gui.Overlay;
+import gui.overlay.Overlay;
 import renderer.models.TexturedModel;
 import renderer.shaders.*;
 import skybox.SkyboxRenderer;

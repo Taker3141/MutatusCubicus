@@ -1,24 +1,20 @@
 package entity;
 
-import entity.vehicle.Car;
-import entity.vehicle.Rocketship;
-import gui.OverlayOrgans;
-import inventory.Inventory;
-import inventory.Item;
+import entity.vehicle.*;
+import gui.overlay.*;
+import inventory.*;
 import java.util.List;
 import static org.lwjgl.input.Keyboard.*;
 import objLoader.OBJLoader;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.*;
 import animation.KeyframeAnimation;
 import animation.KeyframeAnimation.Keyframe;
-import raycasting.AABB;
-import raycasting.ICollidable;
-import raycasting.IHitBox;
-import raycasting.NoHitbox;
+import raycasting.*;
 import renderer.DisplayManager;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
+import talk.*;
+import talk.ConversationLine.Option;
 import terrain.Terrain;
 import world.World;
 
@@ -29,14 +25,16 @@ public class Player extends Movable
 	public Car vehicle = null;
 	private Rocketship ship;
 	private float dyingAnimation = 0;
-	
 	private float currentTurnSpeed = 0;
+	private boolean talkFlag = true;
 	
+	public OverlayCommunication com;
 	public OverlayOrgans organs;
 	public Inventory inv;
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
 	public Inventory transferInv;
+	public ConversationManager conversation;
 	
 	public Player(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
@@ -47,6 +45,8 @@ public class Player extends Movable
 		inv.addItem(Item.SLIME); inv.addItem(Item.SLIME); inv.addItem(Item.SLIME);
 		inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK);
 		organs = new OverlayOrgans(this);
+		com = new OverlayCommunication();
+		conversation = new ConversationManager(com);
 		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
 		NORMAL_SIZE = scale;
@@ -61,6 +61,8 @@ public class Player extends Movable
 		
 		rotY += currentTurnSpeed * delta;
 		organism.update(delta, isKeyDown(KEY_LSHIFT));
+		conversation.update();
+		com.update(false);
 		super.update(w, terrain);
 	}
 	
@@ -129,7 +131,7 @@ public class Player extends Movable
 		}
 		for (int i = 0; i < 10; i++)
 		{
-			if (isKeyDown(i + 2)) inv.selectSlot(i);
+			if(isKeyDown(i + 2)) inv.selectSlot(i);
 		}
 		if(isKeyDown(KEY_SUBTRACT) && scale > NORMAL_SIZE) 
 		{
@@ -141,6 +143,14 @@ public class Player extends Movable
 			if(useItem(inv.getSelectedItem())) inv.setItem(inv.getSelectedSlot(), null);
 		}
 		if(isKeyDown(KEY_F12)) System.out.println(position);
+		if(isKeyDown(KEY_F2)) 
+		{
+			ConversationLine startLine = (ConversationLine.fromStringArray("Line 1", "Line 2", "Line 3", "Line 4", "Line 5"));
+			startLine.setOptions(new Option[]{new Option("Go to line 2", startLine.getNext(null)), new Option("Go to line 3", startLine.getNext(null).getNext(null)), new Option("Go to line 5", startLine.getNext(null).getNext(null).getNext(null).getNext(null))});
+			this.conversation.startConversation(startLine);
+		}
+		if(isKeyDown(KEY_F3) && talkFlag) {conversation.next(); talkFlag = false;}
+		if(!isKeyDown(KEY_F3) && !talkFlag) talkFlag = true;
 		if(isKeyDown(KEY_Q) && organism.eating == null && organism.digestion == 0)
 		{
 			final float distanceSq = 1;

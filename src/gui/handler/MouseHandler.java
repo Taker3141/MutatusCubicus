@@ -1,8 +1,8 @@
 package gui.handler;
 
-import gui.Overlay;
 import gui.element.GuiElement;
 import gui.element.IClickable;
+import gui.overlay.Overlay;
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.opengl.Display;
