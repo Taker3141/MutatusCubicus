@@ -138,10 +138,15 @@ public class Player extends Movable
 			scale -= 0.01F * dt;
 			if(dt * 1000 % 5 == 0) new Slime(this, entityList);
 		}
-		if(isKeyDown(KEY_RETURN) && inv.getSelectedItem() != null) 
+		if(isKeyDown(KEY_RETURN) && talkFlag) 
 		{
-			if(useItem(inv.getSelectedItem())) inv.setItem(inv.getSelectedSlot(), null);
+			if(conversation.isRunning())
+			{
+				{conversation.next(); talkFlag = false;}
+			}
+			else if(inv.getSelectedItem() != null && useItem(inv.getSelectedItem())) inv.setItem(inv.getSelectedSlot(), null);
 		}
+		if(!isKeyDown(KEY_RETURN) && !talkFlag) talkFlag = true;
 		if(isKeyDown(KEY_F12)) System.out.println(position);
 		if(isKeyDown(KEY_F2)) 
 		{
@@ -149,8 +154,6 @@ public class Player extends Movable
 			startLine.setOptions(new Option[]{new Option("Go to line 2", startLine.getNext(null)), new Option("Go to line 3", startLine.getNext(null).getNext(null)), new Option("Go to line 5", startLine.getNext(null).getNext(null).getNext(null).getNext(null))});
 			this.conversation.startConversation(startLine);
 		}
-		if(isKeyDown(KEY_F3) && talkFlag) {conversation.next(); talkFlag = false;}
-		if(!isKeyDown(KEY_F3) && !talkFlag) talkFlag = true;
 		if(isKeyDown(KEY_Q) && organism.eating == null && organism.digestion == 0)
 		{
 			final float distanceSq = 1;
