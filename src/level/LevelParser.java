@@ -46,7 +46,7 @@ public class LevelParser
 		{
 			try
 			{
-				l.analyzeArguments();
+				l.analyzeArguments(w);
 				l.execute(w);
 			}
 			catch(Exception e)
@@ -90,12 +90,12 @@ public class LevelParser
 			arguments = new Object[argumentStrings.length];
 		}
 		
-		public void analyzeArguments()
+		public void analyzeArguments(World w)
 		{
 			for(int i = 0; i < arguments.length; i++)
 			{
 				FunctionArgument a = FunctionArgument.match(argumentStrings[i]);
-				a.load(argumentStrings[i]);
+				a.load(argumentStrings[i], w);
 				arguments[i] = a.getData();
 			}
 		}
@@ -105,14 +105,14 @@ public class LevelParser
 			switch(functionName)
 			{
 				case "Player": 
-					w.player.position = w.hVector(((Vector2f)arguments[0]).x, ((Vector2f)arguments[0]).y);
+					w.player.position = (Vector3f)arguments[0];
 					w.player.rotX = ((Vector3f)arguments[1]).x;
 					w.player.rotY = ((Vector3f)arguments[1]).y;
 					w.player.rotZ = ((Vector3f)arguments[1]).z;
 					return;
 				case "Entity":
 					new Entity(World.createModel((String)arguments[0], (String)arguments[1], 0), 
-							w.hVector(((Vector2f)arguments[2]).x, ((Vector2f)arguments[2]).y),
+							(Vector3f)arguments[2],
 							((Vector3f)arguments[3]).x, ((Vector3f)arguments[3]).y, ((Vector3f)arguments[3]).z, 
 							(float)arguments[4],
 							w.entities);

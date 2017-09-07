@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import font.fontMeshCreator.FontType;
 import font.fontRendering.TextMaster;
+import gui.element.ArrowButton;
 import gui.element.GuiElement;
 import renderer.DisplayManager;
 import renderer.GuiRenderer;
@@ -39,6 +40,7 @@ public abstract class Menu
 		W = Display.getWidth();
 		H = Display.getHeight();
 		GL11.glViewport(0, 0, W, H);
+		ArrowButton.reloadTextures();
 	}
 	
 	public abstract void doMenu();

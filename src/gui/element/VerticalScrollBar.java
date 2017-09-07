@@ -8,8 +8,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class VerticalScrollBar extends GuiElement implements IClickable
 {
-	protected static final int backgroundTexture = loader.loadTexture("texture/gui/scroll_bar_background");
-	protected static final int sliderTexture = loader.loadTexture("texture/gui/scroll_bar_slider");
+	protected final int backgroundTexture = loader.loadTexture("texture/gui/scroll_bar_background");
+	protected final int sliderTexture = loader.loadTexture("texture/gui/scroll_bar_slider");
 	
 	protected GuiElement slider;
 	protected boolean mouseDown = false;
@@ -17,7 +17,8 @@ public class VerticalScrollBar extends GuiElement implements IClickable
 	
 	public VerticalScrollBar(Vector2f position, Vector2f size, Menu parent)
 	{
-		super(backgroundTexture, position, size, parent);
+		super(0, position, size, parent);
+		texture = backgroundTexture;
 		slider = new GuiElement(sliderTexture, new Vector2f(position), new Vector2f(size.x, size.y / 4), parent);
 	}
 	

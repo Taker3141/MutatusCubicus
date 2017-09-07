@@ -1,6 +1,7 @@
 package level;
 
 import org.lwjgl.util.vector.*;
+import world.World;
 
 abstract class FunctionArgument
 {
@@ -16,7 +17,11 @@ abstract class FunctionArgument
 		{
 			try 
 			{
-				for(int i = 0; i < fragments.length; i++) Float.parseFloat(fragments[i]);
+				for(int i = 0; i < fragments.length; i++) 
+				{
+					if(fragments[i].equals("y*")) continue;
+					Float.parseFloat(fragments[i]);
+				}
 				return new VectorArgument();
 			}
 			catch(Exception e) {}
@@ -24,7 +29,7 @@ abstract class FunctionArgument
 		return new StringArgument();
 	}
 	
-	public abstract void load(String s);
+	public abstract void load(String s, World w);
 	public abstract Object getData();
 	
 	static class StringArgument extends FunctionArgument
@@ -32,7 +37,7 @@ abstract class FunctionArgument
 		private String data;
 		
 		@Override
-		public void load(String s)
+		public void load(String s, World w)
 		{
 			data = s;
 		}
@@ -49,7 +54,7 @@ abstract class FunctionArgument
 		private float data;
 		
 		@Override
-		public void load(String s)
+		public void load(String s, World w)
 		{
 			data = Float.parseFloat(s);
 		}
@@ -66,11 +71,17 @@ abstract class FunctionArgument
 		private float[] data;
 		
 		@Override
-		public void load(String s)
+		public void load(String s, World w)
 		{
 			String[] numbers = s.split(" ");
 			data = new float[numbers.length];
-			for(int i = 0; i < numbers.length; i++) data[i] = Float.parseFloat(numbers[i]);
+			boolean yWildcard = false;
+			for(int i = 0; i < numbers.length; i++) 
+			{
+				if(numbers[i].equals("y*")) yWildcard = true;
+				else data[i] = Float.parseFloat(numbers[i]);
+			}
+			if(yWildcard) data[1] = w.hVector(data[0], data[2]).y;
 		}
 
 		@Override

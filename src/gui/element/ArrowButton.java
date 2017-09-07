@@ -14,20 +14,38 @@ public class ArrowButton extends Button
 		texture = textureButton;
 	}
 	
+	public static void reloadTextures()
+	{
+		ButtonDirection.LEFT.loadTextures();
+		ButtonDirection.RIGHT.loadTextures();
+	}
+	
 	public enum ButtonDirection
 	{
-		LEFT(loader.loadTexture("texture/gui/arrow_left"), loader.loadTexture("texture/gui/arrow_click_left"), loader.loadTexture("texture/gui/arrow_hover_left")), 
-		RIGHT(loader.loadTexture("texture/gui/arrow_right"), loader.loadTexture("texture/gui/arrow_click_right"), loader.loadTexture("texture/gui/arrow_hover_right"));
+		LEFT("texture/gui/arrow_left", "texture/gui/arrow_click_left", "texture/gui/arrow_hover_left"), 
+		RIGHT("texture/gui/arrow_right", "texture/gui/arrow_click_right", "texture/gui/arrow_hover_right");
 		
 		public int textureButton;
 		public int textureButtonClick;
 		public int textureButtonHover;
 		
-		private ButtonDirection(int normal, int click, int hover)
+		public String textureButtonString;
+		public String textureButtonClickString;
+		public String textureButtonHoverString;
+		
+		private ButtonDirection(String normal, String click, String hover)
 		{
-			textureButton = normal;
-			textureButtonClick = click;
-			textureButtonHover = hover;
+			textureButtonString = normal;
+			textureButtonClickString = click;
+			textureButtonHoverString = hover;
+			loadTextures();
+		}
+		
+		private void loadTextures()
+		{
+			textureButton = loader.loadTexture(textureButtonString);
+			textureButtonClick = loader.loadTexture(textureButtonClickString);
+			textureButtonHover = loader.loadTexture(textureButtonHoverString);
 		}
 	}
 }
