@@ -14,6 +14,7 @@ import renderer.textures.*;
 import terrain.Terrain;
 import entity.*;
 import entity.building.*;
+import entity.character.Player;
 import entity.vehicle.*;
 
 public class MoonLabWorld extends World

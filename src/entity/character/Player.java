@@ -1,5 +1,6 @@
-package entity;
+package entity.character;
 
+import entity.*;
 import entity.vehicle.*;
 import gui.overlay.*;
 import inventory.*;
@@ -18,7 +19,7 @@ import talk.ConversationLine.Option;
 import terrain.Terrain;
 import world.World;
 
-public class Player extends Movable
+public class Player extends Movable implements Character
 {
 	private static final float TURN_SPEED = 80;
 	private Organism organism = this.new Organism();
@@ -33,6 +34,7 @@ public class Player extends Movable
 	public Inventory inv;
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
+	public final int faceTexture;
 	public Inventory transferInv;
 	public ConversationManager conversation;
 	
@@ -47,6 +49,7 @@ public class Player extends Movable
 		organs = new OverlayOrgans(this);
 		com = new OverlayCommunication();
 		conversation = new ConversationManager(com);
+		faceTexture = loader.loadTexture("texture/gui/communication/mutatus_cubicus");
 		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
 		NORMAL_SIZE = scale;
@@ -409,5 +412,33 @@ public class Player extends Movable
 		new SubEntity(veins, new Vector3f(5.31F, 9.28F, 0.79F), 36.21F, 0, 0, 1, entityList, this);
 		new SubEntity(veins, new Vector3f(3.03F, 8.7F, 0.27F), 30.38F, 45, 0, 1, entityList, this);
 		new SubEntity(veins, new Vector3f(2.17F, 12.21F, -2.38F), 36.21F, -94.14F, 0, 0.7F, entityList, this);
+	}
+
+	
+	@Override
+	public String getID()
+	{
+		return "mutatus_cubicus";
+	}
+	
+
+	@Override
+	public String getFirstName()
+	{
+		return "Mutatus";
+	}
+	
+
+	@Override
+	public String getLastName()
+	{
+		return "Cubicus";
+	}
+	
+
+	@Override
+	public int getFaceTexture()
+	{
+		return faceTexture;
 	}
 }

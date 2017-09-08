@@ -2,6 +2,7 @@ package entity;
 
 import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
+import entity.character.Player;
 import renderer.DisplayManager;
 import terrain.Terrain;
 import world.World;

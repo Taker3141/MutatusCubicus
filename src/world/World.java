@@ -15,6 +15,7 @@ import renderer.MasterRenderer;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import entity.*;
+import entity.character.Player;
 import entity.vehicle.Rocketship;
 import gui.overlay.Overlay;
 

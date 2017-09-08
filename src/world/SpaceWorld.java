@@ -5,6 +5,7 @@ import main.MainGameLoop;
 import org.lwjgl.util.vector.Vector3f;
 import renderer.fbo.PostProcessing;
 import entity.*;
+import entity.character.Player;
 import entity.vehicle.Rocketship;
 
 public class SpaceWorld extends World

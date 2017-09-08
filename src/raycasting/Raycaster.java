@@ -8,6 +8,7 @@ import org.lwjgl.util.vector.*;
 import renderer.MasterRenderer;
 import toolbox.Maths;
 import entity.*;
+import entity.character.Player;
 
 public class Raycaster
 {
