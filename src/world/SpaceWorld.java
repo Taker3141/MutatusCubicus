@@ -17,16 +17,19 @@ public class SpaceWorld extends World
 	public void loadEntities()
 	{
 		Rocketship.init();
-		
+		MainGameLoop.reportProgress(30);
 		moon = new Entity(createModel("moon", "texture/moon_dust", 0), new Vector3f(), 0, 0, 0, 3476000, entities);
 		player = new Player(new Vector3f(0, 1739000, 0), 0, 180, 0, 0.02F, entities);
 		overlays.add(player.organs);
+		MainGameLoop.reportProgress(60);
 		ship = new Rocketship(new Vector3f(1, 1739000, 0), 0, 0, 0, entities);
 		player.clickAt(ship, new Vector3f());
 		c = new Camera(player, this, true);
+		MainGameLoop.reportProgress(90);
 		lights.add(new Light(new Vector3f(0, 100000000, 100000000), new Vector3f(1, 1, 1)));
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new Light(new Vector3f(0, -100000000, -100000000), new Vector3f(1, 1, 1)));
+		MainGameLoop.reportProgress(100);
 	}
 	
 	@Override

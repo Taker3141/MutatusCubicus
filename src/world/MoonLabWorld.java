@@ -2,7 +2,6 @@ package world;
 
 import static org.lwjgl.input.Keyboard.*;
 import gui.handler.MouseHandler;
-import gui.overlay.OverlayCommunication;
 import main.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -33,6 +32,7 @@ public class MoonLabWorld extends World
 		timeOfDay = 0.25F;
 		lights.add(new Light(new Vector3f(SUN_START.x * SUN_DISTANCE, 0, SUN_START.z * SUN_DISTANCE), new Vector3f(1, 1, 1)));
 		overlays.add(player.com);
+		MainGameLoop.reportProgress(20);
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new PulsatingLight(new Vector3f(1261, 40, 1955), new Vector3f(2F, 0.1F, 1.8F), new Vector3f(1, 0.01F, 0.002F), 2));
 		c = new Camera(player, this, false);
@@ -45,6 +45,7 @@ public class MoonLabWorld extends World
 					new TerrainTexture(loader.loadTexture((tx == 1 && tz == 1) ? "texture/terrain/blend_1_1" : "texture/terrain/blend_0_0")), 
 					"terrain/height_" + tx + "_" + tz);
 		}
+		MainGameLoop.reportProgress(40);
 		new Car(hVector(player.position.x - 5, player.position.z), 0, 0, 0, 0.6F, entities);
 		new Rocketship(hVector(1135, 1700), 0, -90, 0, entities);
 		new Rocketship(hVector(1250, 1700), 0, 180, 0, entities);
@@ -63,7 +64,7 @@ public class MoonLabWorld extends World
 				position.y = height(position.x, position.z) + 0.2F;
 				new Waste(waste, position, r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.24F + r.nextFloat() * 0.08F, entities);
 			}
-			
+			MainGameLoop.reportProgress(60);
 			new ReactorBuilding(new Vector3f(1062, height(1062, 2004) - 1, 2004), 0, 90, 0, entities, this);
 			new LivingBuilding(new Vector3f(1361, height(1361, 1498) - 1, 1498), 0, 0, 0, entities);
 			new ChemicalReactorBuilding(new Vector3f(1824, height(1824, 1694) - 1, 1714), 0, 0, 0, entities);
@@ -85,6 +86,7 @@ public class MoonLabWorld extends World
 				new SubEntity(out.model, new Vector3f(0, 0, 0), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(box1.model, new Vector3f(0, 0, 2), 0, 0, 0, 1, entities, fuelGenerator2);
 				new SubEntity(box2.model, new Vector3f(2, 0, 1), 0, 0, 0, 1, entities, fuelGenerator2);
+				MainGameLoop.reportProgress(80);
 				for(int i = 0; i < 10; i++)
 				{
 					new Rock(hVector(1525 + r.nextFloat() * 20, 1967 + r.nextFloat() * 20), r.nextFloat() * 360, r.nextFloat() * 360, 0, 0.3F + r.nextFloat() / 10F, entities);
@@ -114,6 +116,7 @@ public class MoonLabWorld extends World
 			generateDecoration(bush, 100, biosphere.position.x, biosphere.position.z, 1, 2, 110, true);
 			TexturedModel tree = createModel("tree", "texture/plant/tree", 0);
 			generateDecoration(tree, 40, biosphere.position.x, biosphere.position.z, 0.1F, 2, 110, false);
+			MainGameLoop.reportProgress(100);
 		}
 		input = new Input(Display.getHeight());
 		mouse = new MouseHandler(overlays, true);

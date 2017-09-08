@@ -13,15 +13,18 @@ public class MainGameLoop
 {
 	public static World w;
 	public static Fbo fbo;
+	public static int loadingProgress = 0;
+	public static LoadingScreen loading;
 	
 	public static String doGame(WorldCreator creator)
 	{
 		TextMaster.clear();
 		try
 		{
-			LoadingScreen loading = new LoadingScreen();
+			loading = new LoadingScreen();
 			loading.doMenu();
 			w = creator.createWorld();
+			loading.cleanUp();
 			Loader loader = MainManagerClass.loader;
 			w.updateRaycaster();
 			
@@ -42,6 +45,12 @@ public class MainGameLoop
 			e.printStackTrace();
 			return e.getCause() + " at " + e.getStackTrace()[0].toString();
 		}
+	}
+	
+	public static void reportProgress(int progress)
+	{
+		loadingProgress = progress;
+		loading.doMenu();
 	}
 	
 	public static String startLevel(Level level)
