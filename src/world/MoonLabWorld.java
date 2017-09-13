@@ -29,6 +29,7 @@ public class MoonLabWorld extends World
 	public void loadEntities()
 	{		
 		player = new Player(new Vector3f(1844, 21, 1623), 0, 180, 0, 0.02F, entities);
+		characterInfo.setCharacter(player);
 		overlays.add(player.organs);
 		timeOfDay = 0.25F;
 		lights.add(new Light(new Vector3f(SUN_START.x * SUN_DISTANCE, 0, SUN_START.z * SUN_DISTANCE), new Vector3f(1, 1, 1)));

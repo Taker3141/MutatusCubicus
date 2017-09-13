@@ -19,7 +19,7 @@ import talk.ConversationLine.Option;
 import terrain.Terrain;
 import world.World;
 
-public class Player extends Movable implements Character
+public class Player extends Movable implements ICharacter
 {
 	private static final float TURN_SPEED = 80;
 	private Organism organism = this.new Organism();
@@ -440,5 +440,26 @@ public class Player extends Movable implements Character
 	public int getFaceTexture()
 	{
 		return faceTexture;
+	}
+
+	
+	@Override
+	public int[] getBirthday()
+	{
+		//20th June 2121
+		return new int[]{20, 7, 2121};
+	}
+	
+
+	@Override
+	public Gender getGender()
+	{
+		return Gender.OTHER;
+	}
+	
+	@Override
+	public String getProfession()
+	{
+		return "Cubicus-Prototyp";
 	}
 }
