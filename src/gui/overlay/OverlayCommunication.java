@@ -3,6 +3,7 @@ package gui.overlay;
 import static org.lwjgl.input.Keyboard.*;
 import org.lwjgl.util.vector.Vector2f;
 import renderer.DisplayManager;
+import entity.character.ICharacter;
 import font.fontMeshCreator.GUIText;
 import gui.element.GuiElement;
 
@@ -14,9 +15,11 @@ public class OverlayCommunication extends Overlay
 	protected GUIText[] textLines = new GUIText[5];
 	protected boolean arrowKeyFlag = true;
 	protected int selectedIndex = 0;
+	protected OverlayCharacterInfo characterInfo;
 	
-	public OverlayCommunication()
+	public OverlayCommunication(OverlayCharacterInfo cInfo)
 	{
+		characterInfo = cInfo;
 		position = new Vector2f(0, H -256);
 		background = new GuiElement(loader.loadTexture("texture/gui/communication/background"), position, new Vector2f(1024, 256), null);
 		picture = new GuiElement(0, new Vector2f(position.x + 15, position.y + 15), new Vector2f(225, 225), null);
@@ -79,6 +82,14 @@ public class OverlayCommunication extends Overlay
 	public int getSelectedIndex()
 	{
 		return selectedIndex;
+	}
+	
+	public void activateInfo(int x, int y, ICharacter c)
+	{
+		Vector2f p = picture.position;
+		Vector2f s = picture.size;
+		boolean isOver = x > p.x && x < p.x + s.x && y > p.y && y < p.y + s.y;
+		characterInfo.setCharacter(isOver ? c : null);
 	}
 	
 	private Vector2f textPosition(int line)

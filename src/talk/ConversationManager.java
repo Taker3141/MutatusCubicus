@@ -1,6 +1,8 @@
 package talk;
 
+import org.lwjgl.opengl.Display;
 import renderer.DisplayManager;
+import world.World;
 import gui.overlay.OverlayCommunication;
 
 public class ConversationManager
@@ -8,10 +10,12 @@ public class ConversationManager
 	public OverlayCommunication gui;
 	protected ConversationLine currentLine;
 	protected float characterCounter = 0;
+	protected World w;
 	
-	public ConversationManager(OverlayCommunication gui)
+	public ConversationManager(OverlayCommunication gui, World world)
 	{
 		this.gui = gui;
+		w = world;
 	}
 	
 	public boolean startConversation(ConversationLine startLine)
@@ -52,6 +56,8 @@ public class ConversationManager
 				gui.setText("> " + currentLine.getOptions()[i].getText(), i + 1);
 			}
 		}
+		
+		gui.activateInfo(w.input.getMouseX(), Display.getHeight() - w.input.getMouseY(), currentLine.getCharacter());
 	}
 	
 	public boolean isRunning()

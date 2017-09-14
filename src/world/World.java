@@ -30,7 +30,7 @@ public abstract class World
 	public float timeOfDay = 0;
 	protected MasterRenderer renderer = new MasterRenderer();
 	protected Loader loader = MainManagerClass.loader;
-	protected Input input = new Input(Display.getHeight());
+	public Input input = new Input(Display.getHeight());
 	public Camera c;
 	protected Raycaster ray;
 	public Player player;
@@ -42,6 +42,7 @@ public abstract class World
 		Rocketship.init();
 		Item.init();
 		characterInfo = new OverlayCharacterInfo();
+		characterInfo.setVisible(false);
 		Entity.w = this;
 		loadEntities();
 		ray = new Raycaster(player);

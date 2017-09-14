@@ -48,8 +48,8 @@ public class Player extends Movable implements ICharacter
 		inv.addItem(Item.SLIME); inv.addItem(Item.SLIME); inv.addItem(Item.SLIME);
 		inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK);
 		organs = new OverlayOrgans(this);
-		com = new OverlayCommunication();
-		conversation = new ConversationManager(com);
+		com = new OverlayCommunication(w.characterInfo);
+		conversation = new ConversationManager(com, w);
 		faceTexture = loader.loadTexture("texture/gui/communication/mutatus_cubicus");
 		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));

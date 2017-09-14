@@ -32,6 +32,7 @@ public class OverlayCharacterInfo extends Overlay
 	
 	public void update()
 	{
+		if(!background.isVisible) return;
 		position = new Vector2f(input.getMouseX(), H - input.getMouseY());
 		background.position = position;
 		picture.position = getPicturePosition();
