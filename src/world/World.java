@@ -42,7 +42,6 @@ public abstract class World
 		Rocketship.init();
 		Item.init();
 		characterInfo = new OverlayCharacterInfo();
-		overlays.add(characterInfo);
 		Entity.w = this;
 		loadEntities();
 		ray = new Raycaster(player);

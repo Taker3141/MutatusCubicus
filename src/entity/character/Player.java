@@ -41,6 +41,7 @@ public class Player extends Movable implements ICharacter
 	public Player(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
 		super(null, position, rotX, rotY, rotZ, scale, list, 20);
+		ICharacter.super.register();
 		inv = new Inventory(10);
 		inv.setItem(2, Item.SLIME);
 		inv.setItem(4, Item.DISSOLVED_ROCK);
@@ -153,7 +154,7 @@ public class Player extends Movable implements ICharacter
 		if(isKeyDown(KEY_F12)) System.out.println(position);
 		if(isKeyDown(KEY_F2)) 
 		{
-			ConversationLine startLine = (ConversationLine.fromStringArray("Line 1", "Line 2", "Line 3", "Line 4", "Line 5"));
+			ConversationLine startLine = (ConversationLine.fromStringArray(this, "Line 1", "Line 2", "Line 3", "Line 4", "Line 5"));
 			startLine.setOptions(new Option[]{new Option("Go to line 2", startLine.getNext(null)), new Option("Go to line 3", startLine.getNext(null).getNext(null)), new Option("Go to line 5", startLine.getNext(null).getNext(null).getNext(null).getNext(null))});
 			this.conversation.startConversation(startLine);
 		}

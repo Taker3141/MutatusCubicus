@@ -9,6 +9,7 @@ import gui.element.GuiElement;
 public class OverlayCommunication extends Overlay
 {
 	protected GuiElement background;
+	protected GuiElement picture;
 	protected float vY = 0;
 	protected GUIText[] textLines = new GUIText[5];
 	protected boolean arrowKeyFlag = true;
@@ -18,6 +19,7 @@ public class OverlayCommunication extends Overlay
 	{
 		position = new Vector2f(0, H -256);
 		background = new GuiElement(loader.loadTexture("texture/gui/communication/background"), position, new Vector2f(1024, 256), null);
+		picture = new GuiElement(0, new Vector2f(position.x + 15, position.y + 15), new Vector2f(225, 225), null);
 		for(int i = 0; i < textLines.length; i++) 
 		{
 			textLines[i] = new GUIText("", 1.8F, font, textPosition(i), 734F / W, false);
@@ -25,7 +27,7 @@ public class OverlayCommunication extends Overlay
 			else textLines[i].setColour(0.6F, 1F, 0.24F);
 		}
 		elements.add(background);
-		
+		elements.add(picture);
 		position.y = H;
 		update(true);
 	}
@@ -69,6 +71,7 @@ public class OverlayCommunication extends Overlay
 		if(dy != 0 || force)
 		{
 			background.position = position;
+			picture.position = new Vector2f(position.x + 15, position.y + 15);
 			for(int i = 0; i < textLines.length; i++) textLines[i].position = textPosition(i);
 		}
 	}
@@ -87,5 +90,13 @@ public class OverlayCommunication extends Overlay
 	{
 		for(int i = 0; i < textLines.length; i++) textLines[i].setText("");
 		selectedIndex = 0;
+		picture.setTextureID(0);
+		picture.isVisible = false;
+	}
+
+	public void setPictureTexture(int faceTexture)
+	{
+		picture.setTextureID(faceTexture);
+		picture.isVisible = faceTexture != 0;
 	}
 }

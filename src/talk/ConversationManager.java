@@ -44,6 +44,7 @@ public class ConversationManager
 		int length = currentLine.getText().length();
 		String substring = currentLine.getText().substring(0, (int)(characterCounter > length ? length : characterCounter));
 		gui.setText(substring == null ? "" : substring, 0);
+		gui.setPictureTexture(currentLine.getCharacter().getFaceTexture());
 		if(currentLine.getOptions() != null && characterCounter > length)
 		{
 			for(int i = 0; i < currentLine.getOptions().length; i++)

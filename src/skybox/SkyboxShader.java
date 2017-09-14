@@ -1,9 +1,7 @@
 package skybox;
 
 import org.lwjgl.util.vector.Matrix4f;
-import entity.Camera;
 import renderer.shaders.ShaderProgram;
-import toolbox.Maths;
 
 public class SkyboxShader extends ShaderProgram
 {
