@@ -14,6 +14,7 @@ import renderer.textures.*;
 import terrain.Terrain;
 import entity.*;
 import entity.building.*;
+import entity.character.Player;
 import entity.vehicle.*;
 
 public class MoonLabWorld extends World
@@ -32,6 +33,7 @@ public class MoonLabWorld extends World
 		timeOfDay = 0.25F;
 		lights.add(new Light(new Vector3f(SUN_START.x * SUN_DISTANCE, 0, SUN_START.z * SUN_DISTANCE), new Vector3f(1, 1, 1)));
 		overlays.add(player.com);
+		overlays.add(characterInfo);
 		MainGameLoop.reportProgress(20);
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new PulsatingLight(new Vector3f(1261, 40, 1955), new Vector3f(2F, 0.1F, 1.8F), new Vector3f(1, 0.01F, 0.002F), 2));

@@ -1,5 +1,6 @@
-package entity;
+package entity.character;
 
+import entity.*;
 import entity.vehicle.*;
 import gui.overlay.*;
 import inventory.*;
@@ -18,7 +19,7 @@ import talk.ConversationLine.Option;
 import terrain.Terrain;
 import world.World;
 
-public class Player extends Movable
+public class Player extends Movable implements ICharacter
 {
 	private static final float TURN_SPEED = 80;
 	private Organism organism = this.new Organism();
@@ -33,20 +34,23 @@ public class Player extends Movable
 	public Inventory inv;
 	public final float NORMAL_SIZE;
 	public final float MAX_SIZE_FACTOR = 2;
+	public final int faceTexture;
 	public Inventory transferInv;
 	public ConversationManager conversation;
 	
 	public Player(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
 		super(null, position, rotX, rotY, rotZ, scale, list, 20);
+		ICharacter.super.register();
 		inv = new Inventory(10);
 		inv.setItem(2, Item.SLIME);
 		inv.setItem(4, Item.DISSOLVED_ROCK);
 		inv.addItem(Item.SLIME); inv.addItem(Item.SLIME); inv.addItem(Item.SLIME);
 		inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK);
 		organs = new OverlayOrgans(this);
-		com = new OverlayCommunication();
-		conversation = new ConversationManager(com);
+		com = new OverlayCommunication(w.characterInfo);
+		conversation = new ConversationManager(com, w);
+		faceTexture = loader.loadTexture("texture/gui/communication/mutatus_cubicus");
 		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
 		NORMAL_SIZE = scale;
@@ -138,19 +142,22 @@ public class Player extends Movable
 			scale -= 0.01F * dt;
 			if(dt * 1000 % 5 == 0) new Slime(this, entityList);
 		}
-		if(isKeyDown(KEY_RETURN) && inv.getSelectedItem() != null) 
+		if(isKeyDown(KEY_RETURN) && talkFlag) 
 		{
-			if(useItem(inv.getSelectedItem())) inv.setItem(inv.getSelectedSlot(), null);
+			if(conversation.isRunning())
+			{
+				{conversation.next(); talkFlag = false;}
+			}
+			else if(inv.getSelectedItem() != null && useItem(inv.getSelectedItem())) inv.setItem(inv.getSelectedSlot(), null);
 		}
+		if(!isKeyDown(KEY_RETURN) && !talkFlag) talkFlag = true;
 		if(isKeyDown(KEY_F12)) System.out.println(position);
 		if(isKeyDown(KEY_F2)) 
 		{
-			ConversationLine startLine = (ConversationLine.fromStringArray("Line 1", "Line 2", "Line 3", "Line 4", "Line 5"));
+			ConversationLine startLine = (ConversationLine.fromStringArray(this, "Line 1", "Line 2", "Line 3", "Line 4", "Line 5"));
 			startLine.setOptions(new Option[]{new Option("Go to line 2", startLine.getNext(null)), new Option("Go to line 3", startLine.getNext(null).getNext(null)), new Option("Go to line 5", startLine.getNext(null).getNext(null).getNext(null).getNext(null))});
 			this.conversation.startConversation(startLine);
 		}
-		if(isKeyDown(KEY_F3) && talkFlag) {conversation.next(); talkFlag = false;}
-		if(!isKeyDown(KEY_F3) && !talkFlag) talkFlag = true;
 		if(isKeyDown(KEY_Q) && organism.eating == null && organism.digestion == 0)
 		{
 			final float distanceSq = 1;
@@ -409,5 +416,54 @@ public class Player extends Movable
 		new SubEntity(veins, new Vector3f(5.31F, 9.28F, 0.79F), 36.21F, 0, 0, 1, entityList, this);
 		new SubEntity(veins, new Vector3f(3.03F, 8.7F, 0.27F), 30.38F, 45, 0, 1, entityList, this);
 		new SubEntity(veins, new Vector3f(2.17F, 12.21F, -2.38F), 36.21F, -94.14F, 0, 0.7F, entityList, this);
+	}
+
+	
+	@Override
+	public String getID()
+	{
+		return "mutatus_cubicus";
+	}
+	
+
+	@Override
+	public String getFirstName()
+	{
+		return "Mutatus";
+	}
+	
+
+	@Override
+	public String getLastName()
+	{
+		return "Cubicus";
+	}
+	
+
+	@Override
+	public int getFaceTexture()
+	{
+		return faceTexture;
+	}
+
+	
+	@Override
+	public int[] getBirthday()
+	{
+		//20th June 2121
+		return new int[]{20, 7, 2121};
+	}
+	
+
+	@Override
+	public Gender getGender()
+	{
+		return Gender.OTHER;
+	}
+	
+	@Override
+	public String getProfession()
+	{
+		return "Cubicus-Prototyp";
 	}
 }

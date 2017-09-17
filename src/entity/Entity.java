@@ -21,7 +21,7 @@ public class Entity implements ICollidable
 	public Vector3f position;
 	public float rotX, rotY, rotZ;
 	public float scale;
-	protected IHitBox hitBox;
+	public IHitBox hitBox;
 	protected List<Entity> entityList;
 	public boolean invisible = false;
 	public static World w;

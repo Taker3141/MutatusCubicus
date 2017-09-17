@@ -4,7 +4,7 @@ import inventory.Item;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import renderer.DisplayManager;
-import entity.Player;
+import entity.character.Player;
 import font.fontMeshCreator.GUIText;
 import gui.element.*;
 

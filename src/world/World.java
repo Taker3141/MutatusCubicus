@@ -15,8 +15,10 @@ import renderer.MasterRenderer;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import entity.*;
+import entity.character.Player;
 import entity.vehicle.Rocketship;
 import gui.overlay.Overlay;
+import gui.overlay.OverlayCharacterInfo;
 
 public abstract class World
 {
@@ -28,16 +30,19 @@ public abstract class World
 	public float timeOfDay = 0;
 	protected MasterRenderer renderer = new MasterRenderer();
 	protected Loader loader = MainManagerClass.loader;
-	protected Input input = new Input(Display.getHeight());
+	public Input input = new Input(Display.getHeight());
 	public Camera c;
 	protected Raycaster ray;
 	public Player player;
+	public OverlayCharacterInfo characterInfo;
 	
 	public World()
 	{
 		Particle.init();
 		Rocketship.init();
 		Item.init();
+		characterInfo = new OverlayCharacterInfo();
+		characterInfo.setVisible(false);
 		Entity.w = this;
 		loadEntities();
 		ray = new Raycaster(player);
@@ -51,6 +56,7 @@ public abstract class World
 	public boolean tick()
 	{
 		input.poll(Display.getWidth(), Display.getHeight());
+		characterInfo.update();
 		c.update();
 		ray.castRay(input.getAbsoluteMouseX(), Display.getHeight() - input.getAbsoluteMouseY(), renderer, c);
 		lights.get(1).position = new Vector3f(player.position.x, player.position.y + 0.5F, player.position.z);
