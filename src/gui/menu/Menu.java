@@ -3,6 +3,7 @@ package gui.menu;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import loader.Loader;
 import main.MainGameLoop.WorldCreator;
 import main.MainManagerClass;
 import org.lwjgl.opengl.Display;
@@ -14,7 +15,6 @@ import gui.element.ArrowButton;
 import gui.element.GuiElement;
 import renderer.DisplayManager;
 import renderer.GuiRenderer;
-import renderer.Loader;
 
 public abstract class Menu
 {

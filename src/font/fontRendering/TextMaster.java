@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import loader.Loader;
 import font.fontMeshCreator.FontType;
 import font.fontMeshCreator.GUIText;
 import font.fontMeshCreator.TextMeshData;
-import renderer.Loader;
 
 public class TextMaster
 {

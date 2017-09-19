@@ -8,9 +8,9 @@ import org.newdawn.slick.util.ResourceLoader;
 import font.fontRendering.TextMaster;
 import gui.menu.MainMenu;
 import gui.menu.Menu;
+import loader.Loader;
 import localize.Localizer;
 import renderer.DisplayManager;
-import renderer.Loader;
 import toolbox.LogStream;
 
 public class MainManagerClass

@@ -2,8 +2,8 @@ package inventory;
 
 import java.util.LinkedList;
 import java.util.List;
+import loader.Loader;
 import main.MainManagerClass;
-import renderer.Loader;
 
 public class Item
 {

@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.List;
+import loader.Loader;
 import main.MainManagerClass;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
@@ -8,7 +9,6 @@ import raycasting.ICollidable;
 import raycasting.IHitBox;
 import raycasting.IHitBox.CollisionData;
 import raycasting.NoHitbox;
-import renderer.Loader;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
 import toolbox.Maths;

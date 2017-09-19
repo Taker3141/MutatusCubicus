@@ -1,5 +1,6 @@
 package renderer;
 
+import loader.Loader;
 import org.lwjgl.opengl.GL11;
 
 public class OverlayRenderer extends GuiRenderer

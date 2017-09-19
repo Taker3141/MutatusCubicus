@@ -1,9 +1,9 @@
 package renderer.fbo;
 
+import loader.Loader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import renderer.Loader;
 import renderer.models.SimpleModel;
 
 public class PostProcessing

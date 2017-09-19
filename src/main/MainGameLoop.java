@@ -1,6 +1,7 @@
 package main;
 
 import level.Level;
+import loader.Loader;
 import gui.menu.LoadingScreen;
 import org.lwjgl.opengl.Display;
 import font.fontRendering.TextMaster;

@@ -1,6 +1,7 @@
 package entity.vehicle;
 
 import java.util.List;
+import loader.Loader;
 import main.MainManagerClass;
 import objLoader.OBJLoader;
 import org.lwjgl.input.Keyboard;
@@ -13,7 +14,6 @@ import entity.character.Player;
 import gui.overlay.OverlaySpaceship;
 import raycasting.AABB;
 import renderer.DisplayManager;
-import renderer.Loader;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import terrain.Terrain;

@@ -4,6 +4,7 @@ import gui.GuiShader;
 import gui.element.GuiBar;
 import gui.element.GuiElement;
 import java.util.List;
+import loader.Loader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;

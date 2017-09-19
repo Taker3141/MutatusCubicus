@@ -1,4 +1,4 @@
-package renderer;
+package loader;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

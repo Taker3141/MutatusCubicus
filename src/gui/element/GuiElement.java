@@ -3,10 +3,10 @@ package gui.element;
 import java.io.File;
 import font.fontMeshCreator.FontType;
 import gui.menu.Menu;
+import loader.Loader;
 import main.MainManagerClass;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import renderer.Loader;
 
 public class GuiElement
 {

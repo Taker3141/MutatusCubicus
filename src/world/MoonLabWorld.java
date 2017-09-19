@@ -2,6 +2,7 @@ package world;
 
 import static org.lwjgl.input.Keyboard.*;
 import gui.handler.MouseHandler;
+import loader.Loader;
 import main.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;

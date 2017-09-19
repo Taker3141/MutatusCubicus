@@ -6,10 +6,10 @@ import gui.element.IClickable;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import loader.Loader;
 import main.MainManagerClass;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import renderer.Loader;
 
 public abstract class Overlay implements IClickable
 {
