@@ -1,10 +1,7 @@
 package main;
 
-import java.io.IOException;
 import org.lwjgl.openal.AL;
 import org.newdawn.slick.openal.Audio;
-import org.newdawn.slick.openal.AudioLoader;
-import org.newdawn.slick.util.ResourceLoader;
 import font.fontRendering.TextMaster;
 import gui.menu.MainMenu;
 import gui.menu.Menu;

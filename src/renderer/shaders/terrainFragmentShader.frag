@@ -40,8 +40,6 @@ void main(void)
 		float distance = length(toLightVector[i]);
 		float attenuationFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance* distance);
 		vec3 unitLightVector = normalize(toLightVector[i]);
-		vec3 lightDirection = -unitLightVector;
-		vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
 		
 		float brightness = dot(unitNormal, unitLightVector);
 		brightness += 0.05;

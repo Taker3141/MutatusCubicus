@@ -10,7 +10,7 @@ import entity.vehicle.Rocketship;
 
 public class SpaceWorld extends World
 {
-	private Entity moon;
+	public Entity moon;
 	private Orbit shipOrbit;
 	private Rocketship ship;
 	
