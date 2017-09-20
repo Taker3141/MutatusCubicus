@@ -1,7 +1,10 @@
 package main;
 
+import java.io.IOException;
 import org.lwjgl.openal.AL;
 import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
+import org.newdawn.slick.util.ResourceLoader;
 import font.fontRendering.TextMaster;
 import gui.menu.MainMenu;
 import gui.menu.Menu;
@@ -24,7 +27,7 @@ public class MainManagerClass
 		settings = new SettingsFile(workingPath + "/save/settings.txt");
 		localizer = new Localizer(settings.language);
 		DisplayManager.createDisplay(settings.resolutionX, settings.resolutionY, settings.fullscreen);
-		//playMusic();
+		playMusic();
 		TextMaster.init(loader);
 		
 		new MainMenu().doMenu();
@@ -48,14 +51,14 @@ public class MainManagerClass
 		System.setProperty("file.encoding", "Cp1252");
 		workingPath = System.getProperty("user.dir");
 		System.out.println("Working path is: " + workingPath);
-//		try
-//		{
-//			music = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/music/music.ogg"));
-//		}
-//		catch (IOException e)
-//		{
-//			e.printStackTrace();
-//		}
+		try
+		{
+			music = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/music/main_menu.ogg"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public static void doNextMenu()
