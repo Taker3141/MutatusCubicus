@@ -11,6 +11,7 @@ import renderer.*;
 import renderer.fbo.PostProcessing;
 import renderer.models.TexturedModel;
 import renderer.textures.*;
+import terrain.SquareTerrain;
 import terrain.Terrain;
 import entity.*;
 import entity.building.*;
@@ -38,12 +39,12 @@ public class MoonLabWorld extends World
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new PulsatingLight(new Vector3f(1261, 40, 1955), new Vector3f(2F, 0.1F, 1.8F), new Vector3f(1, 0.01F, 0.002F), 2));
 		c = new Camera(player, this, false);
-		t = new Terrain[3 * 3];
+		t = new SquareTerrain[3 * 3];
 		TerrainTexturePack pack = loadTerrainTexturePack(loader);
 		for (int i = 0; i < 9; i++)
 		{
 			int tx = i % 3; int tz = i / 3;
-			t[i] = new Terrain(tx, 2 - tz, loader, pack, 
+			t[i] = new SquareTerrain(tx, 2 - tz, loader, pack, 
 					new TerrainTexture(loader.loadTexture((tx == 1 && tz == 1) ? "texture/terrain/blend_1_1" : "texture/terrain/blend_0_0")), 
 					"terrain/height_" + tx + "_" + tz);
 		}

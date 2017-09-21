@@ -3,7 +3,6 @@
 in vec2 passTextureCoord;
 in vec3 surfaceNormal;
 in vec3 toLightVector[4];
-in vec3 toCameraVector;
 in float visibility;
 
 out vec4 outColor;
@@ -31,7 +30,6 @@ void main(void)
 	vec4 totalColor = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	
 	vec3 unitNormal = normalize(surfaceNormal);
-	vec3 unitCameraVector = normalize(toCameraVector);
 	
 	vec3 totalDiffuse = vec3(0);
 	

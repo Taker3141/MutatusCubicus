@@ -28,7 +28,7 @@ public class TerrainRenderer
 	
 	public void render(List<Terrain> terrains)
 	{
-		for(Terrain terrain:terrains)
+		for(Terrain terrain : terrains)
 		{
 			if(terrain == null) continue;
 			prepareTerrain(terrain);

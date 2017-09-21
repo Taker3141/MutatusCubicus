@@ -7,7 +7,6 @@ in vec3 normal;
 out vec2 passTextureCoord;
 out vec3 surfaceNormal;
 out vec3 toLightVector[4];
-out vec3 toCameraVector;
 out float visibility;
 
 uniform mat4 transformationMatrix;
@@ -29,7 +28,6 @@ void main(void)
 	{	
 		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
 	}
-	toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
 	
 	vec4 positionRelativeToCam = viewMatrix * worldPosition;
 	float distance = length(positionRelativeToCam.xyz);
