@@ -4,13 +4,17 @@ import static org.lwjgl.input.Keyboard.*;
 import main.MainGameLoop;
 import org.lwjgl.util.vector.Vector3f;
 import renderer.fbo.PostProcessing;
+import renderer.textures.TerrainTexture;
+import renderer.textures.TerrainTexturePack;
+import terrain.CelestialBody;
+import terrain.Terrain;
 import entity.*;
 import entity.character.Player;
 import entity.vehicle.Rocketship;
 
 public class SpaceWorld extends World
 {
-	public Entity moon;
+	public Terrain moon;
 	private Orbit shipOrbit;
 	private Rocketship ship;
 	
@@ -19,7 +23,7 @@ public class SpaceWorld extends World
 	{
 		Rocketship.init();
 		MainGameLoop.reportProgress(30);
-		moon = new Entity(createModel("moon", "texture/moon_dust", 0), new Vector3f(), 0, 0, 0, 3476000, entities);
+		moon = new CelestialBody(1738000, 20000, "moon/height", "texture/moon/blend", loadTerrainTexturePack());
 		player = new Player(new Vector3f(0, 1739000, 0), 0, 180, 0, 0.02F, entities);
 		overlays.add(player.organs);
 		MainGameLoop.reportProgress(60);
@@ -38,7 +42,8 @@ public class SpaceWorld extends World
 	{
 		orbitList.remove(shipOrbit);
 		shipOrbit = ship.calculateOrbit();
-		orbitList.add(shipOrbit);	
+		orbitList.add(shipOrbit);
+		renderer.processTerrain(moon);
 		for(int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);
@@ -74,5 +79,14 @@ public class SpaceWorld extends World
 	public Vector3f getCoordinateOffset()
 	{
 		return player != null ? player.position.negate(null) : new Vector3f(0, -1739000, 0);
+	}
+	
+	private TerrainTexturePack loadTerrainTexturePack()
+	{
+		TerrainTexture back = new TerrainTexture(loader.loadTexture("texture/moon_dust"));
+		TerrainTexture r = new TerrainTexture(loader.loadTexture("texture/moon_crater"));
+		TerrainTexture g = new TerrainTexture(loader.loadTexture("texture/grass"));
+		TerrainTexture b = new TerrainTexture(loader.loadTexture("texture/moon_path"));
+		return new TerrainTexturePack(back, r, g, b);
 	}
 }

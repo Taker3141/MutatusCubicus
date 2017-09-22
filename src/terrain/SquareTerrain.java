@@ -1,9 +1,5 @@
 package terrain;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderer.Loader;
@@ -16,7 +12,6 @@ public class SquareTerrain implements Terrain
 {
 	public static final float SIZE = 1024;
 	private static final float MAX_HEIGHT = 20;
-	private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 	
 	private float x;
 	private float z;
@@ -36,25 +31,8 @@ public class SquareTerrain implements Terrain
 	
 	private SimpleModel generateTerrain(Loader loader, String heightMap)
 	{
-		BufferedImage image = null;
-		try
-		{
-			image = ImageIO.read(new File("res/texture/" + heightMap + ".png"));
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		heights = new float[image.getHeight()][image.getWidth()];
-		for(int i = 0; i < image.getHeight(); i++)
-		{
-			for(int j = 0; j < image.getWidth(); j++)
-			{
-				heights[i][j] = getHeight(i, j, image);
-			}
-		}
-		
-		int vertexCount = image.getHeight();
+		heights = Terrain.readHeightMap(heightMap, MAX_HEIGHT, false);
+		int vertexCount = heights.length;
 		
 		int count = vertexCount * vertexCount;
 		float[] vertices = new float[count * 3];
@@ -119,16 +97,6 @@ public class SquareTerrain implements Terrain
 			answer = Maths.barryCentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ + 1], 1), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
 		}
 		return answer;
-	}
-	
-	private float getHeight(int x, int y, BufferedImage image)
-	{
-		if(x < 0 || y < 0 || x > image.getHeight() - 1 || y > image.getWidth() - 1) return 0;
-		float height = image.getRGB(x, y);
-		height /= MAX_PIXEL_COLOR / 2;
-		height *= MAX_HEIGHT;
-		height += MAX_HEIGHT * 2;
-		return height;
 	}
 	
 	private Vector3f calculateNormal(int x, int y, float[][] heights)
