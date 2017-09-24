@@ -39,11 +39,11 @@ public class MasterRenderer
 	{
 		enableBackfaceCulling();
 		projection = createProjectionMatrix(FOV, FAR_PLANE, NEAR_PLANE);
-		farProjection = createProjectionMatrix(FOV, VERY_FAR_PLANE, 500);
+		farProjection = createProjectionMatrix(FOV, VERY_FAR_PLANE, NEAR_PLANE);
 		renderer = new EntityRenderer(shader, projection, farProjection);
-		terrainRenderer = new TerrainRenderer(terrainShader, projection);
+		terrainRenderer = new TerrainRenderer(terrainShader, farProjection);
 		orbitRenderer = new OrbitRenderer(orbitShader, projection, farProjection);
-		skyboxRenderer = new SkyboxRenderer(MainManagerClass.loader, projection);
+		skyboxRenderer = new SkyboxRenderer(MainManagerClass.loader, farProjection);
 		guiRenderer = new GuiRenderer(MainManagerClass.loader);
 	}
 	

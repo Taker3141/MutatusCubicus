@@ -7,12 +7,10 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Input;
 import raycasting.*;
-import renderer.*;
 import renderer.fbo.PostProcessing;
 import renderer.models.TexturedModel;
 import renderer.textures.*;
-import terrain.SquareTerrain;
-import terrain.Terrain;
+import terrain.*;
 import entity.*;
 import entity.building.*;
 import entity.character.Player;
@@ -21,6 +19,7 @@ import entity.vehicle.*;
 public class MoonLabWorld extends World
 {
 	private Terrain[] t;
+	private CelestialBody miniMoon;
 	private Input input;
 	private MouseHandler mouse;
 	private static final Vector3f SUN_START = new Vector3f(0.866F, 0, -0.5F);
@@ -39,8 +38,10 @@ public class MoonLabWorld extends World
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new PulsatingLight(new Vector3f(1261, 40, 1955), new Vector3f(2F, 0.1F, 1.8F), new Vector3f(1, 0.01F, 0.002F), 2));
 		c = new Camera(player, this, false);
+		miniMoon = new CelestialBody(10, 1, "moon/height", "texture/moon/blend", loadTerrainTexturePack());
+		miniMoon.position = new Vector3f(1844, 32, 1623);
 		t = new SquareTerrain[3 * 3];
-		TerrainTexturePack pack = loadTerrainTexturePack(loader);
+		TerrainTexturePack pack = loadTerrainTexturePack();
 		for (int i = 0; i < 9; i++)
 		{
 			int tx = i % 3; int tz = i / 3;
@@ -150,6 +151,7 @@ public class MoonLabWorld extends World
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z + 200));
 		renderer.processTerrain(terrain(player.position.x + 200, player.position.z - 200));
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z - 200));
+		renderer.processTerrain(miniMoon);
 		renderer.render(this);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
@@ -182,7 +184,7 @@ public class MoonLabWorld extends World
 		return new Vector3f(0, -10, 0);
 	}
 
-	private TerrainTexturePack loadTerrainTexturePack(Loader loader)
+	private TerrainTexturePack loadTerrainTexturePack()
 	{
 		TerrainTexture back = new TerrainTexture(loader.loadTexture("texture/moon_dust"));
 		TerrainTexture r = new TerrainTexture(loader.loadTexture("texture/moon_crater"));

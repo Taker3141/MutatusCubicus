@@ -19,6 +19,7 @@ public class SquareTerrain implements Terrain
 	private TerrainTexturePack texturePack;
 	private TerrainTexture blendMap;
 	private float[][] heights;
+	private final Vector3f position;
 	
 	public SquareTerrain(int gridX, int gridZ, Loader loader, TerrainTexturePack pack, TerrainTexture map, String heightMap)
 	{
@@ -26,6 +27,7 @@ public class SquareTerrain implements Terrain
 		blendMap = map;
 		x = gridX * SIZE;
 		z = gridZ * SIZE;
+		position = new Vector3f(x, 0, z);
 		model = generateTerrain(loader, heightMap);
 	}
 	
@@ -111,15 +113,9 @@ public class SquareTerrain implements Terrain
 	}
 
 	@Override
-	public float getX()
+	public Vector3f getPosition()
 	{
-		return x;
-	}
-
-	@Override
-	public float getZ()
-	{
-		return z;
+		return position;
 	}
 
 	@Override

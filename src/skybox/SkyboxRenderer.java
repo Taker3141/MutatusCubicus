@@ -13,7 +13,7 @@ import toolbox.Maths;
 
 public class SkyboxRenderer
 {
-	private static final float SIZE = 1000;
+	private static final float SIZE = 1000000;
 	
 	private static final float[] VERTICES = 
 	{

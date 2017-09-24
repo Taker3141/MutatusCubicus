@@ -43,6 +43,7 @@ public class SpaceWorld extends World
 		orbitList.remove(shipOrbit);
 		shipOrbit = ship.calculateOrbit();
 		orbitList.add(shipOrbit);
+		((CelestialBody)moon).position = getCoordinateOffset();
 		renderer.processTerrain(moon);
 		for(int i = 0; i < entities.size(); i++)
 		{

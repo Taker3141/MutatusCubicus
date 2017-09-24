@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import org.lwjgl.util.vector.Vector3f;
 import renderer.models.SimpleModel;
 import renderer.textures.TerrainTexture;
 import renderer.textures.TerrainTexturePack;
@@ -16,8 +17,7 @@ public interface Terrain
 	public TerrainTexturePack getTexturePack();
 	public TerrainTexture getBlendMap();
 	public float getHeight(float x, float z);
-	public float getX();
-	public float getZ();
+	public Vector3f getPosition();
 	
 	public static float[][] readHeightMap(String heightMap, float maxHeight, boolean swapImageCoordinates)
 	{

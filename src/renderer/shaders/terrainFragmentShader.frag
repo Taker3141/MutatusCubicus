@@ -48,5 +48,5 @@ void main(void)
 	totalDiffuse = max(totalDiffuse, 0.2);
 	
 	outColor = vec4(totalDiffuse, 1.0) * totalColor;
-	outColor = mix(vec4(skyColor, 1.0), outColor, visibility);
+	//outColor = mix(vec4(skyColor, 1.0), outColor, visibility);
 }

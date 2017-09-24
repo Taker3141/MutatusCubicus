@@ -11,6 +11,7 @@ public class CelestialBody implements Terrain
 	protected SimpleModel simpleModel;
 	protected TerrainTexturePack textures;
 	protected TerrainTexture blendMap;
+	public Vector3f position = new Vector3f();
 	
 	public CelestialBody(float scale, float maxHeight, String heightMapFile, String blendMapFile, TerrainTexturePack textures)
 	{
@@ -22,44 +23,49 @@ public class CelestialBody implements Terrain
 	private SimpleModel generateModel(float radius, float maximumHeight, int resolution, String heightMapFile)
 	{
 		//float[][] heights = Terrain.readHeightMap(heightMapFile, maximumHeight, true);
-		int vertexCount = (resolution * resolution) / 2;
+		int horizontalCount = resolution;
+		int verticalCount = resolution / 2;
+		int vertexCount = (horizontalCount + 1) * (verticalCount + 1);
 		float[] vertices = new float[vertexCount * 3];
 		float[] normals = new float[vertexCount * 3];
 		float[] textureCoords = new float[vertexCount * 2];
 		int[] indices = new int[vertexCount * 6];
 		int vertexPointer = 0;
-		for(float v = 0; v < resolution / 2; v++)
+		for(float v = 0; v < verticalCount + 1; v++)
 		{
-			float circleRadius = radius * (float)Math.sin(Math.PI * (v / (resolution / 2)));
-			for(float u = 0; u < resolution; u++)
+			float phi = (float) (Math.PI * (v / verticalCount));
+			for(float u = 0; u < horizontalCount + 1; u++)
 			{
-				vertices[vertexPointer * 3 + 0] = circleRadius * (float)Math.cos(2 * Math.PI * (u / resolution));
-				vertices[vertexPointer * 3 + 1] = (u / resolution) - radius / 2;
-				vertices[vertexPointer * 3 + 2] = circleRadius * (float)Math.sin(2 * Math.PI * (u / resolution));
-				Vector3f normal = ((Vector3f)(new Vector3f(vertices[vertexPointer * 3 + 0], vertices[vertexPointer * 3 + 1], vertices[vertexPointer * 3 + 2]).scale(-1))).normalise(null);
+				float theta = (float)(2 * Math.PI * (u / horizontalCount));
+				vertices[vertexPointer * 3 + 0] = (float) (radius * Math.sin(phi) * Math.cos(theta));
+				vertices[vertexPointer * 3 + 1] = (float) (radius * Math.cos(phi));
+				vertices[vertexPointer * 3 + 2] = (float) (radius * Math.sin(phi) * Math.sin(theta));
+				Vector3f normal = ((Vector3f)(new Vector3f(vertices[vertexPointer * 3 + 0], vertices[vertexPointer * 3 + 1], vertices[vertexPointer * 3 + 2]))).normalise(null);
 				normals[vertexPointer * 3 + 0] = normal.x;
 				normals[vertexPointer * 3 + 1] = normal.y;
 				normals[vertexPointer * 3 + 2] = normal.z;
-				textureCoords[vertexPointer * 2 + 0] = u / resolution;
-				textureCoords[vertexPointer * 2 + 1] = v / (resolution / 2);
+				textureCoords[vertexPointer * 2 + 0] = u / horizontalCount;
+				textureCoords[vertexPointer * 2 + 1] = v / (verticalCount);
 				vertexPointer++;
 			}
 		}
 		vertexPointer = 0;
-		for(int v = 0; v < (resolution / 2) - 1; v++)
+		for(int v = 0; v < verticalCount; v++)
 		{
-			for(int u = 0; u < resolution - 1; u++)
+			for(int u = 0; u < horizontalCount; u++)
 			{
-				int topLeft = (v * resolution) + u;
+				int topLeft = (v * (horizontalCount + 1)) + u;
 				int topRight = topLeft + 1;
-				int bottomLeft = ((v + 1) * resolution) + u;
+				int bottomLeft = ((v + 1) * (horizontalCount + 1)) + u;
 				int bottomRight = bottomLeft + 1;
+				
+				indices[vertexPointer++] = topRight;
+				indices[vertexPointer++] = bottomLeft;
 				indices[vertexPointer++] = topLeft;
-				indices[vertexPointer++] = bottomLeft;
-				indices[vertexPointer++] = topRight;
-				indices[vertexPointer++] = topRight;
-				indices[vertexPointer++] = bottomLeft;
+				
 				indices[vertexPointer++] = bottomRight;
+				indices[vertexPointer++] = bottomLeft;
+				indices[vertexPointer++] = topRight;
 			}
 		}
 		return MainManagerClass.loader.loadToVAO(vertices, textureCoords, normals, indices);
@@ -90,14 +96,8 @@ public class CelestialBody implements Terrain
 	}
 	
 	@Override
-	public float getX()
+	public Vector3f getPosition()
 	{
-		return 0;
-	}
-	
-	@Override
-	public float getZ()
-	{
-		return 0;
+		return position;
 	}
 }
