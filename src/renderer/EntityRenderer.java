@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import entity.Entity;
+import renderer.models.DummyModel;
 import renderer.models.SimpleModel;
 import renderer.models.TexturedModel;
 import renderer.shaders.StaticShader;
@@ -37,6 +38,7 @@ public class EntityRenderer
 		if(renderTransparency) Arrays.sort(models);
 		for(TexturedModel m : models)
 		{
+			if(m instanceof DummyModel) continue;
 			if(renderTransparency != m.getTexture().hasTransparency()) continue;
 			prepareTexturedModel(m);
 			List<Entity> batch = entities.get(m);
@@ -52,6 +54,7 @@ public class EntityRenderer
 		}
 		for(TexturedModel m : models)
 		{
+			if(m instanceof DummyModel) continue;
 			if(renderTransparency != m.getTexture().hasTransparency()) continue;
 			prepareTexturedModel(m);
 			List<Entity> batch = entities.get(m);

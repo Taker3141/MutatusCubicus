@@ -1,5 +1,7 @@
 package entity.organism;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import renderer.DisplayManager;
 import entity.Entity;
@@ -17,12 +19,21 @@ public class Organism
 	private float extraSlime = 0;
 	private Player p;
 	
-	private OrganHeart heart = new OrganHeart();
+	private List<Organ> list = new ArrayList<>();
+	private OrganHeart heart = new OrganHeart(list);
+	private OrganBrain brain = new OrganBrain(list);
+	private OrganShaper shaper = new OrganShaper(list);
+	private OrganLiver liver = new OrganLiver(list);
+	private OrganDigestiveSystem digestive = new OrganDigestiveSystem(list);
+	private OrganSlime sime = new OrganSlime(list);
 	
 	public Organism(Player player)
 	{
 		p = player;
-		heart.loadModels(p);
+		for(Organ o : list)
+		{
+			o.loadModels(p);
+		}
 	}
 	
 	public void eat(IEdible f)
