@@ -4,20 +4,60 @@ import java.util.List;
 import main.MainManagerClass;
 import objLoader.OBJLoader;
 import org.lwjgl.util.vector.Vector3f;
+import renderer.DisplayManager;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import animation.KeyframeAnimation;
 import animation.KeyframeAnimation.Keyframe;
 import entity.Entity;
+import entity.IEdible;
 import entity.SubEntity;
 import entity.character.Player;
 
 public class OrganDigestiveSystem extends Organ
 {
+	protected float digestion = 0;
+	protected IEdible food;
+	protected Entity eating;
 	
-	public OrganDigestiveSystem(List<Organ> list)
+	public OrganDigestiveSystem(List<Organ> list, Organism organism)
 	{
-		super(list);
+		super(list, organism);
+	}
+	
+	public void eat(IEdible f, Player p)
+	{
+		if(f instanceof Entity) eating = (Entity)f;
+		food = (IEdible)f;
+		digestion = food.getAmmount() < 100 ? food.getAmmount() : 100;
+		p.organs.setDigestingTexture(eating.model.getTexture().getID());
+	}
+	
+	@Override
+	public void update(float delta, Player p)
+	{
+		if(food != null)
+		{
+			digestion -= food.getType().digestPerSecond * delta;
+			o.liver.energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
+			if(food.getType() == IEdible.FoodType.FUEL)
+			{
+				o.liver.boost += (50 / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
+			}
+			if(digestion < 0) 
+			{
+				digestion = 0;
+				p.inv.addItem(food.getItem());
+				food = null;
+			}
+		}
+		if(eating != null)
+		{
+			eating.position = new Vector3f(p.position);
+			eating.position.y = p.position.y + 10 * p.scale;
+			if(eating.scale > 0) eating.scale -= DisplayManager.getFrameTimeSeconds() * 0.1F;
+			else {eating.unregister(); eating = null;}
+		}
 	}
 	
 	@Override

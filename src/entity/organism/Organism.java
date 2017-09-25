@@ -2,89 +2,42 @@ package entity.organism;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.lwjgl.util.vector.Vector3f;
-import renderer.DisplayManager;
 import entity.Entity;
 import entity.IEdible;
 import entity.character.Player;
 
 public class Organism
 {
-	private float digestion = 0;
-	private float energy = 110;
-	private float boost = 100;
-	private boolean boosting;
-	private IEdible food;
-	private Entity eating;
+	protected boolean boosting;
 	private float extraSlime = 0;
 	private Player p;
 	
-	private List<Organ> list = new ArrayList<>();
-	private OrganHeart heart = new OrganHeart(list);
-	private OrganBrain brain = new OrganBrain(list);
-	private OrganShaper shaper = new OrganShaper(list);
-	private OrganLiver liver = new OrganLiver(list);
-	private OrganDigestiveSystem digestive = new OrganDigestiveSystem(list);
-	private OrganSlime sime = new OrganSlime(list);
+	protected List<Organ> list = new ArrayList<>();
+	protected OrganHeart heart = new OrganHeart(list, this);
+	protected OrganBrain brain = new OrganBrain(list, this);
+	protected OrganShaper shaper = new OrganShaper(list, this);
+	protected OrganLiver liver = new OrganLiver(100, 110, 100, 100, list, this);
+	protected OrganDigestiveSystem digestive = new OrganDigestiveSystem(list, this);
+	protected OrganSlime sime = new OrganSlime(list, this);
 	
 	public Organism(Player player)
 	{
 		p = player;
-		for(Organ o : list)
-		{
-			o.loadModels(p);
-		}
+		for(Organ o : list) o.loadModels(p);
 	}
 	
 	public void eat(IEdible f)
 	{
-		if(f instanceof Entity) eating = (Entity)f;
-		food = (IEdible)f;
-		digestion = food.getAmmount() < 100 ? food.getAmmount() : 100;
-		p.organs.setDigestingTexture(eating.model.getTexture().getID());
+		digestive.eat(f, p);
 	}
 	
 	public void update(float delta, boolean boost)
 	{
-		energy -= delta / 50;
-		digest(delta);
-		if(energy < 0) energy = 0;
-		if(energy > 200) energy = 200;
-		if(energy < 20) p.dyingAnimation = 1 - (energy / 20);
-		else p.dyingAnimation = 1.1F;
+		for(Organ o : list) o.update(delta, p);
+		p.organs.update();
 		if(extraSlime > 0 && p.scale < p.NORMAL_SIZE * p.MAX_SIZE_FACTOR) {p.scale += 0.01F * delta; extraSlime -= 0.01F * delta;}
 		else extraSlime = 0;
-		boosting = boost && (this.boost > 0);
-		if(boosting) this.boost -= delta * 10;
-		if(this.boost < 0) this.boost = 0;
-	}
-	
-	private void digest(float delta)
-	{
-		if(food != null)
-		{
-			digestion -= food.getType().digestPerSecond * delta;
-			energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
-			if(food.getType() == IEdible.FoodType.FUEL)
-			{
-				boost += (50 / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
-				if(boost > 100) boost = 100;
-			}
-			if(digestion < 0) 
-			{
-				digestion = 0;
-				p.inv.addItem(food.getItem());
-				food = null;
-			}
-		}
-		p.organs.update();
-		if(eating != null)
-		{
-			eating.position = new Vector3f(p.position);
-			eating.position.y = p.position.y + 10 * p.scale;
-			if(eating.scale > 0) eating.scale -= DisplayManager.getFrameTimeSeconds() * 0.1F;
-			else {eating.unregister(); eating = null;}
-		}
+		boosting = boost && (liver.boost > 0);
 	}
 	
 	public void addSlime(float slime)
@@ -108,21 +61,21 @@ public class Organism
 	
 	public float getEnergy()
 	{
-		return energy;
+		return liver.energy;
 	}
 	
 	public float getDigestion()
 	{
-		return digestion;
+		return digestive.digestion;
 	}
 	
 	public Entity getEating()
 	{
-		return eating;
+		return digestive.eating;
 	}
 	
 	public float getBoost()
 	{
-		return boost;
+		return liver.boost;
 	}
 }

@@ -8,9 +8,9 @@ import entity.character.Player;
 
 public class OrganBrain extends Organ
 {
-	public OrganBrain(List<Organ> list)
+	public OrganBrain(List<Organ> list, Organism organism)
 	{
-		super(list);
+		super(list, organism);
 	}
 	
 	@Override

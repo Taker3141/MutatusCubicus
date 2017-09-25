@@ -11,9 +11,33 @@ import entity.character.Player;
 
 public class OrganLiver extends Organ
 {
-	public OrganLiver(List<Organ> list)
+	protected float energyCapacity;
+	protected float energy;
+	
+	protected float boost;
+	protected float boostCapacity;
+	
+	public OrganLiver(float energyCapacity, float currentEnergy, float boostCapacity, float currentBoost, List<Organ> list, Organism organism)
 	{
-		super(list);
+		super(list, organism);
+		this.energyCapacity = energyCapacity;
+		this.energy = currentEnergy;
+		this.boostCapacity = boostCapacity;
+		this.boost = currentBoost;
+	}
+	
+	@Override
+	public void update(float delta, Player p)
+	{
+		energy -= delta / 50;
+		if(energy < 0) energy = 0;
+		if(energy > energyCapacity) energy = energyCapacity;
+		if(energy < 20) p.dyingAnimation = 1 - (energy / 20);
+		else p.dyingAnimation = 1.1F;
+		
+		if(boost > boostCapacity) boost = boostCapacity;
+		if(o.boosting) boost -= delta * 10;
+		if(boost < 0) boost = 0;
 	}
 	
 	@Override

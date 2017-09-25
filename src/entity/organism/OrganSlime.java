@@ -13,9 +13,9 @@ import entity.character.Player;
 
 public class OrganSlime extends Organ
 {
-	public OrganSlime(List<Organ> list)
+	public OrganSlime(List<Organ> list, Organism organism)
 	{
-		super(list);
+		super(list, organism);
 	}
 	
 	@Override

@@ -11,9 +11,9 @@ import entity.character.Player;
 
 public class OrganShaper extends Organ
 {
-	public OrganShaper(List<Organ> list)
+	public OrganShaper(List<Organ> list, Organism organism)
 	{
-		super(list);
+		super(list, organism);
 	}
 	
 	@Override

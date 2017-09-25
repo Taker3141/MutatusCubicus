@@ -5,9 +5,12 @@ import entity.character.Player;
 
 public abstract class Organ
 {
-	public Organ(List<Organ> list)
+	protected Organism o;
+	
+	public Organ(List<Organ> list, Organism organism)
 	{
 		list.add(this);
+		o = organism;
 	}
 	
 	public abstract String getName();
@@ -18,7 +21,7 @@ public abstract class Organ
 		
 	}
 	
-	public void update()
+	public void update(float delta, Player p)
 	{
 		
 	}
