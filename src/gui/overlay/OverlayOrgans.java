@@ -1,12 +1,15 @@
 package gui.overlay;
 
 import inventory.Item;
+import main.MainGameLoop;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import renderer.DisplayManager;
 import entity.character.Player;
 import font.fontMeshCreator.GUIText;
 import gui.element.*;
+import gui.handler.IClickHandler;
+import gui.menu.Menu;
 
 public class OverlayOrgans extends Overlay
 {
@@ -17,6 +20,7 @@ public class OverlayOrgans extends Overlay
 	protected GuiElement selectedSlot;
 	protected GuiElement[] itemIcons;
 	protected GUIText itemText;
+	protected Button organInfoButton;
 	
 	public OverlayOrgans(Player p)
 	{
@@ -29,11 +33,14 @@ public class OverlayOrgans extends Overlay
 		cubeSize = new GuiBar(loader.loadTexture("texture/gui/organ/slime"), new Vector2f(X + 633, 11), new Vector2f(48, 98), null);
 		boost = new GuiBar(loader.loadTexture("texture/gui/organ/boost"), new Vector2f(X + 381, 11), new Vector2f(198, 48), null);
 		selectedSlot = new GuiElement(loader.loadTexture("texture/gui/inventory/slot_selected"), new Vector2f(X + 8, 72), new Vector2f(64, 64), null);
-		elements.add(new GuiElement(loader.loadTexture("texture/gui/organ/background"), new Vector2f(W / 2 - 512, 0), new Vector2f(1024, 256), null));
+		organInfoButton = new SmallButton(new Vector2f(position.x + 524, 71), new Vector2f(52, 52), null).setText("i", font, 1.5F);
+		organInfoButton.setClickHandler(new OrganInfoHandler());
+		elements.add(new GuiElement(loader.loadTexture("texture/gui/organ/background"), position, size, null));
 		elements.add(digestion);
 		elements.add(energy);
 		elements.add(cubeSize);
 		elements.add(boost);
+		elements.add(organInfoButton);
 		itemIcons = new GuiElement[p.inv.size];
 		for(int i = 0; i < itemIcons.length; i++)
 		{
@@ -100,6 +107,15 @@ public class OverlayOrgans extends Overlay
 					p.inv.setItem(index, null);
 				}
 			}
+		}
+	}
+	
+	protected class OrganInfoHandler implements IClickHandler
+	{
+		@Override
+		public void click(Menu parent)
+		{
+			MainGameLoop.w.overlays.add(new OverlayOrganInfo(p.organism));
 		}
 	}
 	

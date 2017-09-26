@@ -19,7 +19,7 @@ import world.World;
 public class Player extends Movable implements ICharacter
 {
 	private static final float TURN_SPEED = 80;
-	private Organism organism = new Organism(this);
+	public Organism organism = new Organism(this);
 	public Car vehicle = null;
 	private Rocketship ship;
 	public float dyingAnimation = 0;
