@@ -33,7 +33,8 @@ public class OverlayOrgans extends Overlay
 		cubeSize = new GuiBar(loader.loadTexture("texture/gui/organ/slime"), new Vector2f(X + 633, 11), new Vector2f(48, 98), null);
 		boost = new GuiBar(loader.loadTexture("texture/gui/organ/boost"), new Vector2f(X + 381, 11), new Vector2f(198, 48), null);
 		selectedSlot = new GuiElement(loader.loadTexture("texture/gui/inventory/slot_selected"), new Vector2f(X + 8, 72), new Vector2f(64, 64), null);
-		organInfoButton = new SmallButton(new Vector2f(position.x + 524, 71), new Vector2f(52, 52), null).setText("i", font, 1.5F);
+		organInfoButton = new Button(new Vector2f(position.x + 524, 71), new Vector2f(52, 52), null);
+		organInfoButton.setTextures("info");
 		organInfoButton.setClickHandler(new OrganInfoHandler());
 		elements.add(new GuiElement(loader.loadTexture("texture/gui/organ/background"), position, size, null));
 		elements.add(digestion);
