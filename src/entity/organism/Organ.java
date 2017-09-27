@@ -6,9 +6,11 @@ import entity.character.Player;
 public abstract class Organ
 {
 	protected Organism o;
+	public final OrganType type;
 	
-	public Organ(List<Organ> list, Organism organism)
+	public Organ(List<Organ> list, Organism organism, OrganType t)
 	{
+		type = t;
 		list.add(this);
 		o = organism;
 	}
@@ -24,5 +26,10 @@ public abstract class Organ
 	public void update(float delta, Player p)
 	{
 		
+	}
+	
+	public enum OrganType
+	{
+		SLIME, LIVER, BRAIN, DIGESTIVE, SHAPER, HEART;
 	}
 }

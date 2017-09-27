@@ -10,7 +10,7 @@ public class OrganBrain extends Organ
 {
 	public OrganBrain(List<Organ> list, Organism organism)
 	{
-		super(list, organism);
+		super(list, organism, OrganType.BRAIN);
 	}
 	
 	@Override

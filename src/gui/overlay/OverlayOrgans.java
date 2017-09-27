@@ -1,7 +1,6 @@
 package gui.overlay;
 
 import inventory.Item;
-import main.MainGameLoop;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import renderer.DisplayManager;
@@ -116,7 +115,7 @@ public class OverlayOrgans extends Overlay
 		@Override
 		public void click(Menu parent)
 		{
-			MainGameLoop.w.overlays.add(new OverlayOrganInfo(p.organism));
+			p.organism.overlay.setVisible(!p.organism.overlay.getVisible());
 		}
 	}
 	

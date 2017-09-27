@@ -15,7 +15,7 @@ public class OrganSlime extends Organ
 {
 	public OrganSlime(List<Organ> list, Organism organism)
 	{
-		super(list, organism);
+		super(list, organism, OrganType.SLIME);
 	}
 	
 	@Override

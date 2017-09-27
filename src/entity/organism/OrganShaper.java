@@ -13,7 +13,7 @@ public class OrganShaper extends Organ
 {
 	public OrganShaper(List<Organ> list, Organism organism)
 	{
-		super(list, organism);
+		super(list, organism, OrganType.SHAPER);
 	}
 	
 	@Override

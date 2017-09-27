@@ -5,6 +5,7 @@ import java.util.List;
 import entity.Entity;
 import entity.IEdible;
 import entity.character.Player;
+import gui.overlay.OverlayOrganInfo;
 
 public class Organism
 {
@@ -12,17 +13,21 @@ public class Organism
 	private float extraSlime = 0;
 	private Player p;
 	
-	protected List<Organ> list = new ArrayList<>();
+	public List<Organ> list = new ArrayList<>();
 	protected OrganHeart heart = new OrganHeart(list, this);
 	protected OrganBrain brain = new OrganBrain(list, this);
 	protected OrganShaper shaper = new OrganShaper(list, this);
 	protected OrganLiver liver = new OrganLiver(100, 110, 100, 100, list, this);
 	protected OrganDigestiveSystem digestive = new OrganDigestiveSystem(list, this);
 	protected OrganSlime sime = new OrganSlime(list, this);
+	public OverlayOrganInfo overlay;
 	
 	public Organism(Player player)
 	{
 		p = player;
+		overlay = new OverlayOrganInfo(this);
+		overlay.setVisible(false);
+		Entity.w.overlays.add(overlay);
 		for(Organ o : list) o.loadModels(p);
 	}
 	

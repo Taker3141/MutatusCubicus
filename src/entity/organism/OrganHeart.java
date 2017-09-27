@@ -14,7 +14,7 @@ public class OrganHeart extends Organ
 {
 	public OrganHeart(List<Organ> list, Organism organism)
 	{
-		super(list, organism);
+		super(list, organism, OrganType.HEART);
 	}
 	
 	@Override

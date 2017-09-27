@@ -22,7 +22,7 @@ public class OrganDigestiveSystem extends Organ
 	
 	public OrganDigestiveSystem(List<Organ> list, Organism organism)
 	{
-		super(list, organism);
+		super(list, organism, OrganType.DIGESTIVE);
 	}
 	
 	public void eat(IEdible f, Player p)

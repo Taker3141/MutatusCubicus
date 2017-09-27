@@ -19,7 +19,7 @@ public class OrganLiver extends Organ
 	
 	public OrganLiver(float energyCapacity, float currentEnergy, float boostCapacity, float currentBoost, List<Organ> list, Organism organism)
 	{
-		super(list, organism);
+		super(list, organism, OrganType.LIVER);
 		this.energyCapacity = energyCapacity;
 		this.energy = currentEnergy;
 		this.boostCapacity = boostCapacity;
