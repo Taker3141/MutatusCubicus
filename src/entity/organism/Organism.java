@@ -40,6 +40,7 @@ public class Organism
 	{
 		for(Organ o : list) o.update(delta, p);
 		p.organs.update();
+		overlay.update();
 		if(extraSlime > 0 && p.scale < p.NORMAL_SIZE * p.MAX_SIZE_FACTOR) {p.scale += 0.01F * delta; extraSlime -= 0.01F * delta;}
 		else extraSlime = 0;
 		boosting = boost && (liver.boost > 0);
