@@ -12,6 +12,9 @@ import static entity.organism.Organ.OrganType.*;
 
 public class OverlayOrganInfo extends Overlay
 {
+	protected static final Vector3f STANDARD_COLOR = new Vector3f(1F, 1F, 1F);
+	protected static final Vector3f HOVER_COLOR = new Vector3f(1F, 0.6F, 0.6F);
+	protected static final Vector3f SELECTED_COLOR = new Vector3f(0.4F, 0.4F, 1F);
 	protected Organism o;
 	protected GuiElement background;
 	protected GuiElement slimeBackground;
@@ -19,6 +22,7 @@ public class OverlayOrganInfo extends Overlay
 	protected GUIText caption;
 	protected Map<OrganType, GuiElement> organPictures = new HashMap<>();
 	protected OrganBox[] boxes = new OrganBox[6];
+	protected OrganBox selected = null;
 	
 	public OverlayOrganInfo(Organism organism)
 	{
@@ -39,6 +43,7 @@ public class OverlayOrganInfo extends Overlay
 			organPictures.put(organ.type, element);
 			elements.add(element);
 		}
+		organPictures.put(SLIME, slimeForeground);
 		boxes[0] = new OrganBox(SLIME, new Vector2f(30, 30), new Vector2f(204, 204));
 		boxes[1] = new OrganBox(DIGESTIVE, new Vector2f(78, 76), new Vector2f(153, 124));
 		boxes[2] = new OrganBox(HEART, new Vector2f(71, 104), new Vector2f(140, 158));
@@ -50,23 +55,50 @@ public class OverlayOrganInfo extends Overlay
 	
 	public void update()
 	{
+		if(!getVisible()) return;
 		Vector2f mouse = new Vector2f(MainGameLoop.w.input.getMouseX() - slimeBackground.position.x, (H - MainGameLoop.w.input.getMouseY()) - slimeBackground.position.y);
 		boolean organColored = false;
 		for(int i = 1; i < boxes.length; i++)
 		{
-			if(!organColored && boxes[i].isInside(mouse)) 
+			OrganBox box = boxes[i];
+			if(!organColored && box.isInside(mouse)) 
 			{
-				organPictures.get(boxes[i].type).color = new Vector3f(1F, 0.5F, 0.5F);
+				organPictures.get(box.type).color = HOVER_COLOR;
 				organColored = true;
 			}
-			else organPictures.get(boxes[i].type).color = new Vector3f(1, 1, 1);
+			else organPictures.get(box.type).color = STANDARD_COLOR;
 		}
+		if(selected != null) organPictures.get(selected.type).color = SELECTED_COLOR;
+		if(selected == null || selected.type != SLIME) slimeForeground.color = STANDARD_COLOR;
+	}
+	
+	@Override
+	public void leftClick(int x, int y)
+	{
+		Vector2f mouse = new Vector2f(x - slimeBackground.position.x, (H - y) - slimeBackground.position.y);
+		boolean organColored = false;
+		for(int i = 1; i < boxes.length; i++)
+		{
+			OrganBox box = boxes[i];
+			if(!organColored && box.isInside(mouse)) 
+			{
+				selected = box;
+				organColored = true;
+			}
+		}
+		if(!organColored && boxes[0].isInside(mouse)) 
+		{
+			selected = boxes[0];
+			organColored = true;
+		}
+		if(!organColored) selected = null;
 	}
 
 	public void setVisible(boolean v)
 	{
 		for(GuiElement e : elements) e.isVisible = v;
 		caption.isVisible = v;
+		selected = null;
 	}
 
 	public boolean getVisible()
