@@ -19,7 +19,6 @@ import entity.vehicle.*;
 public class MoonLabWorld extends World
 {
 	private Terrain[] t;
-	private CelestialBody miniMoon;
 	private Input input;
 	private MouseHandler mouse;
 	private static final Vector3f SUN_START = new Vector3f(0.866F, 0, -0.5F);
@@ -38,8 +37,6 @@ public class MoonLabWorld extends World
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new PulsatingLight(new Vector3f(1261, 40, 1955), new Vector3f(2F, 0.1F, 1.8F), new Vector3f(1, 0.01F, 0.002F), 2));
 		c = new Camera(player, this, false);
-		miniMoon = new CelestialBody(10, 1, "moon/height", "texture/moon/blend", loadTerrainTexturePack());
-		miniMoon.position = new Vector3f(1844, 32, 1623);
 		t = new SquareTerrain[3 * 3];
 		TerrainTexturePack pack = loadTerrainTexturePack();
 		for (int i = 0; i < 9; i++)
@@ -151,7 +148,6 @@ public class MoonLabWorld extends World
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z + 200));
 		renderer.processTerrain(terrain(player.position.x + 200, player.position.z - 200));
 		renderer.processTerrain(terrain(player.position.x - 200, player.position.z - 200));
-		renderer.processTerrain(miniMoon);
 		renderer.render(this);
 		MainGameLoop.fbo.unbindFrameBuffer();
 		PostProcessing.doPostProcessing(MainGameLoop.fbo.getColorTexture());
