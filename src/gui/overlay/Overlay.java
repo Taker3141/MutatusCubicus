@@ -34,15 +34,10 @@ public abstract class Overlay implements IClickable
 	}
 	
 	@Override public void leftClick(int mouseX, int mouseY) {}
-
 	@Override public void rightClick(int mouseX, int mouseY) {}
-
 	@Override public void leftReleased(int mouseX, int mouseY) {}
-
 	@Override public void rightReleased(int mouseX, int mouseY) {}
-
 	@Override public void entered(int mouseX, int mouseY) {}
-
 	@Override public void left(int mouseX, int mouseY) {}
 
 	@Override

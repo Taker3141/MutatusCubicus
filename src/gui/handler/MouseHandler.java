@@ -28,18 +28,24 @@ public class MouseHandler implements MouseListener
 	public MouseHandler(List<Overlay> list, boolean b)
 	{
 		elements = new ArrayList<IClickable>();
-		for(Overlay e : list)
-		{
-			elements.add((IClickable)e);
-		}
+		addOverlays(list);
 	}
 	
 	public void updateList(List<Overlay> list)
 	{
 		elements = new ArrayList<IClickable>();
+		addOverlays(list);
+	}
+	
+	private void addOverlays(List<Overlay> list)
+	{
 		for(Overlay e : list)
 		{
 			elements.add((IClickable)e);
+			for(GuiElement subElement : e.getElements()) if(subElement instanceof IClickable)
+			{
+				elements.add((IClickable)subElement);
+			}
 		}
 	}
 	
