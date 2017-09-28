@@ -41,7 +41,7 @@ public class MasterRenderer
 		projection = createProjectionMatrix(FOV, FAR_PLANE, NEAR_PLANE);
 		farProjection = createProjectionMatrix(FOV, VERY_FAR_PLANE, NEAR_PLANE);
 		renderer = new EntityRenderer(shader, projection, farProjection);
-		terrainRenderer = new TerrainRenderer(terrainShader, farProjection);
+		terrainRenderer = new TerrainRenderer(terrainShader, projection, farProjection);
 		orbitRenderer = new OrbitRenderer(orbitShader, projection, farProjection);
 		skyboxRenderer = new SkyboxRenderer(MainManagerClass.loader, farProjection);
 		guiRenderer = new GuiRenderer(MainManagerClass.loader);
@@ -61,13 +61,13 @@ public class MasterRenderer
 	public void render(World w)
 	{
 		prepare();
+		skyboxRenderer.render(w.c, w.timeOfDay);
 		terrainShader.start();
 		terrainShader.loadLight(w.lights);
 		terrainShader.loadViewMatrix(w.c);
 		terrainShader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
-		skyboxRenderer.render(w.c, w.timeOfDay);
 		shader.start();
 		shader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
 		shader.loadLight(w.lights);

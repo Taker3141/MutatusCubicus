@@ -135,4 +135,10 @@ public class SquareTerrain implements Terrain
 	{
 		return blendMap;
 	}
+	
+	@Override
+	public boolean doubleRender()
+	{
+		return false;
+	}
 }

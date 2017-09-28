@@ -100,4 +100,10 @@ public class CelestialBody implements Terrain
 	{
 		return position;
 	}
+	
+	@Override
+	public boolean doubleRender()
+	{
+		return true;
+	}
 }

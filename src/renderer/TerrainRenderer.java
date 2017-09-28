@@ -15,14 +15,17 @@ import toolbox.Maths;
 public class TerrainRenderer
 {
 	private TerrainShader shader;
+	private Matrix4f projection, farProjection;
 	
-	public TerrainRenderer(TerrainShader s, Matrix4f projectionMatrix)
+	public TerrainRenderer(TerrainShader s, Matrix4f projectionMatrix, Matrix4f farProjectionMatrix)
 	{
 		shader = s;
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.connectTextureUnits();
 		shader.stop();
+		projection = projectionMatrix;
+		farProjection = farProjectionMatrix;
 	}
 	
 	public void render(List<Terrain> terrains)
@@ -32,7 +35,13 @@ public class TerrainRenderer
 			if(terrain == null) continue;
 			prepareTerrain(terrain);
 			loadModelMatrix(terrain);
+			shader.loadProjectionMatrix(projection);
 			GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			if(terrain.doubleRender())
+			{
+				shader.loadProjectionMatrix(farProjection);
+				GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			}
 			unbindTerrain();
 		}
 	}

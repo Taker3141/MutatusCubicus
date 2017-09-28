@@ -13,7 +13,7 @@ import toolbox.Maths;
 
 public class SkyboxRenderer
 {
-	private static final float SIZE = 1000000;
+	private static final float SIZE = 100;
 	
 	private static final float[] VERTICES = 
 	{
@@ -87,6 +87,7 @@ public class SkyboxRenderer
 		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, cube.getVertexCount());
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
+		GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 		shader.stop();
 	}
 	

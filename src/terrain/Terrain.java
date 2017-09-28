@@ -18,6 +18,7 @@ public interface Terrain
 	public TerrainTexture getBlendMap();
 	public float getHeight(float x, float z);
 	public Vector3f getPosition();
+	public boolean doubleRender();
 	
 	public static float[][] readHeightMap(String heightMap, float maxHeight, boolean swapImageCoordinates)
 	{
