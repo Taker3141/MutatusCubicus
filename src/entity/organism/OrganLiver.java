@@ -1,6 +1,6 @@
 package entity.organism;
 
-import java.util.List;
+import java.util.Map;
 import org.lwjgl.util.vector.Vector3f;
 import world.World;
 import animation.KeyframeAnimation;
@@ -17,7 +17,7 @@ public class OrganLiver extends Organ
 	protected float boost;
 	protected float boostCapacity;
 	
-	public OrganLiver(float energyCapacity, float currentEnergy, float boostCapacity, float currentBoost, List<Organ> list, Organism organism)
+	public OrganLiver(float energyCapacity, float currentEnergy, float boostCapacity, float currentBoost, Map<OrganType, Organ> list, Organism organism)
 	{
 		super(list, organism, OrganType.LIVER);
 		this.energyCapacity = energyCapacity;
@@ -49,7 +49,7 @@ public class OrganLiver extends Organ
 	@Override
 	public String getDescription()
 	{
-		return "";
+		return "Die Leber ist eine bionische elektrochemische Batterie die groﬂe Energiemengen speichern kann. In ihr kann auch Raketentreibstoff eingelagert und seine Energie kontrolliert freigesetzt werden.";
 	}
 	
 	@Override

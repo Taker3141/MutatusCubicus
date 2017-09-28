@@ -19,7 +19,7 @@ public class OverlayOrganInfo extends Overlay
 	protected GuiElement background;
 	protected GuiElement slimeBackground;
 	protected GuiElement slimeForeground;
-	protected GUIText caption;
+	protected GUIText caption, organName, organInfo;
 	protected Map<OrganType, GuiElement> organPictures = new HashMap<>();
 	protected OrganBox[] boxes = new OrganBox[6];
 	protected OrganBox selected = null;
@@ -31,13 +31,16 @@ public class OverlayOrganInfo extends Overlay
 		position = new Vector2f(W / 2 - 384, H / 2 - 192);
 		super.size = new Vector2f(768, 384);
 		caption = new GUIText("STATUS", 3, font, new Vector2f(position.x + 20, position.y + size.y - 20), size.x / W, false);
+		organName = new GUIText("", 2.5F, font, new Vector2f(position.x + 300, position.y + size.y - 100), 450F / W, false);
+		organInfo = new GUIText("", 1, font, new Vector2f(position.x + 300, position.y + size.y - 150), 450F / W, false);
 		background = new GuiElement(loader.loadTexture("texture/gui/box"), position, size, null);
 		slimeBackground = new GuiElement(loader.loadTexture("texture/gui/organ/slime_background"), new Vector2f(position.x + 20, position.y + 20), new Vector2f(256, 256), null);
 		slimeForeground = new GuiElement(loader.loadTexture("texture/gui/organ/slime_foreground"), slimeBackground.position, slimeBackground.size, null);
 		elements.add(background);
 		elements.add(slimeBackground);
-		for(Organ organ : organism.list)
+		for(Map.Entry<OrganType, Organ> entry : organism.list.entrySet())
 		{
+			Organ organ = entry.getValue();
 			if(organ.type == SLIME) continue;
 			GuiElement element = new GuiElement(loader.loadTexture("texture/gui/organ/" + organ.type.name().toLowerCase()), slimeBackground.position, slimeBackground.size, null);
 			organPictures.put(organ.type, element);
@@ -92,13 +95,30 @@ public class OverlayOrganInfo extends Overlay
 			organColored = true;
 		}
 		if(!organColored) selected = null;
+		updateInformation();
+	}
+	
+	protected void updateInformation()
+	{
+		if(selected != null)
+		{
+			Organ organ = o.list.get(selected.type);
+			organName.setText(organ.getName());
+			organInfo.setText(organ.getDescription());
+		}
+		else
+		{
+			organName.setText("");
+			organInfo.setText("");
+		}
 	}
 
 	public void setVisible(boolean v)
 	{
 		for(GuiElement e : elements) e.isVisible = v;
-		caption.isVisible = v;
+		caption.isVisible = v; organName.isVisible = v; organInfo.isVisible = v;
 		selected = null;
+		updateInformation();
 	}
 
 	public boolean getVisible()

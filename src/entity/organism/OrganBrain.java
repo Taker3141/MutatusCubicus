@@ -1,6 +1,6 @@
 package entity.organism;
 
-import java.util.List;
+import java.util.Map;
 import org.lwjgl.util.vector.Vector3f;
 import world.World;
 import entity.*;
@@ -8,7 +8,7 @@ import entity.character.Player;
 
 public class OrganBrain extends Organ
 {
-	public OrganBrain(List<Organ> list, Organism organism)
+	public OrganBrain(Map<OrganType, Organ> list, Organism organism)
 	{
 		super(list, organism, OrganType.BRAIN);
 	}
@@ -22,7 +22,7 @@ public class OrganBrain extends Organ
 	@Override
 	public String getDescription()
 	{
-		return "";
+		return "Dieses leistungsfähige und kompakte Gehirn aus künstlichen Neuronen ist die zentrale Kontrolleinheit des Organismus. Es ist außerdem mit optischen und akustischen Sensoren so wie Antennen ausgestattet, um seine Umgebung wahrnehmen zu können.";
 	}
 	
 	@Override

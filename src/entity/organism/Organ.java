@@ -1,6 +1,6 @@
 package entity.organism;
 
-import java.util.List;
+import java.util.Map;
 import entity.character.Player;
 
 public abstract class Organ
@@ -8,10 +8,10 @@ public abstract class Organ
 	protected Organism o;
 	public final OrganType type;
 	
-	public Organ(List<Organ> list, Organism organism, OrganType t)
+	public Organ(Map<OrganType, Organ> list, Organism organism, OrganType t)
 	{
 		type = t;
-		list.add(this);
+		list.put(type, this);
 		o = organism;
 	}
 	

@@ -1,6 +1,6 @@
 package entity.organism;
 
-import java.util.List;
+import java.util.Map;
 import org.lwjgl.util.vector.Vector3f;
 import world.World;
 import animation.KeyframeAnimation;
@@ -11,7 +11,7 @@ import entity.character.Player;
 
 public class OrganShaper extends Organ
 {
-	public OrganShaper(List<Organ> list, Organism organism)
+	public OrganShaper(Map<OrganType, Organ> list, Organism organism)
 	{
 		super(list, organism, OrganType.SHAPER);
 	}
@@ -25,7 +25,7 @@ public class OrganShaper extends Organ
 	@Override
 	public String getDescription()
 	{
-		return "";
+		return "Der Shaper sorgt durch Erzeugen von Mikrovibrationen im Schleim dafür, dass dieser seine Form beibehält und der Organismus sich fortbewegen kann.";
 	}
 	
 	@Override

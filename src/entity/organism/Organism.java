@@ -1,10 +1,10 @@
 package entity.organism;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import entity.Entity;
 import entity.IEdible;
 import entity.character.Player;
+import entity.organism.Organ.OrganType;
 import gui.overlay.OverlayOrganInfo;
 
 public class Organism
@@ -13,7 +13,7 @@ public class Organism
 	private float extraSlime = 0;
 	private Player p;
 	
-	public List<Organ> list = new ArrayList<>();
+	public Map<OrganType, Organ> list = new HashMap<>();
 	protected OrganHeart heart = new OrganHeart(list, this);
 	protected OrganBrain brain = new OrganBrain(list, this);
 	protected OrganShaper shaper = new OrganShaper(list, this);
@@ -28,7 +28,7 @@ public class Organism
 		overlay = new OverlayOrganInfo(this);
 		overlay.setVisible(false);
 		Entity.w.overlays.add(overlay);
-		for(Organ o : list) o.loadModels(p);
+		for(Map.Entry<OrganType, Organ> entry : list.entrySet()) entry.getValue().loadModels(p);
 	}
 	
 	public void eat(IEdible f)
@@ -38,7 +38,7 @@ public class Organism
 	
 	public void update(float delta, boolean boost)
 	{
-		for(Organ o : list) o.update(delta, p);
+		for(Map.Entry<OrganType, Organ> entry : list.entrySet()) entry.getValue().update(delta, p);
 		p.organs.update();
 		overlay.update();
 		if(extraSlime > 0 && p.scale < p.NORMAL_SIZE * p.MAX_SIZE_FACTOR) {p.scale += 0.01F * delta; extraSlime -= 0.01F * delta;}

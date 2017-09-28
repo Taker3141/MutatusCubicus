@@ -1,6 +1,6 @@
 package entity.organism;
 
-import java.util.List;
+import java.util.Map;
 import main.MainManagerClass;
 import objLoader.OBJLoader;
 import org.lwjgl.util.vector.Vector3f;
@@ -13,7 +13,7 @@ import entity.character.Player;
 
 public class OrganSlime extends Organ
 {
-	public OrganSlime(List<Organ> list, Organism organism)
+	public OrganSlime(Map<OrganType, Organ> list, Organism organism)
 	{
 		super(list, organism, OrganType.SLIME);
 	}
@@ -21,13 +21,13 @@ public class OrganSlime extends Organ
 	@Override
 	public String getName()
 	{
-		return null;
+		return "Schleimhülle";
 	}
 	
 	@Override
 	public String getDescription()
 	{
-		return null;
+		return "Die aus siliziumbasierten Polymeren bestehende Schleimhülle schützt die anderen Organe vor äußeren Einflüssen und hält den Druck im Inneren des Würfels konstant, kann wenn nötig aber auch Gegenstände und Nahrung durchlassen, um diese aufzunehmen. Sie wird vom Shaper durch Mikrovibrationen in Form gehalten und zur Fortbewegung und zum Springen manipuliert.";
 	}
 	
 	@Override

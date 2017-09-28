@@ -1,6 +1,6 @@
 package entity.organism;
 
-import java.util.List;
+import java.util.Map;
 import main.MainManagerClass;
 import objLoader.OBJLoader;
 import org.lwjgl.util.vector.Vector3f;
@@ -20,7 +20,7 @@ public class OrganDigestiveSystem extends Organ
 	protected IEdible food;
 	protected Entity eating;
 	
-	public OrganDigestiveSystem(List<Organ> list, Organism organism)
+	public OrganDigestiveSystem(Map<OrganType, Organ> list, Organism organism)
 	{
 		super(list, organism, OrganType.DIGESTIVE);
 	}
@@ -69,7 +69,7 @@ public class OrganDigestiveSystem extends Organ
 	@Override
 	public String getDescription()
 	{
-		return "";
+		return "Das Verdauungssystem kann verschiedene Nahrung verarbeiten, indem es diese zuerst im Magen mit Flusssäure auflöst und anschließend im Darm mithilfe von Enzymen weiterverarbeitet, um Energie zu gewinnen.";
 	}
 	
 	@Override
