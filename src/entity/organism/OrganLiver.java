@@ -41,6 +41,12 @@ public class OrganLiver extends Organ
 	}
 	
 	@Override
+	public String[] getStatus()
+	{
+		return new String[]{"Energie: " + (int)energy + "/" + (int)energyCapacity, "Treibstoff: " + (int)boost + "/" + (int)boostCapacity};
+	}
+	
+	@Override
 	public String getName()
 	{
 		return "Leber";

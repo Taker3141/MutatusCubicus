@@ -16,6 +16,7 @@ import entity.character.Player;
 
 public class OrganDigestiveSystem extends Organ
 {
+	protected float capacity = 100;
 	protected float digestion = 0;
 	protected IEdible food;
 	protected Entity eating;
@@ -29,7 +30,7 @@ public class OrganDigestiveSystem extends Organ
 	{
 		if(f instanceof Entity) eating = (Entity)f;
 		food = (IEdible)f;
-		digestion = food.getAmmount() < 100 ? food.getAmmount() : 100;
+		digestion = food.getAmmount() < capacity ? food.getAmmount() : capacity;
 		p.organs.setDigestingTexture(eating.model.getTexture().getID());
 	}
 	
@@ -58,6 +59,13 @@ public class OrganDigestiveSystem extends Organ
 			if(eating.scale > 0) eating.scale -= DisplayManager.getFrameTimeSeconds() * 0.1F;
 			else {eating.unregister(); eating = null;}
 		}
+	}
+	
+	@Override
+	public String[] getStatus()
+	{
+		if(digestion > 0 ) return new String[]{"Magenfüllstand: " + (int)digestion + "%", "Nahrung: " + food.getName()};
+		else return new String[]{"Magen leer"};
 	}
 	
 	@Override

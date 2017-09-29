@@ -20,4 +20,5 @@ public interface IEdible
 	float getAmmount();
 	float getEnergy();
 	Item getItem();
+	String getName();
 }

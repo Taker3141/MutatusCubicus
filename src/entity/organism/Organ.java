@@ -18,6 +18,11 @@ public abstract class Organ
 	public abstract String getName();
 	public abstract String getDescription();
 	
+	public String[] getStatus()
+	{
+		return null;
+	}
+	
 	public void loadModels(Player p)
 	{
 		

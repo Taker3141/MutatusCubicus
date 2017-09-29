@@ -20,6 +20,7 @@ public class OverlayOrganInfo extends Overlay
 	protected GuiElement slimeBackground;
 	protected GuiElement slimeForeground;
 	protected GUIText caption, organName, organInfo;
+	protected GUIText[] organStatus;
 	protected Map<OrganType, GuiElement> organPictures = new HashMap<>();
 	protected OrganBox[] boxes = new OrganBox[6];
 	protected OrganBox selected = null;
@@ -33,6 +34,12 @@ public class OverlayOrganInfo extends Overlay
 		caption = new GUIText("STATUS", 3, font, new Vector2f(position.x + 20, position.y + size.y - 20), size.x / W, false);
 		organName = new GUIText("", 2.5F, font, new Vector2f(position.x + 300, position.y + size.y - 100), 450F / W, false);
 		organInfo = new GUIText("", 1, font, new Vector2f(position.x + 300, position.y + size.y - 150), 450F / W, false);
+		organStatus = new GUIText[3];
+		for(int i = 0; i < organStatus.length; i++)
+		{
+			organStatus[i] = new GUIText("", 1, font, new Vector2f(position.x + 300, position.y + (80 - i * 25)), 450F / W, false);
+			organStatus[i].setColour(0.2F, 0.2F, 1F);
+		}
 		background = new GuiElement(loader.loadTexture("texture/gui/box"), position, size, null);
 		slimeBackground = new GuiElement(loader.loadTexture("texture/gui/organ/slime_background"), new Vector2f(position.x + 20, position.y + 20), new Vector2f(256, 256), null);
 		slimeForeground = new GuiElement(loader.loadTexture("texture/gui/organ/slime_foreground"), slimeBackground.position, slimeBackground.size, null);
@@ -73,6 +80,7 @@ public class OverlayOrganInfo extends Overlay
 		}
 		if(selected != null) organPictures.get(selected.type).color = SELECTED_COLOR;
 		if(selected == null || selected.type != SLIME) slimeForeground.color = STANDARD_COLOR;
+		updateInformation();
 	}
 	
 	@Override
@@ -95,7 +103,6 @@ public class OverlayOrganInfo extends Overlay
 			organColored = true;
 		}
 		if(!organColored) selected = null;
-		updateInformation();
 	}
 	
 	protected void updateInformation()
@@ -105,11 +112,21 @@ public class OverlayOrganInfo extends Overlay
 			Organ organ = o.list.get(selected.type);
 			organName.setText(organ.getName());
 			organInfo.setText(organ.getDescription());
+			for(int i = 0; i < organStatus.length; i++)
+			{
+				if(organ.getStatus() != null && i < organ.getStatus().length) organStatus[i].setText(organ.getStatus()[i]);
+				else organStatus[i].setText("");
+			}
+			
 		}
 		else
 		{
 			organName.setText("");
 			organInfo.setText("");
+			for(int i = 0; i < organStatus.length; i++)
+			{
+				organStatus[i].setText("");
+			}
 		}
 	}
 

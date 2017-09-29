@@ -35,8 +35,15 @@ public class Rock extends Entity implements IEdible
 		return normalSize * 125;
 	}
 	
+	@Override
 	public Item getItem()
 	{
 		return Item.DISSOLVED_ROCK;
+	}
+
+	@Override
+	public String getName()
+	{
+		return "Mondgestein";
 	}
 }
