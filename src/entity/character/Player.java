@@ -1,19 +1,16 @@
 package entity.character;
 
 import entity.*;
+import entity.organism.Organism;
 import entity.vehicle.*;
 import gui.overlay.*;
 import inventory.*;
 import java.util.List;
 import static org.lwjgl.input.Keyboard.*;
-import objLoader.OBJLoader;
 import org.lwjgl.util.vector.*;
-import animation.KeyframeAnimation;
-import animation.KeyframeAnimation.Keyframe;
 import raycasting.*;
 import renderer.DisplayManager;
-import renderer.models.TexturedModel;
-import renderer.textures.ModelTexture;
+import renderer.models.DummyModel;
 import talk.*;
 import talk.ConversationLine.Option;
 import terrain.Terrain;
@@ -22,10 +19,10 @@ import world.World;
 public class Player extends Movable implements ICharacter
 {
 	private static final float TURN_SPEED = 80;
-	private Organism organism = this.new Organism();
+	public Organism organism = new Organism(this);
 	public Car vehicle = null;
 	private Rocketship ship;
-	private float dyingAnimation = 0;
+	public float dyingAnimation = 0;
 	private float currentTurnSpeed = 0;
 	private boolean talkFlag = true;
 	
@@ -40,7 +37,7 @@ public class Player extends Movable implements ICharacter
 	
 	public Player(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
 	{
-		super(null, position, rotX, rotY, rotZ, scale, list, 20);
+		super(new DummyModel(), position, rotX, rotY, rotZ, scale, list, 20);
 		ICharacter.super.register();
 		inv = new Inventory(10);
 		inv.setItem(2, Item.SLIME);
@@ -51,10 +48,8 @@ public class Player extends Movable implements ICharacter
 		com = new OverlayCommunication(w.characterInfo);
 		conversation = new ConversationManager(com, w);
 		faceTexture = loader.loadTexture("texture/gui/communication/mutatus_cubicus");
-		loadModels();
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
 		NORMAL_SIZE = scale;
-		model.transparencyNumber = 1;
 	}
 	
 	@Override
@@ -158,7 +153,7 @@ public class Player extends Movable implements ICharacter
 			startLine.setOptions(new Option[]{new Option("Go to line 2", startLine.getNext(null)), new Option("Go to line 3", startLine.getNext(null).getNext(null)), new Option("Go to line 5", startLine.getNext(null).getNext(null).getNext(null).getNext(null))});
 			this.conversation.startConversation(startLine);
 		}
-		if(isKeyDown(KEY_Q) && organism.eating == null && organism.digestion == 0)
+		if(isKeyDown(KEY_Q) && organism.getEating() == null && organism.getDigestion() == 0)
 		{
 			final float distanceSq = 1;
 			for(Entity e : entityList)
@@ -185,102 +180,6 @@ public class Player extends Movable implements ICharacter
 			return true;
 		}
 		return false;
-	}
-
-	private class Organism
-	{
-		private float digestion = 0;
-		private float energy = 110;
-		private float boost = 100;
-		private boolean boosting;
-		private IEdible food;
-		private Entity eating;
-		private float extraSlime = 0;
-		
-		public void eat(IEdible f)
-		{
-			if(f instanceof Entity) eating = (Entity)f;
-			organism.food = (IEdible)f;
-			organism.digestion = organism.food.getAmmount() < 100 ? organism.food.getAmmount() : 100;
-			organs.setDigestingTexture(eating.model.getTexture().getID());
-		}
-		
-		public void update(float delta, boolean boost)
-		{
-			energy -= delta / 50;
-			digest(delta);
-			if(energy < 0) energy = 0;
-			if(energy > 200) energy = 200;
-			if(energy < 20) dyingAnimation = 1 - (energy / 20);
-			else dyingAnimation = 1.1F;
-			if(extraSlime > 0 && scale < NORMAL_SIZE * MAX_SIZE_FACTOR) {scale += 0.01F * delta; extraSlime -= 0.01F * delta;}
-			else extraSlime = 0;
-			boosting = boost && (this.boost > 0);
-			if(boosting) this.boost -= delta * 10;
-			if(this.boost < 0) this.boost = 0;
-		}
-		
-		private void digest(float delta)
-		{
-			if(food != null)
-			{
-				digestion -= food.getType().digestPerSecond * delta;
-				energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
-				if(food.getType() == IEdible.FoodType.FUEL)
-				{
-					boost += (50 / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
-					if(boost > 100) boost = 100;
-				}
-				if(digestion < 0) 
-				{
-					digestion = 0;
-					inv.addItem(food.getItem());
-					food = null;
-				}
-			}
-			organs.update();
-			if(eating != null)
-			{
-				eating.position = new Vector3f(position);
-				eating.position.y = position.y + 10 * scale;
-				if(eating.scale > 0) eating.scale -= DisplayManager.getFrameTimeSeconds() * 0.1F;
-				else {eating.unregister(); eating = null;}
-			}
-		}
-		
-		public void addSlime(float slime)
-		{
-			extraSlime += slime;
-		}
-		
-		public float getSpeed()
-		{
-			float standardSpeed = 3 + scale * 100;
-			if(!boosting) return standardSpeed;
-			else return standardSpeed * 10;
-		}
-		
-		public float getJumpPower()
-		{
-			float standardJump = 3 + scale * 200;
-			if(!boosting) return standardJump;
-			else return standardJump * 2;
-		}
-		
-		public float getEnergy()
-		{
-			return energy;
-		}
-		
-		public float getDigestion()
-		{
-			return digestion;
-		}
-		
-		public float getBoost()
-		{
-			return boost;
-		}
 	}
 	
 	@Override
@@ -344,87 +243,11 @@ public class Player extends Movable implements ICharacter
 		else return 0;
 	}
 	
-	protected void loadModels()
-	{
-		model = new TexturedModel(OBJLoader.loadOBJModel("outer_cube"), new ModelTexture(loader.loadTexture("texture/cube/outer_cube"), true));
-		
-		new SubEntity(World.createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, entityList, this);
-		{
-			TexturedModel heart = World.createModel("heart", "texture/cube/heart", 0.5F);
-			SubEntity heart1 = new SubEntity(heart, new Vector3f(-0.35F, 10, -2.58F), 0, 0, 0, 1, entityList, this);
-			SubEntity heart2 = new SubEntity(heart, new Vector3f(-2.33F, 10, -2.58F), 90, 0, 0, 1, entityList, this);
-			Keyframe[] k1 = 
-				{
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.2F),
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.1F), 
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0.1F, 0.1F),
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.8F)
-				};
-			heart1.a = new KeyframeAnimation(heart1, k1);
-			Keyframe[] k2 = 
-				{
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.1F), 
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0.1F, 0.1F),
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 1)
-				};
-			heart2.a = new KeyframeAnimation(heart2, k2);
-		}
-		{
-			SubEntity shaper = new SubEntity(World.createModel("shaper", "texture/cube/shaper", 0.5F), new Vector3f(5.47F, 6.76F, 3.12F), 0, 0, 0, 1, entityList, this);
-			Keyframe[] k = 
-				{
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.2F),
-					new Keyframe(new Vector3f(0, 0.2F, 0), new Vector3f(0, 0, 0), 0, 0.2F),
-					new Keyframe(new Vector3f(0, 0.2F, 0.2F), new Vector3f(0, 0, 0), 0, 0.2F),
-					new Keyframe(new Vector3f(0, 0, 0.2F), new Vector3f(0, 0, 0), 0, 0.2F),
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.01F),
-				};
-			shaper.a = new KeyframeAnimation(shaper, k);
-		}
-		ModelTexture digestive = new ModelTexture(loader.loadTexture("texture/cube/intestines"));			
-		TexturedModel upperIntestine = new TexturedModel(OBJLoader.loadOBJModel("upper_intestine"), digestive);
-		new SubEntity(upperIntestine, new Vector3f(-2.97F, 5.9F, 3.42F), 0, 0, 0, 1, entityList, this);
-		{
-			SubEntity liver = new SubEntity(World.createModel("liver", "texture/cube/storage_cone", 0.5F), new Vector3f(-5.8F, 6.18F, -6.18F), 0, 0, 0, 1, entityList, this);
-			Keyframe[] k = 
-				{
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 20F),
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 90, 0), 0, 20F),
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 180, 0), 0, 20F),
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 270, 0), 0, 20F),
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 360, 0), 0, 0.01F)
-				};
-			liver.a = new KeyframeAnimation(liver, k);
-		}
-		TexturedModel lowerIntestine = new TexturedModel(OBJLoader.loadOBJModel("lower_intestine"), digestive);
-		new SubEntity(lowerIntestine, new Vector3f(-2.7F, 7.56F, 3.42F), 0, 0, 0, 1, entityList, this);
-		{
-			TexturedModel stomachModel = new TexturedModel(OBJLoader.loadOBJModel("stomach"), digestive);
-			SubEntity stomach = new SubEntity(stomachModel, new Vector3f(-2.97F, 9.2F, 3.42F), 0, 0, 0, 1, entityList, this);
-			Keyframe[] k = 
-				{
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 1), 
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0.2F, 2), 
-					new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 1)
-				};
-			stomach.a = new KeyframeAnimation(stomach, k);
-		}
-		
-		TexturedModel veins = World.createModel("veins", "texture/cube/veins", 0.5F);
-		new SubEntity(veins, new Vector3f(-4.93F, 7.37F, -2.71F), -12.01F, 15.67F, 0, 1, entityList, this);
-		new SubEntity(veins, new Vector3f(-2.48F, 9.43F, 1.48F), 14.2F, -4.72F, 0, 0.8F, entityList, this);
-		new SubEntity(veins, new Vector3f(5.31F, 9.28F, 0.79F), 36.21F, 0, 0, 1, entityList, this);
-		new SubEntity(veins, new Vector3f(3.03F, 8.7F, 0.27F), 30.38F, 45, 0, 1, entityList, this);
-		new SubEntity(veins, new Vector3f(2.17F, 12.21F, -2.38F), 36.21F, -94.14F, 0, 0.7F, entityList, this);
-	}
-
-	
 	@Override
 	public String getID()
 	{
 		return "mutatus_cubicus";
 	}
-	
 
 	@Override
 	public String getFirstName()
@@ -432,20 +255,17 @@ public class Player extends Movable implements ICharacter
 		return "Mutatus";
 	}
 	
-
 	@Override
 	public String getLastName()
 	{
 		return "Cubicus";
 	}
 	
-
 	@Override
 	public int getFaceTexture()
 	{
 		return faceTexture;
 	}
-
 	
 	@Override
 	public int[] getBirthday()
@@ -454,7 +274,6 @@ public class Player extends Movable implements ICharacter
 		return new int[]{20, 7, 2121};
 	}
 	
-
 	@Override
 	public Gender getGender()
 	{

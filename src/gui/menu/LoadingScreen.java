@@ -26,6 +26,7 @@ public class LoadingScreen extends Menu
 		render();
 	}
 	
+	@Override
 	public void cleanUp()
 	{
 		TextMaster.removeText(progress);

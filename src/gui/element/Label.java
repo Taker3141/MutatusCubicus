@@ -28,6 +28,7 @@ public class Label extends GuiElement
 		text.setColour(1, 1, 1);
 	}
 	
+	@Override
 	public void setVisible(boolean v)
 	{
 		visible = v;

@@ -12,6 +12,7 @@ public class Localizer
 {
 	private Map<String, String> map;
 	private String name;
+	public static boolean isActive = false;
 	
 	public Localizer(String fileName)
 	{
@@ -55,12 +56,12 @@ public class Localizer
 		{
 			return unlocalized.substring(2);
 		}
-		else return unlocalized;
-//		if (localized == null)
-//		{
-//			System.out.println("\"" + unlocalized + "\" could not be found in the \"" + name + "\" lang file!");
-//			return unlocalized;
-//		}
-//		return localized;
+		else if(!isActive) return unlocalized;
+		if (localized == null)
+		{
+			System.out.println("\"" + unlocalized + "\" could not be found in the \"" + name + "\" lang file!");
+			return unlocalized;
+		}
+		return localized;
 	}
 }

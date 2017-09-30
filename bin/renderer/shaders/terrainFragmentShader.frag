@@ -3,7 +3,6 @@
 in vec2 passTextureCoord;
 in vec3 surfaceNormal;
 in vec3 toLightVector[4];
-in vec3 toCameraVector;
 in float visibility;
 
 out vec4 outColor;
@@ -31,7 +30,6 @@ void main(void)
 	vec4 totalColor = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
 	
 	vec3 unitNormal = normalize(surfaceNormal);
-	vec3 unitCameraVector = normalize(toCameraVector);
 	
 	vec3 totalDiffuse = vec3(0);
 	
@@ -40,8 +38,6 @@ void main(void)
 		float distance = length(toLightVector[i]);
 		float attenuationFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance* distance);
 		vec3 unitLightVector = normalize(toLightVector[i]);
-		vec3 lightDirection = -unitLightVector;
-		vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
 		
 		float brightness = dot(unitNormal, unitLightVector);
 		brightness += 0.05;
@@ -52,5 +48,5 @@ void main(void)
 	totalDiffuse = max(totalDiffuse, 0.2);
 	
 	outColor = vec4(totalDiffuse, 1.0) * totalColor;
-	outColor = mix(vec4(skyColor, 1.0), outColor, visibility);
+	//outColor = mix(vec4(skyColor, 1.0), outColor, visibility);
 }

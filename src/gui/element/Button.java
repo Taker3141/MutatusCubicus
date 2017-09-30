@@ -52,6 +52,15 @@ public class Button extends GuiElement implements IClickable
 		handler = h;
 		return this;
 	}
+	
+	public Button setTextures(String texturesName)
+	{
+		textureButton = loader.loadTexture("texture/gui/" + texturesName);
+		textureButtonHover = loader.loadTexture("texture/gui/" + texturesName + "_hover");
+		textureButtonClick = loader.loadTexture("texture/gui/" + texturesName + "_click");
+		texture = textureButton;
+		return this;
+	}
 
 	@Override
 	public void leftClick(int mouseX, int mouseY)
@@ -65,7 +74,7 @@ public class Button extends GuiElement implements IClickable
 	public void leftReleased(int mouseX, int mouseY)
 	{
 		texture = textureButtonHover;
-		if (handler != null) handler.click(parent);
+		if (isVisible && handler != null) handler.click(parent);
 	}
 
 	@Override public void rightReleased(int mouseX, int mouseY){}

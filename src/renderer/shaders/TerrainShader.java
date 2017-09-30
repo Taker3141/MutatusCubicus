@@ -18,8 +18,6 @@ public class TerrainShader extends ShaderProgram
 	private int locationLightPosition[];
 	private int locationLightColor[];
 	private int locationLightAttenuation[];
-	private int locationShineDamper;
-	private int locationReflectivity;
 	private int locationBackground;
 	private int locationR;
 	private int locationG;
@@ -46,8 +44,6 @@ public class TerrainShader extends ShaderProgram
 		locationMatrix = super.getUniformLocation("transformationMatrix");
 		locationProjection = super.getUniformLocation("projectionMatrix");
 		locationView = super.getUniformLocation("viewMatrix");
-		locationShineDamper = super.getUniformLocation("shineDamper");
-		locationReflectivity = super.getUniformLocation("reflectivity");
 		locationBackground = super.getUniformLocation("backgroundTexture");
 		locationR = super.getUniformLocation("rTexture");
 		locationG = super.getUniformLocation("gTexture");
@@ -100,12 +96,6 @@ public class TerrainShader extends ShaderProgram
 				super.loadVector(locationLightAttenuation[i], new Vector3f(1, 0, 0));
 			}
 		}
-	}
-	
-	public void loadShineVariables(float damper, float reflectvity)
-	{
-		super.loadFloat(locationShineDamper, damper);
-		super.loadFloat(locationReflectivity, reflectvity);
 	}
 	
 	public void connectTextureUnits()

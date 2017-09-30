@@ -2,17 +2,15 @@ package world;
 
 import static org.lwjgl.input.Keyboard.*;
 import gui.handler.MouseHandler;
-import loader.Loader;
 import main.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Input;
 import raycasting.*;
-import renderer.*;
 import renderer.fbo.PostProcessing;
 import renderer.models.TexturedModel;
 import renderer.textures.*;
-import terrain.Terrain;
+import terrain.*;
 import entity.*;
 import entity.building.*;
 import entity.character.Player;
@@ -39,12 +37,12 @@ public class MoonLabWorld extends World
 		lights.add(new Light(new Vector3f(0, 0, 0), new Vector3f(0, 0.6F, 0), new Vector3f(1, 0.01F, 0.2F)));
 		lights.add(new PulsatingLight(new Vector3f(1261, 40, 1955), new Vector3f(2F, 0.1F, 1.8F), new Vector3f(1, 0.01F, 0.002F), 2));
 		c = new Camera(player, this, false);
-		t = new Terrain[3 * 3];
-		TerrainTexturePack pack = loadTerrainTexturePack(loader);
+		t = new SquareTerrain[3 * 3];
+		TerrainTexturePack pack = loadTerrainTexturePack();
 		for (int i = 0; i < 9; i++)
 		{
 			int tx = i % 3; int tz = i / 3;
-			t[i] = new Terrain(tx, 2 - tz, loader, pack, 
+			t[i] = new SquareTerrain(tx, 2 - tz, loader, pack, 
 					new TerrainTexture(loader.loadTexture((tx == 1 && tz == 1) ? "texture/terrain/blend_1_1" : "texture/terrain/blend_0_0")), 
 					"terrain/height_" + tx + "_" + tz);
 		}
@@ -182,7 +180,7 @@ public class MoonLabWorld extends World
 		return new Vector3f(0, -10, 0);
 	}
 
-	private TerrainTexturePack loadTerrainTexturePack(Loader loader)
+	private TerrainTexturePack loadTerrainTexturePack()
 	{
 		TerrainTexture back = new TerrainTexture(loader.loadTexture("texture/moon_dust"));
 		TerrainTexture r = new TerrainTexture(loader.loadTexture("texture/moon_crater"));

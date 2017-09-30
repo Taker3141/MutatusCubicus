@@ -35,6 +35,7 @@ public class Waste extends Entity implements IEdible
 		return normalSize * 375;
 	}
 	
+	@Override
 	public Item getItem()
 	{
 		return Item.SLIME;

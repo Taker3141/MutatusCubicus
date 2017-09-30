@@ -6,7 +6,6 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
 import renderer.models.SimpleModel;
 import renderer.shaders.TerrainShader;
 import renderer.textures.TerrainTexturePack;
@@ -16,24 +15,33 @@ import toolbox.Maths;
 public class TerrainRenderer
 {
 	private TerrainShader shader;
+	private Matrix4f projection, farProjection;
 	
-	public TerrainRenderer(TerrainShader s, Matrix4f projectionMatrix)
+	public TerrainRenderer(TerrainShader s, Matrix4f projectionMatrix, Matrix4f farProjectionMatrix)
 	{
 		shader = s;
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.connectTextureUnits();
 		shader.stop();
+		projection = projectionMatrix;
+		farProjection = farProjectionMatrix;
 	}
 	
 	public void render(List<Terrain> terrains)
 	{
-		for(Terrain terrain:terrains)
+		for(Terrain terrain : terrains)
 		{
 			if(terrain == null) continue;
 			prepareTerrain(terrain);
 			loadModelMatrix(terrain);
+			shader.loadProjectionMatrix(projection);
 			GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			if(terrain.doubleRender())
+			{
+				shader.loadProjectionMatrix(farProjection);
+				GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			}
 			unbindTerrain();
 		}
 	}
@@ -73,7 +81,7 @@ public class TerrainRenderer
 	
 	private void loadModelMatrix(Terrain t)
 	{
-		Matrix4f transformation = Maths.createTransformationMatrix(new Vector3f(t.getX(), 0, t.getZ()), 0, 0, 0, 1);
+		Matrix4f transformation = Maths.createTransformationMatrix(t.getPosition(), 0, 0, 0, 1);
 		shader.loadTransformationMatrix(transformation);
 	}
 }
