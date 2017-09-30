@@ -7,6 +7,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import entity.Entity;
 import font.fontRendering.TextMaster;
 import gui.overlay.Overlay;
+import renderer.models.AnimatedModel;
 import renderer.models.TexturedModel;
 import renderer.shaders.*;
 import skybox.SkyboxRenderer;
@@ -15,13 +16,13 @@ import world.World;
 
 public class MasterRenderer
 {
-	private static final float FOV = 70;
-	private static final float NEAR_PLANE = 1e-1F;
-	private static final float FAR_PLANE = 2e+3F;
-	private static final float VERY_FAR_PLANE = 1e+7F;
-	private static final float SKY_RED = 0F;
-	private static final float SKY_GREEN = 0F;
-	private static final float SKY_BLUE = 0F;
+	public static final float FOV = 70;
+	public static final float NEAR_PLANE = 1e-1F;
+	public static final float FAR_PLANE = 2e+3F;
+	public static final float VERY_FAR_PLANE = 1e+7F;
+	public static final float SKY_RED = 0F;
+	public static final float SKY_GREEN = 0F;
+	public static final float SKY_BLUE = 0F;
 	private Matrix4f projection;
 	private Matrix4f farProjection;
 	private StaticShader shader = new StaticShader();
@@ -31,9 +32,11 @@ public class MasterRenderer
 	private OrbitShader orbitShader = new OrbitShader();
 	private OrbitRenderer orbitRenderer;
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
+	private List<AnimatedModel> animatedModels = new ArrayList<>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	private SkyboxRenderer skyboxRenderer;
 	private GuiRenderer guiRenderer;
+	private AnimatedModelRenderer animationRenderer;
 	
 	public MasterRenderer()
 	{
@@ -45,6 +48,7 @@ public class MasterRenderer
 		orbitRenderer = new OrbitRenderer(orbitShader, projection, farProjection);
 		skyboxRenderer = new SkyboxRenderer(MainManagerClass.loader, farProjection);
 		guiRenderer = new GuiRenderer(MainManagerClass.loader);
+		animationRenderer = new AnimatedModelRenderer(createProjectionMatrix(FOV, FAR_PLANE, NEAR_PLANE));
 	}
 	
 	public static void enableBackfaceCulling()
@@ -82,6 +86,7 @@ public class MasterRenderer
 		shader.loadViewMatrix(w.c);
 		renderer.render(entities, true);
 		shader.stop();
+		for(AnimatedModel m : animatedModels) animationRenderer.render(m, w.c, w.lights.get(0).position);
 		orbitShader.start();
 		orbitShader.loadLineColor(1, 0, 0);
 		orbitShader.loadViewMatrix(w.c);
@@ -107,17 +112,24 @@ public class MasterRenderer
 	
 	public void processEntities(Entity e)
 	{
-		TexturedModel entityModel = e.model;
-		List<Entity> batch = entities.get(entityModel);
-		if(batch != null)
+		if (e.model instanceof TexturedModel)
 		{
-			batch.add(e);
+			TexturedModel entityModel = (TexturedModel)e.model;
+			List<Entity> batch = entities.get(entityModel);
+			if (batch != null)
+			{
+				batch.add(e);
+			}
+			else
+			{
+				List<Entity> newBatch = new ArrayList<Entity>();
+				newBatch.add(e);
+				entities.put(entityModel, newBatch);
+			}
 		}
-		else
+		if(e.model instanceof AnimatedModel)
 		{
-			List<Entity> newBatch = new ArrayList<Entity>();
-			newBatch.add(e);
-			entities.put(entityModel, newBatch);
+			animatedModels.add((AnimatedModel)e.model);
 		}
 	}
 	

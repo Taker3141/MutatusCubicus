@@ -9,6 +9,7 @@ import raycasting.ICollidable;
 import raycasting.IHitBox;
 import raycasting.IHitBox.CollisionData;
 import raycasting.NoHitbox;
+import renderer.models.IModel;
 import renderer.models.TexturedModel;
 import terrain.Terrain;
 import toolbox.Maths;
@@ -17,7 +18,7 @@ import world.World;
 public class Entity implements ICollidable
 {
 	protected static Loader loader = MainManagerClass.loader;
-	public TexturedModel model;
+	public IModel model;
 	public Vector3f position;
 	public float rotX, rotY, rotZ;
 	public float scale;
@@ -27,7 +28,7 @@ public class Entity implements ICollidable
 	public static World w;
 	public final boolean astronomical;
 	
-	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, IHitBox hitBox)
+	public Entity(IModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, IHitBox hitBox)
 	{
 		this.model = model;
 		this.position = position;
@@ -46,6 +47,16 @@ public class Entity implements ICollidable
 		this(model, position, rotX, rotY, rotZ, scale, list, new NoHitbox());
 	}
 	
+	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, IHitBox hitBox)
+	{
+		this((IModel)model, position, rotX, rotY, rotZ, scale, list, hitBox);
+	}
+	
+	public Entity(IModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
+	{
+		this(model, position, rotX, rotY, rotZ, scale, list, new NoHitbox());
+	}
+
 	public void update(World w, Terrain t)
 	{
 		

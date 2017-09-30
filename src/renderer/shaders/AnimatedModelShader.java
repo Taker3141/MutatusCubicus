@@ -2,7 +2,6 @@ package renderer.shaders;
 
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import animation.Joint;
 
 public class AnimatedModelShader extends ShaderProgram
 {
@@ -34,6 +33,7 @@ public class AnimatedModelShader extends ShaderProgram
 	{
 		locationProjectionViewMatrix = super.getUniformLocation("projectionViewMatrix");
 		locationLightDirection = super.getUniformLocation("lightDirection");
+		locationJointTransforms = new int[MAX_JOINTS];
 		for(int i = 0; i < MAX_JOINTS; i++)
 		{
 			locationJointTransforms[i] = super.getUniformLocation("jointTransforms[" + i + "]");
@@ -50,11 +50,11 @@ public class AnimatedModelShader extends ShaderProgram
 		super.loadVector(locationLightDirection, lightDirection);
 	}
 	
-	public void loadJointTransforms(Joint[] jointTransforms)
+	public void loadJointTransforms(Matrix4f[] jointTransforms)
 	{
 		for(int i = 0; i < MAX_JOINTS; i++)
 		{
-			super.loadMatrix(locationJointTransforms[i], jointTransforms[i].getAnimatedTransform());
+			super.loadMatrix(locationJointTransforms[i], jointTransforms[i]);
 		}
 	}
 }

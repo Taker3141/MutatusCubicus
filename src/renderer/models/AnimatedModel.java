@@ -7,7 +7,7 @@ import animation.Animation;
 import animation.Animator;
 import animation.Joint;
 
-public class AnimatedModel
+public class AnimatedModel implements IModel
 {
 	private final Vao model;
 	private final ModelTexture texture;
@@ -70,5 +70,4 @@ public class AnimatedModel
 			addJointsToArray(childJoint, jointMatrices);
 		}
 	}
-	
 }

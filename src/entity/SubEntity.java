@@ -4,7 +4,7 @@ import java.util.List;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import animation.KeyframeAnimation;
-import renderer.models.TexturedModel;
+import renderer.models.IModel;
 import terrain.Terrain;
 import world.World;
 
@@ -13,7 +13,7 @@ public class SubEntity extends Entity
 	public Entity parent;
 	public KeyframeAnimation a;
 	
-	public SubEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, Entity parent)
+	public SubEntity(IModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, Entity parent)
 	{
 		super(model, position, rotX, rotY, rotZ, scale, list);
 		this.parent = parent;

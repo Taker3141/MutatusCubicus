@@ -21,7 +21,7 @@ public class Particle extends Movable
 	public Particle(String textureName, Vector3f position, List<Entity> list, Random r)
 	{
 		super(new TexturedModel(MODEL, new ModelTexture(MainManagerClass.loader.loadTexture("texture/particle/" + textureName))), new Vector3f(position), 0, 0, 0, PARTICLE_SIZE, list, 0.1F);
-		model.getTexture().setUseFakeLightning(true);
+		((TexturedModel)model).getTexture().setUseFakeLightning(true);
 		rotX = r.nextInt(360);
 		rotY = r.nextInt(360);
 		rotZ = r.nextInt(360);

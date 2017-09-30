@@ -30,7 +30,7 @@ public class OrganDigestiveSystem extends Organ
 		if(f instanceof Entity) eating = (Entity)f;
 		food = (IEdible)f;
 		digestion = food.getAmmount() < 100 ? food.getAmmount() : 100;
-		p.organs.setDigestingTexture(eating.model.getTexture().getID());
+		p.organs.setDigestingTexture(((TexturedModel)eating.model).getTexture().getID());
 	}
 	
 	@Override

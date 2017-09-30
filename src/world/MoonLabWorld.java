@@ -104,11 +104,11 @@ public class MoonLabWorld extends World
 			new Entity(createModel("antenna", "texture/metal", 0.4F), new Vector3f(1184, height(1184, 1224), 1224), 0, 45, 0, 50, entities);
 			new Entity(createModel("lab", "texture/concrete", 0), hVector(1577, 1421), 0, 0, 0, 54.8F, entities);
 			Entity biosphere = new Entity(createModel("biosphere_outside", "texture/glass", 0.2F), new Vector3f(1194, height(1194, 1436) - 10, 1436), 0, 0, 0, 120, entities);
-			biosphere.model.getTexture().setHasTransparency(true);
-			biosphere.model.transparencyNumber = 1;
+			((TexturedModel)biosphere.model).getTexture().setHasTransparency(true);
+			((TexturedModel)biosphere.model).transparencyNumber = 1;
 			SubEntity biosphereInside = new SubEntity(createModel("biosphere_inside", "texture/glass", 0.2F), new Vector3f(), 0, 0, 0, 1, entities, biosphere);
-			biosphereInside.model.getTexture().setHasTransparency(true);
-			biosphereInside.model.transparencyNumber = 1;
+			((TexturedModel)biosphereInside.model).getTexture().setHasTransparency(true);
+			((TexturedModel)biosphereInside.model).transparencyNumber = 1;
 			TexturedModel grass = createModel("grass", "texture/plant/grass", 0);
 			grass.getTexture().setUseFakeLightning(true);
 			generateDecoration(grass, 100, biosphere.position.x, biosphere.position.z, 0.5F, 1.5F, 110, true);

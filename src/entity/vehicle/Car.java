@@ -9,6 +9,7 @@ import entity.character.Player;
 import animation.KeyframeAnimation;
 import animation.KeyframeAnimation.Keyframe;
 import raycasting.AABB;
+import renderer.models.TexturedModel;
 import terrain.Terrain;
 import world.MoonLabWorld;
 import world.World;
@@ -26,7 +27,7 @@ public class Car extends Movable
 	{
 		super(MoonLabWorld.createModel("car/car", "texture/metal", 0.2F), position, rotX, rotY, rotZ, scale, list, 1000);
 		Entity roof = new SubEntity(MoonLabWorld.createModel("car/roof", "texture/glass", 0.2F), new Vector3f(0, 0, 0), 0, 0, 0, 1, list, this);
-		roof.model.getTexture().setHasTransparency(true);
+		((TexturedModel)roof.model).getTexture().setHasTransparency(true);
 		new SubEntity(MoonLabWorld.createModel("car/door", "texture/metal", 0.2F), new Vector3f(0.86F, 0.7F, 1.03F), 0, 0, 0, 1, list, this);
 		new SubEntity(MoonLabWorld.createModel("car/doorR", "texture/metal", 0.2F), new Vector3f(-0.76F, 0.7F, 1.03F), 0, 0, 0, 1, list, this);
 		wheel1 = new SubEntity(MoonLabWorld.createModel("car/wheel", "texture/wheel", 0.2F), new Vector3f(0.7F, 0.2F, -1.5F), 0, 0, 0, 1, list, this);

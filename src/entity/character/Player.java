@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.*;
 import raycasting.*;
 import renderer.DisplayManager;
 import renderer.models.DummyModel;
+import renderer.models.TexturedModel;
 import talk.*;
 import talk.ConversationLine.Option;
 import terrain.Terrain;
@@ -114,7 +115,7 @@ public class Player extends Movable implements ICharacter
 				rotY -= dt * 5 * vehicle.v.length();
 			}
 			vehicle.curveTime = (isKeyDown(KEY_A) || isKeyDown(KEY_D) ? vehicle.curveTime + dt : 0);
-			if(isKeyDown(KEY_E)) {vehicle.passenger = null; vehicle = null; position.x += 1.5F; model.transparencyNumber = 1;}
+			if(isKeyDown(KEY_E)) {vehicle.passenger = null; vehicle = null; position.x += 1.5F; ((TexturedModel)model).transparencyNumber = 1;}
 		}
 		if(ship != null)
 		{
@@ -218,7 +219,7 @@ public class Player extends Movable implements ICharacter
 		{
 			vehicle = (Car)e;
 			vehicle.passenger = this;
-			model.transparencyNumber = -1;
+			((TexturedModel)model).transparencyNumber = -1;
 		}
 		if(e instanceof Rocketship && ship == null)
 		{

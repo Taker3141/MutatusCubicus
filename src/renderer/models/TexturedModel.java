@@ -2,7 +2,7 @@ package renderer.models;
 
 import renderer.textures.ModelTexture;
 
-public class TexturedModel implements Comparable<TexturedModel>
+public class TexturedModel implements IModel, Comparable<TexturedModel>
 {
 	private SimpleModel simpleModel;
 	private ModelTexture texture;
