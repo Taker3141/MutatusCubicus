@@ -23,6 +23,7 @@ public class OverlayOrganInfo extends Overlay
 	protected GUIText caption, organName, organInfo;
 	protected GUIText[] organStatus;
 	protected GuiBar[] upgradeBars;
+	protected GUIText[] upgradeTexts;
 	protected GuiElement upgradeBackground;
 	protected Map<OrganType, GuiElement> organPictures = new HashMap<>();
 	protected OrganBox[] boxes = new OrganBox[6];
@@ -59,12 +60,15 @@ public class OverlayOrganInfo extends Overlay
 		organPictures.put(SLIME, slimeForeground);
 		upgradeBackground = new GuiElement(loader.loadTexture("texture/gui/organ/upgrade_background"), new Vector2f(position.x + 290, position.y + 27), new Vector2f(512, 256), null);
 		elements.add(upgradeBackground);
-		upgradeBars = new GuiBar[6];
+		upgradeBars = new GuiBar[6]; upgradeTexts = new GUIText[6];
 		for(int i = 0; i < upgradeBars.length; i++)
 		{
-			upgradeBars[i] = new GuiBar(loader.loadTexture(OrganType.getTextureName(OrganType.values()[i])), new Vector2f(position.x + 300 + (i % 2 * 225), position.y + 223 - (75 * (i / 2))), new Vector2f(200, 50), null);
-			upgradeBars[i].width = 2;
+			OrganType type = OrganType.values()[i];
+			upgradeBars[i] = new GuiBar(loader.loadTexture(OrganType.getTextureName(type)), new Vector2f(position.x + 300 + (i % 2 * 225), position.y + 223 - (75 * (i / 2))), new Vector2f(200, 50), null);
+			upgradeBars[i].width = 2; upgradeBars[i].height = 0.5F;
 			elements.add(upgradeBars[i]);
+			upgradeTexts[i] = new GUIText(o.upgrade.getOrganCurrentLevel(type).getName() + ": ", 1, font, new Vector2f(position.x + 300 + (i % 2 * 225), position.y + 223 - (75 * (i / 2))), 1, false);
+			upgradeTexts[i].isVisible = false;
 		}
 		boxes[0] = new OrganBox(SLIME, new Vector2f(30, 30), new Vector2f(204, 204));
 		boxes[1] = new OrganBox(DIGESTIVE, new Vector2f(78, 76), new Vector2f(153, 124));
@@ -92,8 +96,22 @@ public class OverlayOrganInfo extends Overlay
 		}
 		if(selected != null) organPictures.get(selected.type).color = SELECTED_COLOR;
 		if(selected == null || selected.type != SLIME) slimeForeground.color = STANDARD_COLOR;
+		
+		
 		upgradeBackground.isVisible = selected == null;
-		for(GuiBar bar : upgradeBars) bar.isVisible = selected == null;
+		for(int i = 0; i < upgradeBars.length; i++) 
+		{
+			GuiBar bar = upgradeBars[i];
+			OrganType type = OrganType.values()[i];
+			int level = o.upgrade.getLevel(type);
+			int maxLevel = o.upgrade.getMaxLevel(type);
+			bar.isVisible = selected == null;
+			upgradeTexts[i].isVisible = selected == null;
+			upgradeTexts[i].setText(o.upgrade.getOrganCurrentLevel(type).getName() + ": " + level + "/" + maxLevel);
+			if(o.upgrade.getMaxLevel(type) != 0) bar.size.x = 200 * level / maxLevel;
+			else bar.size.x = 200;
+			bar.width = bar.size.x / 100;
+		}
 		updateInformation();
 	}
 	
@@ -131,7 +149,6 @@ public class OverlayOrganInfo extends Overlay
 				if(organ.getStatus() != null && i < organ.getStatus().length) organStatus[i].setText(organ.getStatus()[i]);
 				else organStatus[i].setText("");
 			}
-			
 		}
 		else
 		{

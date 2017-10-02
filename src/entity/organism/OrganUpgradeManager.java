@@ -36,6 +36,11 @@ public class OrganUpgradeManager
 		return levels.get(type);
 	}
 	
+	public int getMaxLevel(OrganType type)
+	{
+		return organLevels.get(type).length - 1;
+	}
+	
 	public Organ getOrganCurrentLevel(OrganType type)
 	{
 		return organLevels.get(type)[levels.get(type)];
