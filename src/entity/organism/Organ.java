@@ -36,5 +36,20 @@ public abstract class Organ
 	public enum OrganType
 	{
 		SLIME, LIVER, BRAIN, DIGESTIVE, SHAPER, HEART;
+		
+		public static String getTextureName(OrganType type)
+		{
+			final String path = "texture/cube/";
+			switch(type)
+			{
+				case BRAIN: return path + "brain";
+				case DIGESTIVE: return path + "intestines";
+				case HEART:	return path + "heart";
+				case LIVER: return path + "storage_cone";
+				case SHAPER: return path + "shaper";
+				case SLIME: return path + "outer_cube";				
+			}
+			return "";
+		}
 	}
 }

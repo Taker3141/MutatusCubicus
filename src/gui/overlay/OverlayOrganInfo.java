@@ -4,6 +4,7 @@ import java.util.*;
 import entity.organism.*;
 import entity.organism.Organ.OrganType;
 import font.fontMeshCreator.GUIText;
+import gui.element.GuiBar;
 import gui.element.GuiElement;
 import main.MainGameLoop;
 import org.lwjgl.util.vector.Vector2f;
@@ -21,6 +22,8 @@ public class OverlayOrganInfo extends Overlay
 	protected GuiElement slimeForeground;
 	protected GUIText caption, organName, organInfo;
 	protected GUIText[] organStatus;
+	protected GuiBar[] upgradeBars;
+	protected GuiElement upgradeBackground;
 	protected Map<OrganType, GuiElement> organPictures = new HashMap<>();
 	protected OrganBox[] boxes = new OrganBox[6];
 	protected OrganBox selected = null;
@@ -54,6 +57,15 @@ public class OverlayOrganInfo extends Overlay
 			elements.add(element);
 		}
 		organPictures.put(SLIME, slimeForeground);
+		upgradeBackground = new GuiElement(loader.loadTexture("texture/gui/organ/upgrade_background"), new Vector2f(position.x + 290, position.y + 27), new Vector2f(512, 256), null);
+		elements.add(upgradeBackground);
+		upgradeBars = new GuiBar[6];
+		for(int i = 0; i < upgradeBars.length; i++)
+		{
+			upgradeBars[i] = new GuiBar(loader.loadTexture(OrganType.getTextureName(OrganType.values()[i])), new Vector2f(position.x + 300 + (i % 2 * 225), position.y + 223 - (75 * (i / 2))), new Vector2f(200, 50), null);
+			upgradeBars[i].width = 2;
+			elements.add(upgradeBars[i]);
+		}
 		boxes[0] = new OrganBox(SLIME, new Vector2f(30, 30), new Vector2f(204, 204));
 		boxes[1] = new OrganBox(DIGESTIVE, new Vector2f(78, 76), new Vector2f(153, 124));
 		boxes[2] = new OrganBox(HEART, new Vector2f(71, 104), new Vector2f(140, 158));
@@ -80,6 +92,8 @@ public class OverlayOrganInfo extends Overlay
 		}
 		if(selected != null) organPictures.get(selected.type).color = SELECTED_COLOR;
 		if(selected == null || selected.type != SLIME) slimeForeground.color = STANDARD_COLOR;
+		upgradeBackground.isVisible = selected == null;
+		for(GuiBar bar : upgradeBars) bar.isVisible = selected == null;
 		updateInformation();
 	}
 	
