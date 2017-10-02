@@ -6,6 +6,7 @@ import entity.IEdible;
 import entity.character.Player;
 import entity.organism.Organ.OrganType;
 import gui.overlay.OverlayOrganInfo;
+import static entity.organism.Organ.OrganType.*;
 
 public class Organism
 {
@@ -13,18 +14,26 @@ public class Organism
 	protected float extraSlime = 0;
 	protected Player p;
 	
+	public OrganUpgradeManager upgrade;
 	public Map<OrganType, Organ> list = new HashMap<>();
-	protected OrganHeart heart = new OrganHeart(list, this);
-	protected OrganBrain brain = new OrganBrain(list, this);
-	protected OrganShaper shaper = new OrganShaper(list, this);
-	protected OrganLiver liver = new OrganLiver(200, 110, 100, 100, list, this);
-	protected OrganDigestiveSystem digestive = new OrganDigestiveSystem(list, this);
-	protected OrganSlime sime = new OrganSlime(list, this);
+	protected OrganHeart heart;
+	protected OrganBrain brain;
+	protected OrganShaper shaper;
+	protected OrganLiver liver;
+	protected OrganDigestiveSystem digestive;
+	protected OrganSlime slime;
 	public OverlayOrganInfo overlay;
 	
 	public Organism(Player player)
 	{
 		p = player;
+		upgrade = new OrganUpgradeManager(this);
+		heart = (OrganHeart)upgrade.getOrganCurrentLevel(HEART);
+		brain = (OrganBrain)upgrade.getOrganCurrentLevel(BRAIN);
+		shaper = (OrganShaper)upgrade.getOrganCurrentLevel(SHAPER);
+		liver = (OrganLiver)upgrade.getOrganCurrentLevel(LIVER);
+		digestive = (OrganDigestiveSystem)upgrade.getOrganCurrentLevel(DIGESTIVE);
+		slime = (OrganSlime)upgrade.getOrganCurrentLevel(SLIME);
 		overlay = new OverlayOrganInfo(this);
 		overlay.setVisible(false);
 		Entity.w.overlays.add(overlay);
