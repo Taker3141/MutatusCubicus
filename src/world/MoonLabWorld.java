@@ -13,7 +13,7 @@ import renderer.textures.*;
 import terrain.*;
 import entity.*;
 import entity.building.*;
-import entity.character.Player;
+import entity.character.*;
 import entity.vehicle.*;
 
 public class MoonLabWorld extends World
@@ -48,6 +48,7 @@ public class MoonLabWorld extends World
 		}
 		MainGameLoop.reportProgress(40);
 		new Car(hVector(player.position.x - 5, player.position.z), 0, 0, 0, 0.6F, entities);
+		new Human(hVector(1840, 1620), 0, 0, 0, 1, entities, 80);
 		new Rocketship(hVector(1135, 1700), 0, -90, 0, entities);
 		new Rocketship(hVector(1250, 1700), 0, 180, 0, entities);
 		{

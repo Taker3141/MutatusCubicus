@@ -52,7 +52,7 @@ public class AnimatedModelShader extends ShaderProgram
 	
 	public void loadJointTransforms(Matrix4f[] jointTransforms)
 	{
-		for(int i = 0; i < MAX_JOINTS; i++)
+		for(int i = 0; i < MAX_JOINTS && i < jointTransforms.length; i++)
 		{
 			super.loadMatrix(locationJointTransforms[i], jointTransforms[i]);
 		}

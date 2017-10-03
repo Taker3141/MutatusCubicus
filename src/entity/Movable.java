@@ -7,7 +7,7 @@ import raycasting.AABB;
 import raycasting.ICollidable;
 import raycasting.IHitBox.CollisionData;
 import renderer.DisplayManager;
-import renderer.models.TexturedModel;
+import renderer.models.IModel;
 import terrain.Terrain;
 import world.World;
 import raycasting.IHitBox;
@@ -22,7 +22,7 @@ public class Movable extends Entity
 	protected boolean collisionOff = false;
 	private boolean isOnFloor = false;
 	
-	public Movable(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
+	public Movable(IModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list, float mass)
 	{
 		super(model, position, rotX, rotY, rotZ, scale, list);
 		this.mass = mass;
