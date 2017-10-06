@@ -1,6 +1,5 @@
 package entity.organism;
 
-import java.util.Map;
 import org.lwjgl.util.vector.Vector3f;
 import renderer.models.TexturedModel;
 import world.World;
@@ -12,9 +11,9 @@ import entity.character.Player;
 
 public class OrganHeart extends Organ
 {
-	public OrganHeart(Map<OrganType, Organ> list, Organism organism)
+	public OrganHeart(Organism organism)
 	{
-		super(list, organism, OrganType.HEART);
+		super(organism, OrganType.HEART);
 	}
 	
 	@Override

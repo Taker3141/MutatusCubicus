@@ -1,6 +1,5 @@
 package entity.organism;
 
-import java.util.Map;
 import org.lwjgl.util.vector.Vector3f;
 import world.World;
 import animation.KeyframeAnimation;
@@ -11,9 +10,9 @@ import entity.character.Player;
 
 public class OrganShaper extends Organ
 {
-	public OrganShaper(Map<OrganType, Organ> list, Organism organism)
+	public OrganShaper(Organism organism)
 	{
-		super(list, organism, OrganType.SHAPER);
+		super(organism, OrganType.SHAPER);
 	}
 	
 	@Override

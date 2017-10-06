@@ -81,7 +81,11 @@ public class OverlayOrganInfo extends Overlay
 	
 	public void update()
 	{
-		if(!getVisible()) return;
+		if(!getVisible()) 
+		{
+			for(int i = 0; i < upgradeBars.length; i++) upgradeTexts[i].isVisible = false;
+			return;
+		}
 		Vector2f mouse = new Vector2f(MainGameLoop.w.input.getMouseX() - slimeBackground.position.x, (H - MainGameLoop.w.input.getMouseY()) - slimeBackground.position.y);
 		boolean organColored = false;
 		for(int i = 1; i < boxes.length; i++)

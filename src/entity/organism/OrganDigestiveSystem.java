@@ -1,6 +1,5 @@
 package entity.organism;
 
-import java.util.Map;
 import main.MainManagerClass;
 import objLoader.OBJLoader;
 import org.lwjgl.util.vector.Vector3f;
@@ -21,9 +20,9 @@ public class OrganDigestiveSystem extends Organ
 	protected IEdible food;
 	protected Entity eating;
 	
-	public OrganDigestiveSystem(Map<OrganType, Organ> list, Organism organism)
+	public OrganDigestiveSystem(Organism organism)
 	{
-		super(list, organism, OrganType.DIGESTIVE);
+		super(organism, OrganType.DIGESTIVE);
 	}
 	
 	public void eat(IEdible f, Player p)

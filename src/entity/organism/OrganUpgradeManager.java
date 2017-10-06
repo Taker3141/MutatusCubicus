@@ -13,22 +13,24 @@ public class OrganUpgradeManager
 	public OrganUpgradeManager(Organism organism)
 	{
 		levels.put(SLIME, 0);
-		addOrgans(SLIME, new OrganSlime(organism.list, organism));
+		addOrgans(SLIME, new OrganSlime(organism));
 		
-		levels.put(LIVER, 0);
-		addOrgans(LIVER, new OrganLiver(200, 110, 100, 100, organism.list, organism));
+		levels.put(LIVER, 1);
+		Organ[] livers = new Organ[5];
+		for(int i = 0; i < 5; i++) livers[i] = new OrganLiver(i, organism);
+		addOrgans(LIVER, livers);
 		
 		levels.put(BRAIN, 0);
-		addOrgans(BRAIN, new OrganBrain(organism.list, organism));
+		addOrgans(BRAIN, new OrganBrain(organism));
 		
 		levels.put(DIGESTIVE, 0);
-		addOrgans(DIGESTIVE, new OrganDigestiveSystem(organism.list, organism));
+		addOrgans(DIGESTIVE, new OrganDigestiveSystem(organism));
 		
 		levels.put(SHAPER, 0);
-		addOrgans(SHAPER, new OrganShaper(organism.list, organism));
+		addOrgans(SHAPER, new OrganShaper(organism));
 		
 		levels.put(HEART, 0);
-		addOrgans(HEART, new OrganHeart(organism.list, organism));
+		addOrgans(HEART, new OrganHeart(organism));
 	}
 	
 	public int getLevel(OrganType type)

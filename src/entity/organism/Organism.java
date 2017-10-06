@@ -34,6 +34,7 @@ public class Organism
 		liver = (OrganLiver)upgrade.getOrganCurrentLevel(LIVER);
 		digestive = (OrganDigestiveSystem)upgrade.getOrganCurrentLevel(DIGESTIVE);
 		slime = (OrganSlime)upgrade.getOrganCurrentLevel(SLIME);
+		addOrgans(heart, brain, shaper, liver, digestive, slime);
 		overlay = new OverlayOrganInfo(this);
 		overlay.setVisible(false);
 		Entity.w.overlays.add(overlay);
@@ -58,6 +59,11 @@ public class Organism
 	public void addSlime(float slime)
 	{
 		extraSlime += slime;
+	}
+	
+	private void addOrgans(Organ... organs)
+	{
+		for(Organ org : organs) list.put(org.type, org);
 	}
 	
 	public float getSpeed()

@@ -1,6 +1,5 @@
 package entity.organism;
 
-import java.util.Map;
 import org.lwjgl.util.vector.Vector3f;
 import world.World;
 import entity.*;
@@ -8,9 +7,9 @@ import entity.character.Player;
 
 public class OrganBrain extends Organ
 {
-	public OrganBrain(Map<OrganType, Organ> list, Organism organism)
+	public OrganBrain(Organism organism)
 	{
-		super(list, organism, OrganType.BRAIN);
+		super(organism, OrganType.BRAIN);
 	}
 	
 	@Override

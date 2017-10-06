@@ -1,6 +1,5 @@
 package entity.organism;
 
-import java.util.Map;
 import org.lwjgl.util.vector.Vector3f;
 import world.World;
 import animation.KeyframeAnimation;
@@ -17,19 +16,26 @@ public class OrganLiver extends Organ
 	protected float boost;
 	protected float boostCapacity;
 	
-	public OrganLiver(float energyCapacity, float currentEnergy, float boostCapacity, float currentBoost, Map<OrganType, Organ> list, Organism organism)
+	public static float[][] upgradeTable = new float[][]{{0, 0}, {20, 0}, {50, 0}, {100, 50}, {200, 100}};
+	
+	public OrganLiver(float energyCapacity, float boostCapacity, Organism organism)
 	{
-		super(list, organism, OrganType.LIVER);
+		super(organism, OrganType.LIVER);
 		this.energyCapacity = energyCapacity;
-		this.energy = currentEnergy;
+		this.energy = energyCapacity;
 		this.boostCapacity = boostCapacity;
-		this.boost = currentBoost;
+		this.boost = boostCapacity;
+	}
+	
+	public OrganLiver(int level, Organism organism)
+	{
+		this(upgradeTable[level][0], upgradeTable[level][1], organism);
 	}
 	
 	@Override
 	public void update(float delta, Player p)
 	{
-		energy -= delta / 50;
+		energy -= delta / 10;
 		if(energy < 0) energy = 0;
 		if(energy > energyCapacity) energy = energyCapacity;
 		if(energy < 20) p.dyingAnimation = 1 - (energy / 20);
