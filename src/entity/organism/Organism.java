@@ -68,14 +68,14 @@ public class Organism
 	
 	public float getSpeed()
 	{
-		float standardSpeed = 3 + p.scale * 100;
+		float standardSpeed = 3 + p.scale * 100 * heart.powerFactor;
 		if(!boosting) return standardSpeed;
 		else return standardSpeed * 10;
 	}
 	
 	public float getJumpPower()
 	{
-		float standardJump = 3 + p.scale * 200;
+		float standardJump = 3 + p.scale * 200 * heart.powerFactor;
 		if(!boosting) return standardJump;
 		else return standardJump * 2;
 	}

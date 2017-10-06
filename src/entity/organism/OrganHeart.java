@@ -11,9 +11,12 @@ import entity.character.Player;
 
 public class OrganHeart extends Organ
 {
-	public OrganHeart(Organism organism)
+	public final float powerFactor;
+	
+	public OrganHeart(int level, Organism organism)
 	{
 		super(organism, OrganType.HEART);
+		powerFactor = level > 0 ? level * 0.5F + 0.5F : 0;
 	}
 	
 	@Override
@@ -26,6 +29,12 @@ public class OrganHeart extends Organ
 	public String getDescription()
 	{
 		return "Das aus einem Doppeltorus bestehende Herz transportiert durch Kontraktionen energiereiche Stoffe durch Kanäle im Schleim zu den anderen Organen.";
+	}
+	
+	@Override
+	public String[] getStatus()
+	{
+		return new String[]{"Kraft-Faktor: x" + powerFactor};
 	}
 	
 	@Override

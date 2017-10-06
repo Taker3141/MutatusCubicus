@@ -15,7 +15,7 @@ public class OrganUpgradeManager
 		levels.put(SLIME, 0);
 		addOrgans(SLIME, new OrganSlime(organism));
 		
-		levels.put(LIVER, 1);
+		levels.put(LIVER, 4);
 		Organ[] livers = new Organ[5];
 		for(int i = 0; i < 5; i++) livers[i] = new OrganLiver(i, organism);
 		addOrgans(LIVER, livers);
@@ -29,8 +29,10 @@ public class OrganUpgradeManager
 		levels.put(SHAPER, 0);
 		addOrgans(SHAPER, new OrganShaper(organism));
 		
-		levels.put(HEART, 0);
-		addOrgans(HEART, new OrganHeart(organism));
+		levels.put(HEART, 3);
+		Organ[] hearts = new Organ[4];
+		for(int i = 0; i < 4; i++) hearts[i] = new OrganHeart(i, organism);
+		addOrgans(HEART, hearts);
 	}
 	
 	public int getLevel(OrganType type)
