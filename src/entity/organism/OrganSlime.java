@@ -1,6 +1,5 @@
 package entity.organism;
 
-import java.util.Map;
 import main.MainManagerClass;
 import objLoader.OBJLoader;
 import org.lwjgl.util.vector.Vector3f;
@@ -13,9 +12,9 @@ import entity.character.Player;
 
 public class OrganSlime extends Organ
 {
-	public OrganSlime(Map<OrganType, Organ> list, Organism organism)
+	public OrganSlime(Organism organism)
 	{
-		super(list, organism, OrganType.SLIME);
+		super(organism, OrganType.SLIME);
 	}
 	
 	@Override

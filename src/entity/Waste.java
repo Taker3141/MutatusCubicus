@@ -40,4 +40,10 @@ public class Waste extends Entity implements IEdible
 	{
 		return Item.SLIME;
 	}
+
+	@Override
+	public String getName()
+	{
+		return "Müll";
+	}
 }

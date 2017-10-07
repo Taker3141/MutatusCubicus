@@ -40,4 +40,10 @@ public class Rock extends Entity implements IEdible
 	{
 		return Item.DISSOLVED_ROCK;
 	}
+
+	@Override
+	public String getName()
+	{
+		return "Mondgestein";
+	}
 }

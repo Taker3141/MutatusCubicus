@@ -1,6 +1,5 @@
 package entity.organism;
 
-import java.util.Map;
 import org.lwjgl.util.vector.Vector3f;
 import world.World;
 import animation.KeyframeAnimation;
@@ -11,9 +10,39 @@ import entity.character.Player;
 
 public class OrganShaper extends Organ
 {
-	public OrganShaper(Map<OrganType, Organ> list, Organism organism)
+	protected float extraSlime = 0;
+	protected final int level;
+	protected final float[] SIZE_TABLE;
+	
+	public OrganShaper(int level, Organism organism)
 	{
-		super(list, organism, OrganType.SHAPER);
+		super(organism, OrganType.SHAPER);
+		this.level = level;
+		final float normal = organism.p.NORMAL_SIZE, slime = 0.005F;
+		SIZE_TABLE = new float[]{normal, normal, normal + slime * 3, normal + slime * 5, normal + slime * 10, normal + slime * 20};
+	}
+	
+	@Override
+	public void update(float delta, Player p)
+	{
+		if(extraSlime > 0 && p.scale < SIZE_TABLE[level]) {p.scale += 0.01F * delta; extraSlime -= 0.01F * delta;}
+		else extraSlime = 0;
+	}
+	
+	public void addSlime(float slime)
+	{
+		extraSlime += slime;
+	}
+	
+	public float getMaxSize()
+	{
+		return SIZE_TABLE[level];
+	}
+	
+	@Override
+	public String[] getStatus()
+	{
+		return new String[]{"Schleimvolumen: " + Integer.toString((int)((100 * o.p.scale) / (SIZE_TABLE[level]))) + "%"};
 	}
 	
 	@Override

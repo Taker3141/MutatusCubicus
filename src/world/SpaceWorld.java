@@ -24,7 +24,7 @@ public class SpaceWorld extends World
 		Rocketship.init();
 		MainGameLoop.reportProgress(30);
 		moon = new CelestialBody(1738000, 20000, "moon/height", "texture/moon/blend", loadTerrainTexturePack());
-		player = new Player(new Vector3f(0, 1739000, 0), 0, 180, 0, 0.02F, entities);
+		player = new Player(new Vector3f(0, 1739000, 0), 0, 180, 0, entities);
 		overlays.add(player.organs);
 		MainGameLoop.reportProgress(60);
 		ship = new Rocketship(new Vector3f(1, 1739000, 0), 0, 0, 0, entities);

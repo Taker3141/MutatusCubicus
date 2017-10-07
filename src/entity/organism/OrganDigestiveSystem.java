@@ -1,35 +1,37 @@
 package entity.organism;
 
-import java.util.Map;
 import main.MainManagerClass;
 import objLoader.OBJLoader;
 import org.lwjgl.util.vector.Vector3f;
 import renderer.DisplayManager;
 import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
+import world.World;
 import animation.KeyframeAnimation;
 import animation.KeyframeAnimation.Keyframe;
-import entity.Entity;
-import entity.IEdible;
-import entity.SubEntity;
+import entity.*;
 import entity.character.Player;
 
 public class OrganDigestiveSystem extends Organ
 {
+	protected float capacity = 100;
 	protected float digestion = 0;
 	protected IEdible food;
 	protected Entity eating;
+	protected final int level;
+	protected static final float[] SPEED_TABLE = {0, 1, 1, 2, 4, 8};
 	
-	public OrganDigestiveSystem(Map<OrganType, Organ> list, Organism organism)
+	public OrganDigestiveSystem(int level, Organism organism)
 	{
-		super(list, organism, OrganType.DIGESTIVE);
+		super(organism, OrganType.DIGESTIVE);
+		this.level = level;
 	}
 	
 	public void eat(IEdible f, Player p)
 	{
 		if(f instanceof Entity) eating = (Entity)f;
 		food = (IEdible)f;
-		digestion = food.getAmmount() < 100 ? food.getAmmount() : 100;
+		digestion = food.getAmmount() < capacity ? food.getAmmount() : capacity;
 		p.organs.setDigestingTexture(eating.model.getTexture().getID());
 	}
 	
@@ -38,7 +40,7 @@ public class OrganDigestiveSystem extends Organ
 	{
 		if(food != null)
 		{
-			digestion -= food.getType().digestPerSecond * delta;
+			digestion -= SPEED_TABLE[level] * food.getType().digestPerSecond * delta;
 			o.liver.energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
 			if(food.getType() == IEdible.FoodType.FUEL)
 			{
@@ -60,6 +62,26 @@ public class OrganDigestiveSystem extends Organ
 		}
 	}
 	
+	public boolean canDigest(IEdible.FoodType testFood)
+	{
+		switch(testFood)
+		{
+			case GROWTH_MEDIUM: return level >= 1;
+			case TOXIC_WASTE: return level >= 2;
+			case ROCK: return level >= 3;
+			case ORGANIC: return level >= 4;
+			case FUEL: return level >= 1;
+			default: return false;
+		}
+	}
+	
+	@Override
+	public String[] getStatus()
+	{
+		if(digestion > 0 ) return new String[]{"Magenfüllstand: " + (int)digestion + "%", "Nahrung: " + food.getName()};
+		else return new String[]{"Magen leer"};
+	}
+	
 	@Override
 	public String getName()
 	{
@@ -75,13 +97,9 @@ public class OrganDigestiveSystem extends Organ
 	@Override
 	public void loadModels(Player p)
 	{
-		ModelTexture digestive = new ModelTexture(MainManagerClass.loader.loadTexture("texture/cube/intestines"));			
-		TexturedModel upperIntestine = new TexturedModel(OBJLoader.loadOBJModel("upper_intestine"), digestive);
-		new SubEntity(upperIntestine, new Vector3f(-2.97F, 5.9F, 3.42F), 0, 0, 0, 1, Entity.w.entities, p);
-		TexturedModel lowerIntestine = new TexturedModel(OBJLoader.loadOBJModel("lower_intestine"), digestive);
-		new SubEntity(lowerIntestine, new Vector3f(-2.7F, 7.56F, 3.42F), 0, 0, 0, 1, Entity.w.entities, p);
-		TexturedModel stomachModel = new TexturedModel(OBJLoader.loadOBJModel("stomach"), digestive);
-		SubEntity stomach = new SubEntity(stomachModel, new Vector3f(-2.97F, 9.2F, 3.42F), 0, 0, 0, 1, Entity.w.entities, p);
+		if(level < 1) return;
+		ModelTexture digestive = new ModelTexture(MainManagerClass.loader.loadTexture("texture/cube/intestines"), false, 0.2F);			
+		SubEntity stomach = new SubEntity(new TexturedModel(OBJLoader.loadOBJModel("stomach"), digestive), new Vector3f(-2.97F, 9.2F, 3.42F), 0, 0, 0, 1, Entity.w.entities, p);
 		Keyframe[] k = 
 			{
 				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 1), 
@@ -89,5 +107,11 @@ public class OrganDigestiveSystem extends Organ
 				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 1)
 			};
 		stomach.a = new KeyframeAnimation(stomach, k);
+		if(level < 2) return;
+		new SubEntity(World.createModel("gallbladder", "texture/cube/gallbladder", 0.2F), new Vector3f(0, 10, 4.79F), 0, 0, 0, 1, Entity.w.entities, p);
+		if(level < 3) return;
+		new SubEntity(new TexturedModel(OBJLoader.loadOBJModel("upper_intestine"), digestive), new Vector3f(-2.97F, 5.9F, 3.42F), 0, 0, 0, 1, Entity.w.entities, p);
+		if(level < 4) return;
+		new SubEntity(new TexturedModel(OBJLoader.loadOBJModel("lower_intestine"), digestive), new Vector3f(-2.7F, 7.56F, 3.42F), 0, 0, 0, 1, Entity.w.entities, p);
 	}
 }

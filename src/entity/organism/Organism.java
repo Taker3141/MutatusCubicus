@@ -6,25 +6,34 @@ import entity.IEdible;
 import entity.character.Player;
 import entity.organism.Organ.OrganType;
 import gui.overlay.OverlayOrganInfo;
+import static entity.organism.Organ.OrganType.*;
 
 public class Organism
 {
 	protected boolean boosting;
-	private float extraSlime = 0;
-	private Player p;
+	protected Player p;
 	
+	public OrganUpgradeManager upgrade;
 	public Map<OrganType, Organ> list = new HashMap<>();
-	protected OrganHeart heart = new OrganHeart(list, this);
-	protected OrganBrain brain = new OrganBrain(list, this);
-	protected OrganShaper shaper = new OrganShaper(list, this);
-	protected OrganLiver liver = new OrganLiver(100, 110, 100, 100, list, this);
-	protected OrganDigestiveSystem digestive = new OrganDigestiveSystem(list, this);
-	protected OrganSlime sime = new OrganSlime(list, this);
+	protected OrganHeart heart;
+	protected OrganBrain brain;
+	protected OrganShaper shaper;
+	protected OrganLiver liver;
+	protected OrganDigestiveSystem digestive;
+	protected OrganSlime slime;
 	public OverlayOrganInfo overlay;
 	
 	public Organism(Player player)
 	{
 		p = player;
+		upgrade = new OrganUpgradeManager(this);
+		heart = (OrganHeart)upgrade.getOrganCurrentLevel(HEART);
+		brain = (OrganBrain)upgrade.getOrganCurrentLevel(BRAIN);
+		shaper = (OrganShaper)upgrade.getOrganCurrentLevel(SHAPER);
+		liver = (OrganLiver)upgrade.getOrganCurrentLevel(LIVER);
+		digestive = (OrganDigestiveSystem)upgrade.getOrganCurrentLevel(DIGESTIVE);
+		slime = (OrganSlime)upgrade.getOrganCurrentLevel(SLIME);
+		addOrgans(heart, brain, shaper, liver, digestive, slime);
 		overlay = new OverlayOrganInfo(this);
 		overlay.setVisible(false);
 		Entity.w.overlays.add(overlay);
@@ -41,28 +50,41 @@ public class Organism
 		for(Map.Entry<OrganType, Organ> entry : list.entrySet()) entry.getValue().update(delta, p);
 		p.organs.update();
 		overlay.update();
-		if(extraSlime > 0 && p.scale < p.NORMAL_SIZE * p.MAX_SIZE_FACTOR) {p.scale += 0.01F * delta; extraSlime -= 0.01F * delta;}
-		else extraSlime = 0;
 		boosting = boost && (liver.boost > 0);
 	}
 	
 	public void addSlime(float slime)
 	{
-		extraSlime += slime;
+		shaper.addSlime(slime);
+	}
+	
+	private void addOrgans(Organ... organs)
+	{
+		for(Organ org : organs) list.put(org.type, org);
 	}
 	
 	public float getSpeed()
 	{
-		float standardSpeed = 3 + p.scale * 100;
+		float standardSpeed = 3 + p.scale * 100 * heart.powerFactor;
 		if(!boosting) return standardSpeed;
 		else return standardSpeed * 10;
 	}
 	
 	public float getJumpPower()
 	{
-		float standardJump = 3 + p.scale * 200;
+		float standardJump = 3 + p.scale * 200 * heart.powerFactor;
 		if(!boosting) return standardJump;
 		else return standardJump * 2;
+	}
+	
+	public boolean canDigest(IEdible.FoodType testFood)
+	{
+		return digestive.canDigest(testFood);
+	}
+	
+	public float getMaxSize()
+	{
+		return shaper.getMaxSize();
 	}
 	
 	public float getEnergy()

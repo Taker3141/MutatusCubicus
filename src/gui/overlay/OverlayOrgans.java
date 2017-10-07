@@ -5,6 +5,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import renderer.DisplayManager;
 import entity.character.Player;
+import entity.organism.Organism;
 import font.fontMeshCreator.GUIText;
 import gui.element.*;
 import gui.handler.IClickHandler;
@@ -13,6 +14,7 @@ import gui.menu.Menu;
 public class OverlayOrgans extends Overlay
 {
 	protected Player p;
+	protected Organism o;
 	protected final int X = W / 2 - 512;
 	protected final int Y = H / 2 - 128;
 	protected GuiBar digestion, energy, cubeSize, boost;
@@ -27,6 +29,7 @@ public class OverlayOrgans extends Overlay
 		position = new Vector2f(W / 2 - 512, 0);
 		super.size = new Vector2f(1024, 256);
 		this.p = p;
+		o = p.organism;
 		digestion = new GuiBar(loader.loadTexture("texture/cube/intestines"), new Vector2f(X + 765, 74), new Vector2f(198, 48), null);
 		energy = new GuiBar(loader.loadTexture("texture/cube/storage_cone"), new Vector2f(X + 765, 12), new Vector2f(198, 48), null);
 		cubeSize = new GuiBar(loader.loadTexture("texture/gui/organ/slime"), new Vector2f(X + 633, 11), new Vector2f(48, 98), null);
@@ -54,25 +57,25 @@ public class OverlayOrgans extends Overlay
 	
 	public void update()
 	{
-		digestion.width = 2F * p.getDigestion() / 100;
-		digestion.size.x = 198 * p.getDigestion() / 100;
+		digestion.width = 2F * o.getDigestion() / 100;
+		digestion.size.x = 198 * o.getDigestion() / 100;
 		digestion.offsetX -= DisplayManager.getFrameTimeSeconds() / 10;
 		digestion.offsetY = digestion.offsetX;
 		if(digestion.offsetX < 1) {digestion.offsetX += 1; digestion.offsetY += 1;}
 		
-		energy.width = 2F * p.getEnergy() / 200;
-		energy.size.x = 198 * p.getEnergy() / 200;
+		energy.width = 2F * o.getEnergy() / 200;
+		energy.size.x = 198 * o.getEnergy() / 200;
 		energy.offsetX -= DisplayManager.getFrameTimeSeconds() / 40;
 		energy.offsetY = energy.offsetX;
 		if(energy.offsetX < 1) {energy.offsetX += 1; energy.offsetY += 1;}
 		
-		float sizeFactor = (p.scale - p.NORMAL_SIZE) / ((p.NORMAL_SIZE * p.MAX_SIZE_FACTOR) - p.NORMAL_SIZE);
+		float sizeFactor = (p.scale - p.NORMAL_SIZE) / (o.getMaxSize() - p.NORMAL_SIZE);
 		cubeSize.height = sizeFactor;
 		cubeSize.size.y = sizeFactor  * 98;
 		cubeSize.offsetX = cubeSize.offsetY = ((float)Math.sin(DisplayManager.getTime() * 5) - 0.5F) / 2;
 		
-		boost.width = p.getBoost() / 100;
-		boost.size.x = 198 * p.getBoost() / 100;
+		boost.width = o.getBoost() / 100;
+		boost.size.x = 198 * o.getBoost() / 100;
 		boost.offsetY -= DisplayManager.getFrameTimeSeconds() * 4;
 		if(boost.offsetY < 1) boost.offsetY += 1;
 		

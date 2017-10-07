@@ -35,4 +35,10 @@ public class Octanitrocubane extends Movable implements IEdible
 	{
 		return null;
 	}
+
+	@Override
+	public String getName()
+	{
+		return "Octanitrocuban";
+	}
 }
