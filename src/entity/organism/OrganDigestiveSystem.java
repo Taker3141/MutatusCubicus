@@ -8,9 +8,7 @@ import renderer.models.TexturedModel;
 import renderer.textures.ModelTexture;
 import animation.KeyframeAnimation;
 import animation.KeyframeAnimation.Keyframe;
-import entity.Entity;
-import entity.IEdible;
-import entity.SubEntity;
+import entity.*;
 import entity.character.Player;
 
 public class OrganDigestiveSystem extends Organ
@@ -19,10 +17,13 @@ public class OrganDigestiveSystem extends Organ
 	protected float digestion = 0;
 	protected IEdible food;
 	protected Entity eating;
+	protected final int level;
+	protected static final float[] SPEED_TABLE = {0, 1, 1, 2, 4, 8};
 	
-	public OrganDigestiveSystem(Organism organism)
+	public OrganDigestiveSystem(int level, Organism organism)
 	{
 		super(organism, OrganType.DIGESTIVE);
+		this.level = level;
 	}
 	
 	public void eat(IEdible f, Player p)
@@ -38,7 +39,7 @@ public class OrganDigestiveSystem extends Organ
 	{
 		if(food != null)
 		{
-			digestion -= food.getType().digestPerSecond * delta;
+			digestion -= SPEED_TABLE[level] * food.getType().digestPerSecond * delta;
 			o.liver.energy += (food.getEnergy() / (food.getAmmount() / food.getType().digestPerSecond)) * delta;
 			if(food.getType() == IEdible.FoodType.FUEL)
 			{
@@ -57,6 +58,19 @@ public class OrganDigestiveSystem extends Organ
 			eating.position.y = p.position.y + 10 * p.scale;
 			if(eating.scale > 0) eating.scale -= DisplayManager.getFrameTimeSeconds() * 0.1F;
 			else {eating.unregister(); eating = null;}
+		}
+	}
+	
+	public boolean canDigest(IEdible.FoodType testFood)
+	{
+		switch(testFood)
+		{
+			case GROWTH_MEDIUM: return level >= 1;
+			case TOXIC_WASTE: return level >= 2;
+			case ROCK: return level >= 3;
+			case ORGANIC: return level >= 4;
+			case FUEL: return level >= 1;
+			default: return false;
 		}
 	}
 	

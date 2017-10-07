@@ -6,7 +6,7 @@ public interface IEdible
 {
 	static enum FoodType
 	{
-		ROCK(1F), TOXIC_WASTE(10), ORGANIC(2.4F), FUEL(5);
+		ROCK(1F), TOXIC_WASTE(10), ORGANIC(2.4F), FUEL(5), GROWTH_MEDIUM(20);
 		
 		public final float digestPerSecond;
 		

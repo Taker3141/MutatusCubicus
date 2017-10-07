@@ -23,8 +23,10 @@ public class OrganUpgradeManager
 		levels.put(BRAIN, 0);
 		addOrgans(BRAIN, new OrganBrain(organism));
 		
-		levels.put(DIGESTIVE, 0);
-		addOrgans(DIGESTIVE, new OrganDigestiveSystem(organism));
+		levels.put(DIGESTIVE, 5);
+		Organ[] digestiveSystems = new Organ[6];
+		for(int i = 0; i < 6; i++) digestiveSystems[i] = new OrganDigestiveSystem(i, organism);
+		addOrgans(DIGESTIVE, digestiveSystems);
 		
 		levels.put(SHAPER, 0);
 		addOrgans(SHAPER, new OrganShaper(organism));

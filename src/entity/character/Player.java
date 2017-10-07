@@ -158,7 +158,7 @@ public class Player extends Movable implements ICharacter
 			final float distanceSq = 1;
 			for(Entity e : entityList)
 			{
-				if(!(e instanceof IEdible)) continue;
+				if(!(e instanceof IEdible) || !organism.canDigest(((IEdible)e).getType())) continue;
 				if(scale * 10 < e.scale) continue;
 				float dx, dy, dz;
 				dx = position.x - e.position.x; dy = position.y - e.position.y; dz = position.z - e.position.z;

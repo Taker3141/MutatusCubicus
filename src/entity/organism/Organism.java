@@ -80,6 +80,11 @@ public class Organism
 		else return standardJump * 2;
 	}
 	
+	public boolean canDigest(IEdible.FoodType testFood)
+	{
+		return digestive.canDigest(testFood);
+	}
+	
 	public float getEnergy()
 	{
 		return liver.energy;
