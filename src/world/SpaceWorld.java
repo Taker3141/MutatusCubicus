@@ -20,7 +20,7 @@ public class SpaceWorld extends World
 		Rocketship.init();
 		MainGameLoop.reportProgress(30);
 		moon = new Entity(createModel("moon", "texture/moon_dust", 0), new Vector3f(), 0, 0, 0, 3476000, entities);
-		player = new Player(new Vector3f(0, 1739000, 0), 0, 180, 0, 0.02F, entities);
+		player = new Player(new Vector3f(0, 1739000, 0), 0, 180, 0, entities);
 		overlays.add(player.organs);
 		MainGameLoop.reportProgress(60);
 		ship = new Rocketship(new Vector3f(1, 1739000, 0), 0, 0, 0, entities);

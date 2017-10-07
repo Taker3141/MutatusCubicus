@@ -11,7 +11,6 @@ import static entity.organism.Organ.OrganType.*;
 public class Organism
 {
 	protected boolean boosting;
-	protected float extraSlime = 0;
 	protected Player p;
 	
 	public OrganUpgradeManager upgrade;
@@ -51,14 +50,12 @@ public class Organism
 		for(Map.Entry<OrganType, Organ> entry : list.entrySet()) entry.getValue().update(delta, p);
 		p.organs.update();
 		overlay.update();
-		if(extraSlime > 0 && p.scale < p.NORMAL_SIZE * p.MAX_SIZE_FACTOR) {p.scale += 0.01F * delta; extraSlime -= 0.01F * delta;}
-		else extraSlime = 0;
 		boosting = boost && (liver.boost > 0);
 	}
 	
 	public void addSlime(float slime)
 	{
-		extraSlime += slime;
+		shaper.addSlime(slime);
 	}
 	
 	private void addOrgans(Organ... organs)
@@ -83,6 +80,11 @@ public class Organism
 	public boolean canDigest(IEdible.FoodType testFood)
 	{
 		return digestive.canDigest(testFood);
+	}
+	
+	public float getMaxSize()
+	{
+		return shaper.getMaxSize();
 	}
 	
 	public float getEnergy()

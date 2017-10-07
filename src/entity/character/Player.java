@@ -29,27 +29,21 @@ public class Player extends Movable implements ICharacter
 	public OverlayCommunication com;
 	public OverlayOrgans organs;
 	public Inventory inv;
-	public final float NORMAL_SIZE;
-	public final float MAX_SIZE_FACTOR = 2;
+	public final float NORMAL_SIZE = 0.02F;
 	public final int faceTexture;
 	public Inventory transferInv;
 	public ConversationManager conversation;
 	
-	public Player(Vector3f position, float rotX, float rotY, float rotZ, float scale, List<Entity> list)
+	public Player(Vector3f position, float rotX, float rotY, float rotZ, List<Entity> list)
 	{
-		super(new DummyModel(), position, rotX, rotY, rotZ, scale, list, 20);
+		super(new DummyModel(), position, rotX, rotY, rotZ, 0.02F, list, 20);
 		ICharacter.super.register();
 		inv = new Inventory(10);
-		inv.setItem(2, Item.SLIME);
-		inv.setItem(4, Item.DISSOLVED_ROCK);
-		inv.addItem(Item.SLIME); inv.addItem(Item.SLIME); inv.addItem(Item.SLIME);
-		inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK); inv.addItem(Item.DISSOLVED_ROCK);
 		organs = new OverlayOrgans(this);
 		com = new OverlayCommunication(w.characterInfo);
 		conversation = new ConversationManager(com, w);
 		faceTexture = loader.loadTexture("texture/gui/communication/mutatus_cubicus");
 		hitBox = new AABB(position, new Vector3f(0.2F, 0.3F, 0.2F), new Vector3f(-0.1F, 0.15F, -0.1F));
-		NORMAL_SIZE = scale;
 	}
 	
 	@Override
@@ -195,21 +189,6 @@ public class Player extends Movable implements ICharacter
 			return Matrix4f.mul(m1, m2, null);
 		}
 		return super.getTransformationMatrix(correct);
-	}
-	
-	public float getEnergy()
-	{
-		return organism.getEnergy();
-	}
-	
-	public float getDigestion()
-	{
-		return organism.getDigestion();
-	}
-	
-	public float getBoost()
-	{
-		return organism.getBoost();
 	}
 
 	public void clickAt(ICollidable e, Vector3f vec)
