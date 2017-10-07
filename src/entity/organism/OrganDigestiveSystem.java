@@ -20,10 +20,12 @@ public class OrganDigestiveSystem extends Organ
 	protected float digestion = 0;
 	protected IEdible food;
 	protected Entity eating;
+	protected final int level;
 	
-	public OrganDigestiveSystem(Organism organism)
+	public OrganDigestiveSystem(int level, Organism organism)
 	{
 		super(organism, OrganType.DIGESTIVE);
+		this.level = level;
 	}
 	
 	public void eat(IEdible f, Player p)
@@ -83,6 +85,7 @@ public class OrganDigestiveSystem extends Organ
 	@Override
 	public void loadModels(Player p)
 	{
+		if(level < 1) return;
 		ModelTexture digestive = new ModelTexture(MainManagerClass.loader.loadTexture("texture/cube/intestines"), false, 0.2F);			
 		SubEntity stomach = new SubEntity(new TexturedModel(OBJLoader.loadOBJModel("stomach"), digestive), new Vector3f(-2.97F, 9.2F, 3.42F), 0, 0, 0, 1, Entity.w.entities, p);
 		Keyframe[] k = 
@@ -92,8 +95,11 @@ public class OrganDigestiveSystem extends Organ
 				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 1)
 			};
 		stomach.a = new KeyframeAnimation(stomach, k);
+		if(level < 2) return;
 		new SubEntity(World.createModel("gallbladder", "texture/cube/gallbladder", 0.2F), new Vector3f(0, 10, 4.79F), 0, 0, 0, 1, Entity.w.entities, p);
+		if(level < 3) return;
 		new SubEntity(new TexturedModel(OBJLoader.loadOBJModel("upper_intestine"), digestive), new Vector3f(-2.97F, 5.9F, 3.42F), 0, 0, 0, 1, Entity.w.entities, p);
+		if(level < 4) return;
 		new SubEntity(new TexturedModel(OBJLoader.loadOBJModel("lower_intestine"), digestive), new Vector3f(-2.7F, 7.56F, 3.42F), 0, 0, 0, 1, Entity.w.entities, p);
 	}
 }

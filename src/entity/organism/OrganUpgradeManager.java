@@ -24,7 +24,7 @@ public class OrganUpgradeManager
 		addOrgans(BRAIN, new OrganBrain(organism));
 		
 		levels.put(DIGESTIVE, 0);
-		addOrgans(DIGESTIVE, new OrganDigestiveSystem(organism));
+		addOrgans(DIGESTIVE, new OrganDigestiveSystem(4, organism));
 		
 		levels.put(SHAPER, 0);
 		addOrgans(SHAPER, new OrganShaper(organism));
