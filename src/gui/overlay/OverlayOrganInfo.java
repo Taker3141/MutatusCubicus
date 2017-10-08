@@ -9,6 +9,7 @@ import gui.element.GuiElement;
 import main.MainGameLoop;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import renderer.DisplayManager;
 import static entity.organism.Organ.OrganType.*;
 
 public class OverlayOrganInfo extends Overlay
@@ -115,6 +116,7 @@ public class OverlayOrganInfo extends Overlay
 			if(o.upgrade.getMaxLevel(type) != 0) bar.size.x = 200 * level / maxLevel;
 			else bar.size.x = 200;
 			bar.width = bar.size.x / 100;
+			bar.offsetX += DisplayManager.getFrameTimeSeconds() / 30;
 		}
 		updateInformation();
 	}

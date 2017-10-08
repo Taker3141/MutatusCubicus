@@ -42,7 +42,11 @@ public class OrganShaper extends Organ
 	@Override
 	public String[] getStatus()
 	{
-		return new String[]{"Schleimvolumen: " + Integer.toString((int)((100 * o.p.scale) / (SIZE_TABLE[level]))) + "%"};
+		return new String[]
+				{
+				"Schleimvolumen: " + Integer.toString((int)((100 * o.p.scale) / (SIZE_TABLE[level]))) + "%",
+				"Extra-Schleim: " + (int)((o.p.scale - o.p.NORMAL_SIZE) / 0.005F) + "/" + (int)((SIZE_TABLE[level] - o.p.NORMAL_SIZE) / 0.005F),
+				};
 	}
 	
 	@Override

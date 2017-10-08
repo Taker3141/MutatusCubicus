@@ -222,46 +222,11 @@ public class Player extends Movable implements ICharacter
 		else return 0;
 	}
 	
-	@Override
-	public String getID()
-	{
-		return "mutatus_cubicus";
-	}
-
-	@Override
-	public String getFirstName()
-	{
-		return "Mutatus";
-	}
-	
-	@Override
-	public String getLastName()
-	{
-		return "Cubicus";
-	}
-	
-	@Override
-	public int getFaceTexture()
-	{
-		return faceTexture;
-	}
-	
-	@Override
-	public int[] getBirthday()
-	{
-		//20th June 2121
-		return new int[]{20, 7, 2121};
-	}
-	
-	@Override
-	public Gender getGender()
-	{
-		return Gender.OTHER;
-	}
-	
-	@Override
-	public String getProfession()
-	{
-		return "Cubicus-Prototyp";
-	}
+	@Override public String getID() {return "mutatus_cubicus";}
+	@Override public String getFirstName() {return "Mutatus";}
+	@Override public String getLastName() {return "Cubicus";}
+	@Override public int getFaceTexture() {return faceTexture;}
+	@Override public int[] getBirthday() {return new int[]{20, 7, 2121};} //20th June 2121
+	@Override public Gender getGender() {return Gender.OTHER;}
+	@Override public String getProfession() {return "Cubicus-Prototyp";}
 }

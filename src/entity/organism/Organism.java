@@ -53,16 +53,6 @@ public class Organism
 		boosting = boost && (liver.boost > 0);
 	}
 	
-	public void addSlime(float slime)
-	{
-		shaper.addSlime(slime);
-	}
-	
-	private void addOrgans(Organ... organs)
-	{
-		for(Organ org : organs) list.put(org.type, org);
-	}
-	
 	public float getSpeed()
 	{
 		float standardSpeed = 3 + p.scale * 100 * heart.powerFactor;
@@ -77,33 +67,14 @@ public class Organism
 		else return standardJump * 2;
 	}
 	
-	public boolean canDigest(IEdible.FoodType testFood)
-	{
-		return digestive.canDigest(testFood);
-	}
-	
-	public float getMaxSize()
-	{
-		return shaper.getMaxSize();
-	}
-	
-	public float getEnergy()
-	{
-		return liver.energy;
-	}
-	
-	public float getDigestion()
-	{
-		return digestive.digestion;
-	}
-	
-	public Entity getEating()
-	{
-		return digestive.eating;
-	}
-	
-	public float getBoost()
-	{
-		return liver.boost;
-	}
+	public boolean canDigest(IEdible.FoodType testFood) {return digestive.canDigest(testFood);}	
+	public void addSlime(float slime) {shaper.addSlime(slime);}
+	public float getMaxSize() {return shaper.getMaxSize();}
+	public float getEnergy() {return liver.energy;}
+	public float getMaxEnergy() {return liver.energyCapacity;}
+	public float getDigestion() {return digestive.digestion;}
+	public float getStomachCapacity() {return digestive.capacity;}
+	public Entity getEating() {return digestive.eating;}
+	public float getBoost() {return liver.boost;}
+	private void addOrgans(Organ... organs) {for(Organ org : organs) list.put(org.type, org);}
 }

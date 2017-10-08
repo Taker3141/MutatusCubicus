@@ -63,8 +63,8 @@ public class OverlayOrgans extends Overlay
 		digestion.offsetY = digestion.offsetX;
 		if(digestion.offsetX < 1) {digestion.offsetX += 1; digestion.offsetY += 1;}
 		
-		energy.width = 2F * o.getEnergy() / 200;
-		energy.size.x = 198 * o.getEnergy() / 200;
+		energy.width = 2F * o.getEnergy() / o.getMaxEnergy();
+		energy.size.x = 198 * o.getEnergy() / o.getMaxEnergy();
 		energy.offsetX -= DisplayManager.getFrameTimeSeconds() / 40;
 		energy.offsetY = energy.offsetX;
 		if(energy.offsetX < 1) {energy.offsetX += 1; energy.offsetY += 1;}
