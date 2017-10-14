@@ -69,6 +69,7 @@ public class MoonLabWorld extends World
 			new ReactorBuilding(new Vector3f(1062, height(1062, 2004) - 1, 2004), 0, 90, 0, entities, this);
 			new LivingBuilding(new Vector3f(1361, height(1361, 1498) - 1, 1498), 0, 0, 0, entities);
 			new ChemicalReactorBuilding(new Vector3f(1824, height(1824, 1694) - 1, 1714), 0, 0, 0, entities);
+			new LabBuilding(hVector(1577, 1421), entities);
 			{
 				FuelGenerator.init();
 				FuelGenerator fuelGenerator = new FuelGenerator(hVector(1510, 1936), 0, 0, 0, entities);
@@ -102,7 +103,6 @@ public class MoonLabWorld extends World
 				}
 			}
 			new Entity(createModel("antenna", "texture/metal", 0.4F), new Vector3f(1184, height(1184, 1224), 1224), 0, 45, 0, 50, entities);
-			new Entity(createModel("lab", "texture/concrete", 0), hVector(1577, 1421), 0, 0, 0, 54.8F, entities);
 			Entity biosphere = new Entity(createModel("biosphere_outside", "texture/glass", 0.2F), new Vector3f(1194, height(1194, 1436) - 10, 1436), 0, 0, 0, 120, entities);
 			biosphere.model.getTexture().setHasTransparency(true);
 			biosphere.model.transparencyNumber = 1;
@@ -134,7 +134,7 @@ public class MoonLabWorld extends World
 			e.update(this, terrain(e.position.x, e.position.z));
 			if(!e.invisible) renderer.processEntities(e);
 		}
-		
+		if(isKeyDown(KEY_H))player.position.y = 70;
 		mouse.updateList(overlays);
 		input.poll(Display.getWidth(), Display.getHeight());
 		float lightCosine = (float)Math.cos(timeOfDay * 2 * 3.14159265358F); 
