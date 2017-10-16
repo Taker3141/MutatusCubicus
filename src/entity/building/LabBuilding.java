@@ -14,7 +14,7 @@ public class LabBuilding extends Building
 	public LabBuilding(Vector3f position, List<Entity> list)
 	{
 		super(World.createModel("lab", "texture/concrete", 0), position, 0, 0, 0, 54.8F, list);
-		new Entity(World.createModel("square", "texture/lab/final_assembly", 0), new Vector3f(position.x + scale, 0.01F + position.y + 0.9F * scale, position.z - scale), 0, 0, 0, scale, list);
+		loadSection(Section.FINAL_ASSEMBLY);
 	}
 	
 	@Override
@@ -28,5 +28,20 @@ public class LabBuilding extends Building
 	public void update(World w, Terrain t)
 	{
 		
+	}
+	
+	public void loadSection(Section section)
+	{
+		switch(section)
+		{
+			case FINAL_ASSEMBLY:
+				new Entity(World.createModel("square", "texture/lab/final_assembly", 0), new Vector3f(position.x + scale, 0.01F + position.y + 0.9F * scale, position.z - scale), 0, 0, 0, scale, entityList);
+				break;
+		}
+	}
+	
+	public enum Section
+	{
+		FINAL_ASSEMBLY
 	}
 }

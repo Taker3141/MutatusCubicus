@@ -27,6 +27,6 @@ public class OrganBrain extends Organ
 	@Override
 	public void loadModels(Player p)
 	{
-		new SubEntity(World.createModel("brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, Entity.w.entities, p);
+		new SubEntity(World.createModel("cube/brain", "texture/cube/brain", 0.5F), new Vector3f(5, 12.87F, -4), 0, 0, 0, 1, Entity.w.entities, p);
 	}
 }

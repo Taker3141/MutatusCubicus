@@ -40,7 +40,7 @@ public class OrganHeart extends Organ
 	@Override
 	public void loadModels(Player p)
 	{
-		TexturedModel heart = World.createModel("heart", "texture/cube/heart", 0.5F);
+		TexturedModel heart = World.createModel("cube/heart", "texture/cube/heart", 0.5F);
 		SubEntity heart1 = new SubEntity(heart, new Vector3f(-0.35F, 10, -2.58F), 0, 0, 0, 1, Entity.w.entities, p);
 		SubEntity heart2 = new SubEntity(heart, new Vector3f(-2.33F, 10, -2.58F), 90, 0, 0, 1, Entity.w.entities, p);
 		Keyframe[] k1 = 
