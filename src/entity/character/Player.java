@@ -140,7 +140,7 @@ public class Player extends Movable implements ICharacter
 			else if(inv.getSelectedItem() != null && useItem(inv.getSelectedItem())) inv.setItem(inv.getSelectedSlot(), null);
 		}
 		if(!isKeyDown(KEY_RETURN) && !talkFlag) talkFlag = true;
-		if(isKeyDown(KEY_F12)) System.out.println(position);
+		if(isKeyDown(KEY_F12)) System.out.println(new Vector3f(position.x - 1577, position.y, position.z - 1421));
 		if(isKeyDown(KEY_F2)) 
 		{
 			ConversationLine startLine = (ConversationLine.fromStringArray(this, "Line 1", "Line 2", "Line 3", "Line 4", "Line 5"));

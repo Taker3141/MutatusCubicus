@@ -4,6 +4,7 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
 import raycasting.IHitBox;
+import renderer.models.TexturedModel;
 import terrain.Terrain;
 import world.World;
 import entity.Entity;
@@ -35,7 +36,14 @@ public class LabBuilding extends Building
 		switch(section)
 		{
 			case FINAL_ASSEMBLY:
-				new Entity(World.createModel("square", "texture/lab/final_assembly", 0), new Vector3f(position.x + scale, 0.01F + position.y + 0.9F * scale, position.z - scale), 0, 0, 0, scale, entityList);
+				float x = position.x, y = 0.01F + position.y + 0.9F * scale, z = position.z;
+				new Entity(World.createModel("square", "texture/lab/final_assembly", 0), new Vector3f(x + scale, y, z - scale), 0, 0, 0, scale, entityList);
+				new Entity(World.createModel("lab/slime_tank", "texture/metal", 0.2F), new Vector3f(x + 87.5F, y, z - 108.8F), 0, 0, 0, scale / 10.3F, entityList);
+				TexturedModel slimeCast = World.createModel("lab/slime_cast", "texture/metal", 0.2F);
+				new Entity(slimeCast, new Vector3f(x + 82.1F, y, z - 87.6F), 0, 0, 0, 1, entityList);
+				new Entity(slimeCast, new Vector3f(x + 82.1F, y, z - 98.6F), 0, 0, 0, 1, entityList);
+				new Entity(slimeCast, new Vector3f(x + 71.2F, y, z - 87.6F), 0, 0, 0, 1, entityList);
+				new Entity(slimeCast, new Vector3f(x + 71.2F, y, z - 98.6F), 0, 0, 0, 1, entityList);
 				break;
 		}
 	}
