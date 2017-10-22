@@ -38,7 +38,7 @@ public class AABB implements IHitBox
 		if(point.x < corner1.x || point.x > corner2.x) return null;
 		if(point.y < corner1.y || point.y > corner2.y) return null;
 		if(point.z < corner1.z || point.z > corner2.z) return null;
-		return new CollisionData(location, findNormal(point), false, type, location.y - size.y);
+		return new CollisionData(location, findNormal(point), false, type, location.y - size.y + offset.y);
 	}
 	
 	@Override
