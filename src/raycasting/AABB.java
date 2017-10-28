@@ -12,6 +12,7 @@ public class AABB implements IHitBox
 {
 	public Vector3f location, size, offset;
 	public final boolean floating;
+	public boolean enabled = true;
 	private IHitBox.Type type;
 
 	public AABB(Vector3f location, Vector3f size, Vector3f offset)
@@ -35,6 +36,7 @@ public class AABB implements IHitBox
 	@Override
 	public CollisionData isInside(Vector3f point)
 	{
+		if(!enabled) return null;
 		Vector3f corner1 = Vector3f.add(location, offset, null);
 		Vector3f corner2 = Vector3f.add(corner1, size, null);
 		if(corner1.x > corner2.x) {float x = corner1.x; corner1.x = corner2.x; corner2.x = x;}
@@ -49,6 +51,7 @@ public class AABB implements IHitBox
 	@Override
 	public CollisionData isInside(IHitBox box)
 	{
+		if(!enabled) return null;
 		CollisionData ret;
 		Vector3f c1 = Vector3f.add(location, offset, null);
 		Vector3f c2 = Vector3f.add(c1, size, null);

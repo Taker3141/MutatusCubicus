@@ -1,6 +1,7 @@
 package entity.building;
 
 import java.util.List;
+import java.util.Random;
 import org.lwjgl.util.vector.Vector3f;
 import raycasting.AABB;
 import raycasting.IHitBox;
@@ -45,8 +46,16 @@ public class LabBuilding extends Building
 				new Entity(slimeCast, new Vector3f(x + 82.1F, y, z - 98.6F), 0, 0, 0, 1, entityList);
 				new Entity(slimeCast, new Vector3f(x + 71.2F, y, z - 87.6F), 0, 0, 0, 1, entityList);
 				new Entity(slimeCast, new Vector3f(x + 71.2F, y, z - 98.6F), 0, 0, 0, 1, entityList);
-				for(int i = 0; i < 70; i++) new SlimeCell(World.createModel("lab/storage_cell", "texture/metal", 0.2F), new Vector3f(x + 18 + 1.5F * (i % 35), y + (i / 35) * 1.5F, z - 0.2F), 0, 0, 0, 0.5F, entityList).configureHitbox(1.5F);
-				for(int i = 0; i < 20; i++) new SlimeCell(World.createModel("lab/test_cell", "texture/metal", 0.2F), new Vector3f(x + 85 + 21 * (i / 10), y, z - (0.2F + 5F * (i % 10))), 0, 90, 0, 1, entityList).configureHitbox(5);
+				Random r = new Random(314);
+				for(int i = 0; i < 70; i++) new SlimeCell(World.createModel("lab/storage_cell", "texture/metal", 0.2F), new Vector3f(x + 18 + 1.5F * (i % 35), y + (i / 35) * 1.5F, z - 0.2F), 0, 0, 0, 0.5F, 1.5F, entityList).configureHitbox(3);
+				for(int i = 0; i < 20; i++) 
+				{
+					SlimeCell cell = new SlimeCell(World.createModel("lab/test_cell", "texture/metal", 0.2F), new Vector3f(x + 85 + 21 * (i / 10), y, z - (0.2F + 5F * (i % 10))), 0, 90, 0, 1, 5, entityList);
+					if(i < 10) cell.addField(new Vector3f(1, 1, 0), new Vector3f(0, 0, -1), new Vector3f(90, 0, 0));
+					else cell.addField(new Vector3f(1, 1, 0), new Vector3f(), new Vector3f(90, 0, 0));
+					cell.configureHitbox(3 - (i / 10));
+					cell.setOpen(r.nextInt() % 2 == 0);
+				}
 				break;
 		}
 	}
