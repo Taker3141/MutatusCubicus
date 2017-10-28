@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
 public class AABB implements IHitBox
 {
 	public Vector3f location, size, offset;
+	public final boolean floating;
 	private IHitBox.Type type;
 
 	public AABB(Vector3f location, Vector3f size, Vector3f offset)
@@ -19,12 +20,16 @@ public class AABB implements IHitBox
 		this.size = size;
 		this.offset = offset;
 		type = IHitBox.Type.OBJECT;
+		floating = false;
 	}
 	
-	public AABB(Vector3f location, Vector3f size, Vector3f offset, IHitBox.Type collisionType)
+	public AABB(Vector3f location, Vector3f size, Vector3f offset, IHitBox.Type collisionType, boolean floating)
 	{
-		this(location, size, offset);
+		this.location = location;
+		this.size = size;
+		this.offset = offset;
 		type = collisionType;
+		this.floating = floating;
 	}
 	
 	@Override
@@ -64,7 +69,7 @@ public class AABB implements IHitBox
 		HashMap<Vector3f, Float> dist = new HashMap<Vector3f, Float>();
 		dist.put(new Vector3f(-1, 0, 0), Math.abs(point.x - corner.x));
 		dist.put(new Vector3f(1, 0, 0), Math.abs(point.x - (corner.x + size.x)));
-		//dist.put(new Vector3f(0, -1, 0), Math.abs(point.y - corner.y));
+		if(floating) dist.put(new Vector3f(0, -1, 0), Math.abs(point.y - corner.y));
 		dist.put(new Vector3f(0, 1, 0), Math.abs(point.y - (corner.y + size.y)));
 		dist.put(new Vector3f(0, 0, -1), Math.abs(point.z - corner.z));
 		dist.put(new Vector3f(0, 0, 1), Math.abs(point.z - (corner.z + size.z)));
