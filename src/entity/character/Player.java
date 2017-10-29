@@ -25,6 +25,8 @@ public class Player extends Movable implements ICharacter
 	public float dyingAnimation = 0;
 	private float currentTurnSpeed = 0;
 	private boolean talkFlag = true;
+	private float squish = 0;
+	private float jumpAnimation = 0;
 	
 	public OverlayCommunication com;
 	public OverlayOrgans organs;
@@ -56,12 +58,17 @@ public class Player extends Movable implements ICharacter
 		organism.update(delta, isKeyDown(KEY_LSHIFT));
 		conversation.update();
 		com.update(false);
+		if(position.y - terrain.getHeight(position.x, position.z) < 1 && isInAir && v.y < 0) jumpAnimation = -1;
+		if(jumpAnimation == 1 && squish < 1) squish += DisplayManager.getFrameTimeSeconds() * 3;
+		if(jumpAnimation == -1 && squish > -1) squish -= DisplayManager.getFrameTimeSeconds() * 3;
+		if(squish <= -1 || squish >= 1 || jumpAnimation == 0) {squish = 0; jumpAnimation = 0;}
 		super.update(w, terrain);
 	}
 	
 	private void jump()
 	{
 		v.y = organism.getJumpPower();
+		jumpAnimation = 1;
 		isInAir = true;
 	}
 	
@@ -187,6 +194,14 @@ public class Player extends Movable implements ICharacter
 			m2.m13 = dyingAnimation * 0.08F;
 			m2.m11 *= 1 - dyingAnimation * 0.5;
 			return Matrix4f.mul(m1, m2, null);
+		}
+		if (jumpAnimation != 0)
+		{
+			Matrix4f m1 = new Matrix4f();
+			m1.setIdentity();
+			m1.m11 = (float) (1 + 0.1 * Math.sin(3.141592 * squish));
+			m1.m00 = m1.m22 = (float) (1 - 0.1 * Math.sin(3.141592 * squish));
+			return Matrix4f.mul(super.getTransformationMatrix(correct), m1, null);
 		}
 		return super.getTransformationMatrix(correct);
 	}
