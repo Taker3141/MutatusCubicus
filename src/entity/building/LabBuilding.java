@@ -10,6 +10,7 @@ import terrain.Terrain;
 import world.World;
 import entity.Entity;
 import entity.SlimeCell;
+import entity.SubEntity;
 
 public class LabBuilding extends Building
 {
@@ -41,11 +42,16 @@ public class LabBuilding extends Building
 				float x = position.x, y = 0.01F + position.y + 0.9F * scale, z = position.z;
 				new Entity(World.createModel("square", "texture/lab/final_assembly", 0), new Vector3f(x + scale, y, z - scale), 0, 0, 0, scale, entityList);
 				new Entity(World.createModel("lab/slime_tank", "texture/lab/slime_tank", 0.2F), new Vector3f(x + 87.5F, y, z - 108.8F), 0, 0, 0, scale / 10.3F, entityList);
-				TexturedModel slimeCast = World.createModel("lab/slime_cast", "texture/metal", 0.2F);
-				new Entity(slimeCast, new Vector3f(x + 82.1F, y, z - 87.6F), 0, 0, 0, 1, entityList);
-				new Entity(slimeCast, new Vector3f(x + 82.1F, y, z - 98.6F), 0, 0, 0, 1, entityList);
-				new Entity(slimeCast, new Vector3f(x + 71.2F, y, z - 87.6F), 0, 0, 0, 1, entityList);
-				new Entity(slimeCast, new Vector3f(x + 71.2F, y, z - 98.6F), 0, 0, 0, 1, entityList);
+				TexturedModel slimeCast = World.createModel("lab/slime_cast", "texture/lab/slime_cast", 0.2F);
+				Entity[] slimeCasts = new Entity[4];
+				slimeCasts[0] = new Entity(slimeCast, new Vector3f(x + 82.1F, y, z - 87.6F), 0, 0, 0, 1, entityList);
+				slimeCasts[1] = new Entity(slimeCast, new Vector3f(x + 82.1F, y, z - 98.6F), 0, 0, 0, 1, entityList);
+				slimeCasts[2] = new Entity(slimeCast, new Vector3f(x + 71.2F, y, z - 87.6F), 0, 0, 0, 1, entityList);
+				slimeCasts[3] = new Entity(slimeCast, new Vector3f(x + 71.2F, y, z - 98.6F), 0, 0, 0, 1, entityList);
+				Entity growingSlime = new SubEntity(World.createModel("cube/outer_cube", "texture/cube/outer_cube", 0), new Vector3f(-1, 0.5F, -1), 0, 0, 0, 0.05F, entityList, slimeCasts[3]);
+				growingSlime.model.getTexture().setHasTransparency(true);
+				growingSlime = new SubEntity(World.createModel("cube/half_cube", "texture/cube/outer_cube", 0), new Vector3f(-1, 0.5F, -1), 0, 0, 0, 0.05F, entityList, slimeCasts[0]);
+				growingSlime.model.getTexture().setHasTransparency(true);
 				Random r = new Random(314);
 				TexturedModel storageCellModel = World.createModel("lab/storage_cell", "texture/metal", 0.2F);
 				for(int i = 0; i < 70; i++) new SlimeCell(storageCellModel, new Vector3f(x + 18 + 1.5F * (i % 35), y + (i / 35) * 1.5F, z - 0.2F), 0, 0, 0, 0.5F, 1.5F, entityList).configureHitbox(3);
