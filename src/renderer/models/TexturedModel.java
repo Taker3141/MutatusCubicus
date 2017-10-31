@@ -27,6 +27,6 @@ public class TexturedModel implements Comparable<TexturedModel>
 	@Override
 	public int compareTo(TexturedModel o)
 	{
-		return Integer.compare(transparencyNumber, o.transparencyNumber);
+		return transparencyNumber == o.transparencyNumber ? 0 : (transparencyNumber > o.transparencyNumber ? -1 : 1);
 	}
 }

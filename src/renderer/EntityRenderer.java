@@ -1,6 +1,5 @@
 package renderer;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.lwjgl.opengl.GL11;
@@ -35,7 +34,7 @@ public class EntityRenderer
 	{
 		TexturedModel[] models = new TexturedModel[entities.size()];
 		entities.keySet().toArray(models);
-		if(renderTransparency) Arrays.sort(models);
+		//if(renderTransparency) Arrays.sort(models);
 		for(TexturedModel m : models)
 		{
 			if(m instanceof DummyModel) continue;

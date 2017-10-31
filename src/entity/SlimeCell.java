@@ -48,7 +48,6 @@ public class SlimeCell extends Entity
 	public SubEntity addField(Vector3f p, Vector3f o, Vector3f r)
 	{
 		SubEntity field = new SubEntity(World.createModel("double_square", "texture/glass", 0.1F), Vector3f.add((Vector3f)p.scale(length / 2), (Vector3f)o.scale(length), null), r.x, r.y, r.z, 2.5F, entityList, this);
-		System.out.println(length);
 		field.model.getTexture().setHasTransparency(true);
 		field.model.transparencyNumber = 1;
 		return field;
