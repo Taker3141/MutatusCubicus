@@ -80,12 +80,20 @@ public class Movable extends Entity
 					{
 						((Movable)this).v = data.normal.normalise(null);
 					}
-					else if(data.type == IHitBox.Type.FLOOR && ((Movable)this).v.y < 0) 
+					else if(data.type == IHitBox.Type.FLOOR) 
 					{
-						((Movable)this).v.y = 0;
+						if(v.y < 0) 
+						{
+							this.position.y = data.height;
+							((Movable)this).v.y = 0;
+						}
+						if(((AABB)hitBox).location.y < data.height)
+						{
+							position.y = data.height - ((AABB)hitBox).size.y;
+							v.y = 0;
+						}
 						((Movable)this).isInAir = false;
 						isOnFloor = true;
-						this.position.y = data.height;
 					}
 					if(data.type == IHitBox.Type.WALL)
 					{

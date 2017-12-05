@@ -64,7 +64,7 @@ public class OrganShaper extends Organ
 	@Override
 	public void loadModels(Player p)
 	{
-		SubEntity shaper = new SubEntity(World.createModel("shaper", "texture/cube/shaper", 0.5F), new Vector3f(5.47F, 6.76F, 3.12F), 0, 0, 0, 1, Entity.w.entities, p);
+		SubEntity shaper = new SubEntity(World.createModel("cube/shaper", "texture/cube/shaper", 0.5F), new Vector3f(5.47F, 6.76F, 3.12F), 0, 0, 0, 1, Entity.w.entities, p);
 		Keyframe[] k = 
 			{
 				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 0.2F),

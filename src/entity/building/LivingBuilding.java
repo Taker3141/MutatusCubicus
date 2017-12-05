@@ -18,7 +18,7 @@ public class LivingBuilding extends Building
 	protected void initializeWalls()
 	{
 		walls = new AABB[9];
-		walls[0] = new AABB(new Vector3f(position.x, position.y + 0.5F, position.z), new Vector3f(100, 0.1F, -100), new Vector3f(0, 0, 0), IHitBox.Type.FLOOR);
+		walls[0] = new AABB(new Vector3f(position.x, position.y + 0.5F, position.z), new Vector3f(100, 0.1F, -100), new Vector3f(0, 0, 0), IHitBox.Type.FLOOR, false);
 		walls[1] = new Floor(new Vector3f(position.x, position.y + 5, position.z), new Vector3f(100, 0.1F, -100), new Vector3f(0, 0, 0),
 				new AABB[]{new AABB(new Vector3f(position.x + 95, position.y + 5, position.z - 95), new Vector3f(3F, 0.1F, -3F), new Vector3f(0, 0, 0))});
 		walls[2] = new Floor(new Vector3f(position.x, position.y + 10, position.z), new Vector3f(100, 0.1F, -100), new Vector3f(0, 0, 0),

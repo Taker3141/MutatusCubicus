@@ -8,7 +8,7 @@ public class Floor extends AABB
 	
 	public Floor(Vector3f location, Vector3f size, Vector3f offset, AABB[] holes)
 	{
-		super(location, size, offset, IHitBox.Type.FLOOR);
+		super(location, size, offset, IHitBox.Type.FLOOR, false);
 		this.holes = holes;
 	}
 	

@@ -43,7 +43,7 @@ public class ReactorBuilding extends Building
 		{
 			int pVector = i * 2, sVector = i * 2 + 1;
 			Vector3f p = Vector3f.add(position, (Vector3f)wallData[pVector], null);
-			walls[i] = new AABB(p, (Vector3f)wallData[sVector], new Vector3f(0, 0, 0), i < 4 ? Type.FLOOR : Type.WALL);
+			walls[i] = new AABB(p, (Vector3f)wallData[sVector], new Vector3f(0, 0, 0), i < 4 ? Type.FLOOR : Type.WALL, false);
 		}
 	}
 	

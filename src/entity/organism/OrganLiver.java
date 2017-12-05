@@ -67,7 +67,7 @@ public class OrganLiver extends Organ
 	@Override
 	public void loadModels(Player p)
 	{
-		SubEntity liver = new SubEntity(World.createModel("liver", "texture/cube/storage_cone", 0.5F), new Vector3f(-5.8F, 6.18F, -6.18F), 0, 0, 0, 1, Entity.w.entities, p);
+		SubEntity liver = new SubEntity(World.createModel("cube/liver", "texture/cube/storage_cone", 0.5F), new Vector3f(-5.8F, 6.18F, -6.18F), 0, 0, 0, 1, Entity.w.entities, p);
 		Keyframe[] k = 
 			{
 				new Keyframe(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0, 20F),

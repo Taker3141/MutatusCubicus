@@ -11,6 +11,8 @@ import org.lwjgl.util.vector.Vector3f;
 public class AABB implements IHitBox
 {
 	public Vector3f location, size, offset;
+	public final boolean floating;
+	public boolean enabled = true;
 	private IHitBox.Type type;
 
 	public AABB(Vector3f location, Vector3f size, Vector3f offset)
@@ -19,17 +21,22 @@ public class AABB implements IHitBox
 		this.size = size;
 		this.offset = offset;
 		type = IHitBox.Type.OBJECT;
+		floating = false;
 	}
 	
-	public AABB(Vector3f location, Vector3f size, Vector3f offset, IHitBox.Type collisionType)
+	public AABB(Vector3f location, Vector3f size, Vector3f offset, IHitBox.Type collisionType, boolean floating)
 	{
-		this(location, size, offset);
+		this.location = location;
+		this.size = size;
+		this.offset = offset;
 		type = collisionType;
+		this.floating = floating;
 	}
 	
 	@Override
 	public CollisionData isInside(Vector3f point)
 	{
+		if(!enabled) return null;
 		Vector3f corner1 = Vector3f.add(location, offset, null);
 		Vector3f corner2 = Vector3f.add(corner1, size, null);
 		if(corner1.x > corner2.x) {float x = corner1.x; corner1.x = corner2.x; corner2.x = x;}
@@ -38,12 +45,13 @@ public class AABB implements IHitBox
 		if(point.x < corner1.x || point.x > corner2.x) return null;
 		if(point.y < corner1.y || point.y > corner2.y) return null;
 		if(point.z < corner1.z || point.z > corner2.z) return null;
-		return new CollisionData(location, findNormal(point), false, type, location.y - size.y);
+		return new CollisionData(location, findNormal(point), false, type, location.y - size.y + offset.y);
 	}
 	
 	@Override
 	public CollisionData isInside(IHitBox box)
 	{
+		if(!enabled) return null;
 		CollisionData ret;
 		Vector3f c1 = Vector3f.add(location, offset, null);
 		Vector3f c2 = Vector3f.add(c1, size, null);
@@ -64,7 +72,7 @@ public class AABB implements IHitBox
 		HashMap<Vector3f, Float> dist = new HashMap<Vector3f, Float>();
 		dist.put(new Vector3f(-1, 0, 0), Math.abs(point.x - corner.x));
 		dist.put(new Vector3f(1, 0, 0), Math.abs(point.x - (corner.x + size.x)));
-		//dist.put(new Vector3f(0, -1, 0), Math.abs(point.y - corner.y));
+		if(floating) dist.put(new Vector3f(0, -1, 0), Math.abs(point.y - corner.y));
 		dist.put(new Vector3f(0, 1, 0), Math.abs(point.y - (corner.y + size.y)));
 		dist.put(new Vector3f(0, 0, -1), Math.abs(point.z - corner.z));
 		dist.put(new Vector3f(0, 0, 1), Math.abs(point.z - (corner.z + size.z)));
